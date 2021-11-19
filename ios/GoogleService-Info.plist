@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>900417973014-5osa95s4c2gtp732tfs51hpg0vs28f2h.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.900417973014-5osa95s4c2gtp732tfs51hpg0vs28f2h</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>900417973014-ot74i9afajlee2j78d5bp670bgjkmqvb.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDkRb_t4ax4z_Fo1ago5n_d8NMiVaBc8Ng</string>
+	<key>GCM_SENDER_ID</key>
+	<string>900417973014</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.abidon.sisterhoodGlobal</string>
+	<key>PROJECT_ID</key>
+	<string>sisterhood-global</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sisterhood-global.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:900417973014:ios:ca45f9be748eb47d6c7e37</string>
+</dict>
+</plist>

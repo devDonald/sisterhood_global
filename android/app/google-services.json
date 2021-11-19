@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "900417973014",
+    "project_id": "sisterhood-global",
+    "storage_bucket": "sisterhood-global.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900417973014:android:6a26b99e8c6ebdaf6c7e37",
+        "android_client_info": {
+          "package_name": "com.abidon.sisterhood_global"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "900417973014-v1c3fc96a998tqek9m1vt3poc7blqjad.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abidon.sisterhood_global",
+            "certificate_hash": "e666dcc3244ef10d55088e8636c6d36df574b992"
+          }
+        },
+        {
+          "client_id": "900417973014-shhn3k9euvaqr2b7aveesinas1eq909i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbr93AxdVWoF2-ISdtBmmrfVKO9vdgCAM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "900417973014-shhn3k9euvaqr2b7aveesinas1eq909i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
