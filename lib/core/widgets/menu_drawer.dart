@@ -5,7 +5,9 @@ import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/core/widgets/profile_picture.dart';
 import 'package:sisterhood_global/features/authentication/pages/login_screen.dart';
 import 'package:sisterhood_global/features/home/controller/drawer_controller.dart';
+import 'package:sisterhood_global/features/home/pages/about_us.dart';
 import 'package:sisterhood_global/features/home/pages/admin_home.dart';
+import 'package:sisterhood_global/features/home/pages/contact_us.dart';
 import 'package:sisterhood_global/features/profile/pages/profile_screen.dart';
 
 class MenuDrawer extends StatefulWidget {
@@ -71,13 +73,15 @@ class _MenuDrawerState extends State<MenuDrawer> {
                             title: 'About Us',
                             onTap: () {
                               Navigator.of(context).pop();
+                              Get.to(() => AboutUs());
                             },
                           ),
                           ButtonWithICon2(
-                            icon: Icons.people,
-                            title: 'Feedback',
+                            icon: Icons.contact_mail,
+                            title: 'Contact Us',
                             onTap: () {
                               Navigator.of(context).pop();
+                              Get.to(() => const ContactUs());
                             },
                           ),
                         ],

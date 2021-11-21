@@ -31,7 +31,7 @@ class OverViewBioCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: JanguAskColors.whiteColor,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             blurRadius: 8.0,
             offset: Offset(
@@ -48,7 +48,7 @@ class OverViewBioCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Name',
                 style: TextStyle(
                   color: JanguAskColors.blackColor1,
@@ -61,7 +61,7 @@ class OverViewBioCard extends StatelessWidget {
                   Get.to(() => EditProfile());
                 },
                 child: Row(
-                  children: [
+                  children: const [
                     Text(
                       'Edit Bio',
                       style: TextStyle(
@@ -81,12 +81,12 @@ class OverViewBioCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           Text(
             name,
             maxLines: 5,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
+            style: const TextStyle(
               color: JanguAskColors.primaryGreyColor,
               fontSize: 16.0,
             ),

@@ -34,8 +34,6 @@ dependencies:
   image_cropper: ^1.4.1
   flutter_svg: ^0.22.0
   country_code_picker: ^2.0.2
-  shimmer: ^2.0.0
-  pull_to_refresh: ^2.0.0
   #timeago: ^3.0.2
   flutter_auth_buttons: ^0.10.0
   intl: ^0.17.0
@@ -54,6 +52,7 @@ dependencies:
   #flutter_inappwebview: ^5.3.1
   paginate_firestore: ^0.3.1
   flutter_linkify: ^5.0.2
+  font_awesome_flutter: ^9.2.0
 
 dev_dependencies:
   flutter_test:

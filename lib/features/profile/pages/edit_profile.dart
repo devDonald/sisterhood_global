@@ -54,10 +54,10 @@ class _EditProfileState extends State<EditProfile> {
       backgroundColor: JanguAskColors.whiteColor,
       appBar: AppBar(
         elevation: 3.0,
-        backgroundColor: Colors.white,
-        title: Text('Edit Profile',
+        backgroundColor: JanguAskColors.primaryColor,
+        title: const Text('Edit Profile',
             style: TextStyle(
-              color: JanguAskColors.primaryGreyColor,
+              color: JanguAskColors.whiteColor,
               fontSize: 18.0,
               fontWeight: JanguAskFontWeight.kBoldText,
             )),
@@ -74,16 +74,16 @@ class _EditProfileState extends State<EditProfile> {
                 alignment: Alignment.topCenter,
                 child: Container(
                   width: double.infinity,
-                  margin: EdgeInsets.only(
+                  margin: const EdgeInsets.only(
                     left: 10,
                     right: 10,
                     top: 50,
                     bottom: 50,
                   ),
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         offset: Offset(0.0, 2.5),
                         blurRadius: 5,
@@ -97,7 +97,7 @@ class _EditProfileState extends State<EditProfile> {
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(
+                          margin: const EdgeInsets.only(
                             left: 8,
                             right: 8,
                           ),
@@ -105,81 +105,79 @@ class _EditProfileState extends State<EditProfile> {
                             children: [
                               TextFormField(
                                 keyboardType: TextInputType.name,
-                                style: TextStyle(fontSize: 20),
+                                style: const TextStyle(fontSize: 20),
                                 controller: _name,
                                 textCapitalization: TextCapitalization.words,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: 'Name',
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               TextFormField(
-                                style: TextStyle(fontSize: 20),
+                                style: const TextStyle(fontSize: 20),
                                 textCapitalization: TextCapitalization.none,
                                 keyboardType: TextInputType.emailAddress,
                                 controller: _email,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: 'Email',
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
-                              Container(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Flexible(
-                                      flex: 1,
-                                      child: CountryCodeButton(
-                                        height: 60,
-                                        onSelectCode: (String _dialCode,
-                                            String flagUri, String country) {
-                                          _dialCode = _dialCode;
-                                          _country = country;
-                                          _code = flagUri;
-                                        },
-                                      ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    flex: 1,
+                                    child: CountryCodeButton(
+                                      height: 60,
+                                      onSelectCode: (String _dialCode,
+                                          String flagUri, String country) {
+                                        _dialCode = _dialCode;
+                                        _country = country;
+                                        _code = flagUri;
+                                      },
                                     ),
-                                    SizedBox(width: 15),
-                                    Flexible(
-                                      flex: 2,
-                                      child: SizedBox(
-                                        height: 65,
-                                        child: Container(
-                                          // padding: EdgeInsets.symmetric(horizontal: 15),
-                                          decoration: BoxDecoration(
-                                            color: JanguAskColors.whiteColor,
-                                            borderRadius:
-                                                BorderRadius.circular(2.5),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                blurRadius: 7.5,
-                                                offset: Offset(0.0, 2.5),
-                                                color:
-                                                    JanguAskColors.shadowColor,
-                                              )
-                                            ],
-                                          ),
-                                          width: double.infinity,
-                                          // width: double.infinity,
-                                          // height: 40.0,
-                                          child: TextFormField(
-                                            textCapitalization:
-                                                TextCapitalization.none,
-                                            keyboardType: TextInputType.phone,
-                                            controller: _phone,
-                                            decoration: InputDecoration(
-                                              labelText: 'Phone Number',
-                                            ),
+                                  ),
+                                  SizedBox(width: 15),
+                                  Flexible(
+                                    flex: 2,
+                                    child: SizedBox(
+                                      height: 65,
+                                      child: Container(
+                                        // padding: EdgeInsets.symmetric(horizontal: 15),
+                                        decoration: BoxDecoration(
+                                          color: JanguAskColors.whiteColor,
+                                          borderRadius:
+                                              BorderRadius.circular(2.5),
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              blurRadius: 7.5,
+                                              offset: Offset(0.0, 2.5),
+                                              color:
+                                                  JanguAskColors.shadowColor,
+                                            )
+                                          ],
+                                        ),
+                                        width: double.infinity,
+                                        // width: double.infinity,
+                                        // height: 40.0,
+                                        child: TextFormField(
+                                          textCapitalization:
+                                              TextCapitalization.none,
+                                          keyboardType: TextInputType.phone,
+                                          controller: _phone,
+                                          decoration: InputDecoration(
+                                            labelText: 'Phone Number',
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                               SizedBox(
                                 height: 15,
