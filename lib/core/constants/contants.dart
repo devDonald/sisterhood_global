@@ -10,6 +10,8 @@ FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 FirebaseAuth auth = FirebaseAuth.instance;
 FirebaseMessaging fcm = FirebaseMessaging.instance;
 var usersRef = firebaseFirestore.collection('users');
+var eventsRef = firebaseFirestore.collection('events');
+
 const profilePHOTO =
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6TaCLCqU4K0ieF27ayjl51NmitWaJAh_X0r1rLX4gMvOe0MDaYw&s';
 
@@ -132,6 +134,33 @@ bool validateLogin(String email, String password) {
   }
 }
 
+bool validateEvent(
+  String title,
+  String description,
+  String date,
+  String venue,
+  String photoUrl,
+) {
+  if (title.isEmpty) {
+    errorToastMessage(msg: 'title of event cannot be empty');
+    return false;
+  } else if (description.isEmpty) {
+    errorToastMessage(msg: 'description of event cannot be empty');
+    return false;
+  } else if (date.isEmpty) {
+    errorToastMessage(msg: 'date of event cannot be empty');
+    return false;
+  } else if (venue.isEmpty) {
+    errorToastMessage(msg: 'venue of event cannot be empty');
+    return false;
+  } else if (photoUrl.isEmpty) {
+    errorToastMessage(msg: 'You did not pick an image, try again');
+    return false;
+  } else {
+    return true;
+  }
+}
+
 class Constants {
   Constants._();
   static const double padding = 10;
@@ -139,3 +168,7 @@ class Constants {
 }
 
 String API_KEY = 'AIzaSyBwtUGqZTCqrko-e6KCo2S1bGQsraAkmOQ';
+
+List<String> eventTypes = ["Video Event", "Picture Event"];
+
+final createdAt = DateTime.now().toUtc().toString();

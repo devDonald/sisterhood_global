@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sisterhood_global/core/widgets/menu_drawer.dart';
+import 'package:sisterhood_global/features/home/pages/home_events.dart';
+import 'package:sisterhood_global/features/home/pages/ngo_page.dart';
 import 'package:sisterhood_global/features/liveStreaming/pages/videos.dart';
 import 'package:sisterhood_global/features/liveStreaming/pages/youtube_live.dart';
 
@@ -71,61 +73,57 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: MediaQuery.of(context).size.height / 2,
                         width: MediaQuery.of(context).size.width,
                         decoration: const BoxDecoration(color: Colors.pink),
-                        child: Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 15.0, left: 5.0, right: 3.0, bottom: 15.0),
-                            child: Container(
-                              height: MediaQuery.of(context).size.height / 2,
-                              width: MediaQuery.of(context).size.width,
-                              child: Stack(
-                                fit: StackFit.expand,
-                                children: <Widget>[
-                                  FittedBox(
-                                    fit: BoxFit.fill,
-                                    child: Image.asset('images/live.jpeg',
-                                        fit: BoxFit.cover),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 15.0, left: 5.0, right: 3.0, bottom: 15.0),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height / 2,
+                            width: MediaQuery.of(context).size.width,
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: <Widget>[
+                                FittedBox(
+                                  fit: BoxFit.fill,
+                                  child: Image.asset('images/live.jpeg',
+                                      fit: BoxFit.cover),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.6),
                                   ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.6),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom:
-                                        MediaQuery.of(context).size.height / 22,
-                                    left:
-                                        MediaQuery.of(context).size.width / 15,
-                                    child: ButtonTheme(
-                                      height: 45,
-                                      minWidth: 100,
-                                      child: RaisedButton(
-                                        color: Colors.transparent,
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const YoutubeLive()));
-                                          //Get.to(YoutubeLive());
-                                        },
-                                        child: const Text(
-                                          'WATCH NOW',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                            side: const BorderSide(
-                                                width: 3.0,
-                                                color: Colors.white)),
+                                ),
+                                Positioned(
+                                  bottom:
+                                      MediaQuery.of(context).size.height / 22,
+                                  left: MediaQuery.of(context).size.width / 15,
+                                  child: ButtonTheme(
+                                    height: 45,
+                                    minWidth: 100,
+                                    child: RaisedButton(
+                                      color: Colors.transparent,
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const YoutubeLive()));
+                                        //Get.to(YoutubeLive());
+                                      },
+                                      child: const Text(
+                                        'WATCH NOW',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
                                       ),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                          side: const BorderSide(
+                                              width: 3.0, color: Colors.white)),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         )),
@@ -182,9 +180,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             controller: _pageController,
                             scrollDirection: Axis.horizontal,
                             children: <Widget>[
+                              const HomeEvents(),
                               Container(),
-                              Container(),
-                              Container(),
+                              const NGOPage(),
                               const Videos(),
                               Container(),
                             ],
@@ -217,7 +215,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 title,
                 style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width / 40,
-                    color: selectedPage == page ? Colors.green : Colors.white),
+                    color: selectedPage == page
+                        ? Colors.pinkAccent
+                        : Colors.white),
               ),
             ),
           ),

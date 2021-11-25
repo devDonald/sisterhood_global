@@ -4,7 +4,8 @@ import 'package:sisterhood_global/features/authentication/binding/auth_binding.d
 import 'package:sisterhood_global/features/authentication/pages/login_screen.dart';
 import 'package:sisterhood_global/features/authentication/pages/register_screen.dart';
 import 'package:sisterhood_global/features/home/binding/drawer_binding.dart';
-import 'package:sisterhood_global/splash_screen.dart';
+
+import '../../splash_screen.dart';
 
 part 'app_routes.dart';
 

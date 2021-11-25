@@ -13,10 +13,10 @@ class YoutubeLive extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 3.0,
-        backgroundColor: Colors.black26,
+        backgroundColor: Colors.pink,
         title: const Text('Live Streaming',
             style: TextStyle(
-              color: Colors.orange,
+              color: Colors.white,
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
             )),

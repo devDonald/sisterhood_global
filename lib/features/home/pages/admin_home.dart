@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
+import 'package:sisterhood_global/features/home/pages/admin/events_home.dart';
 
 class AdminHome extends StatefulWidget {
   @override
@@ -80,14 +82,14 @@ class _AdminHomeState extends State<AdminHome> {
               HomeCard(
                 icon: Icons.live_tv,
                 title: 'Livestream Notification',
-                onTap: () {
-                  Navigator.of(context).pushNamed('/locateChurch');
-                },
+                onTap: () {},
               ),
               HomeCard(
                 icon: Icons.event_available,
                 title: 'Events',
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => EventHome());
+                },
               ),
             ],
           ),
@@ -98,11 +100,6 @@ class _AdminHomeState extends State<AdminHome> {
                 title: 'Manage Users',
                 onTap: () async {},
               ),
-              HomeCard(
-                icon: Icons.article,
-                title: 'Feedbacks',
-                onTap: () {},
-              )
             ],
           ),
           SizedBox(
