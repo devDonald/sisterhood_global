@@ -202,7 +202,7 @@ class Constants {
   static const double avatarRadius = 45;
 }
 
-String APIKEY = 'AIzaSyBwtUGqZTCqrko-e6KCo2S1bGQsraAkmOQ';
+const APIKEY = 'AIzaSyBwtUGqZTCqrko-e6KCo2S1bGQsraAkmOQ';
 
 List<String> eventTypes = ["Video Event", "Picture Event"];
 List<String> questionCategory = [
@@ -305,15 +305,9 @@ String getTimestamp(String date) {
 }
 
 DateTime? toDateTime(Timestamp value) {
-  if (value == null) {
-    return null;
-  }
-
   return value.toDate();
 }
 
 dynamic fromDateTimeToJson(DateTime date) {
-  if (date == null) return null;
-
   return date.toUtc();
 }

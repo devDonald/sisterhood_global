@@ -55,7 +55,8 @@ dependencies:
   paginate_firestore: ^0.3.1
   flutter_linkify: ^5.0.2
   font_awesome_flutter: ^9.2.0
-  flutter_datetime_picker: ^1.5.1
+  #flutter_datetime_picker: ^1.5.1
+  flutter_datetime_picker_bdaya: ^2.0.0
   animated_text_kit: ^2.1.0
   flutter_dropdown: ^1.0.0+hotfix.1
 

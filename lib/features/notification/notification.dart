@@ -19,7 +19,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
             fullScreenIntent: true,
             timeoutAfter: 10000,
           ),
-          iOS: IOSNotificationDetails(sound: "ringing_tone")));
+          iOS: IOSNotificationDetails()));
 
   _handleMessage(message);
 }
@@ -52,30 +52,6 @@ void initMessaging() {
 
   setupInteractedMessage();
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
-    if (message.data['type'] == 'cellCall' ||
-        message.data['type'] == 'pastorCall') {
-      if (notification != null) {
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-                android: AndroidNotificationDetails(
-                  channel.id,
-                  channel.name,
-                  channel.description,
-                  icon: android?.smallIcon,
-                  priority: Priority.high,
-                  importance: Importance.max,
-                  fullScreenIntent: true,
-                  timeoutAfter: 10000,
-                ),
-                iOS: IOSNotificationDetails()));
-      }
-    }
-    print('Message ${message.data}');
     _handleMessage(message);
   });
 

@@ -23,7 +23,7 @@ class SplashScreenState extends State<SplashScreen> {
     startTime();
   }
 
-//update firebase token for every user
+//update firebase token for every user for push notification
   Future<bool> getUserLoginStatus() async {
     if (auth.currentUser != null) {
       _fcm.getToken().then((token) {
@@ -51,9 +51,6 @@ class SplashScreenState extends State<SplashScreen> {
         : Get.offAll(() => LoginScreen());
   }
 
-  // void initializePushNotification(BuildContext context) async {
-  //   await pushNotification.intialise(context);
-  // }
   @override
   Widget build(BuildContext context) {
     // initializePushNotification(context);
