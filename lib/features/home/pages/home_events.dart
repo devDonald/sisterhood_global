@@ -24,7 +24,7 @@ class _HomeEventsState extends State<HomeEvents> {
             top: 17.5, bottom: 5.0, left: 7.0, right: 7.0),
         //padding: EdgeInsets.only(left: 15.0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.black,
           borderRadius: BorderRadius.circular(8.0),
           boxShadow: const [
             BoxShadow(

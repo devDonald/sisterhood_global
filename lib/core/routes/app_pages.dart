@@ -5,8 +5,6 @@ import 'package:sisterhood_global/features/authentication/pages/login_screen.dar
 import 'package:sisterhood_global/features/authentication/pages/register_screen.dart';
 import 'package:sisterhood_global/features/home/binding/drawer_binding.dart';
 
-import '../../splash_screen.dart';
-
 part 'app_routes.dart';
 
 class AppPages {
@@ -24,11 +22,6 @@ class AppPages {
     GetPage(
       name: _Paths.REGISTER,
       page: () => RegisterScreen(),
-      binding: AuthBinding(),
-    ),
-    GetPage(
-      name: _Paths.SPLASH,
-      page: () => const SplashScreen(),
       binding: AuthBinding(),
     ),
 

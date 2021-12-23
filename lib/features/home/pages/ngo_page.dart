@@ -53,7 +53,7 @@ class _NGOPageState extends State<NGOPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Center(
                       child: Text(
                         "NONNIE ROBERSON NGO",
@@ -66,10 +66,10 @@ class _NGOPageState extends State<NGOPage> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 "Women of purpose NGO",
                 style: TextStyle(
                     fontSize: 16.0,
@@ -77,10 +77,10 @@ class _NGOPageState extends State<NGOPage> {
                     fontStyle: FontStyle.normal,
                     fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 "Creating Women of purpose from the backstreets",
                 style: TextStyle(
                     fontSize: 16.0,
@@ -88,7 +88,7 @@ class _NGOPageState extends State<NGOPage> {
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold),
               ),
-              Align(
+              const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   "\nGiving assurance on the unyielding zeal of the group, pastor Nonnie said, ‘’ We will keep Going forward, with full assurance that this move of God cannot be stopped, and the gates of hell cannot prevail against the church of God.",
@@ -98,10 +98,10 @@ class _NGOPageState extends State<NGOPage> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Align(
+              const Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   "\nProstitution remains a plague not only in Nigerian society but also in the 'developed countries.' But the form of prostitution that doesn't get much attention is where women have to 'use what they have to get what they want. It is against this backdrop that New Wine Ministries is keen on establishing 'Women of Purpose,' a non-governmental organization (NGO) that seeks to restore the dignity of womanhood.",
@@ -162,6 +162,64 @@ class ListItemsCard extends StatelessWidget {
               fontWeight: FontWeight.bold),
         ),
       ),
+    );
+  }
+}
+
+class CommunityCard extends StatelessWidget {
+  const CommunityCard({
+    Key? key,
+    required this.title,
+    required this.onTap,
+    required this.image,
+  }) : super(key: key);
+  final Function() onTap;
+  final String title, image;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width * 0.40,
+          height: MediaQuery.of(context).size.height * 0.20,
+          margin: const EdgeInsets.only(
+              top: 17.5, bottom: 5.0, left: 15.0, right: 7.0),
+          //padding: EdgeInsets.only(left: 15.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                offset: Offset(0.0, 2.5),
+                blurRadius: 10.5,
+              ),
+            ],
+          ),
+          child: GestureDetector(
+            onTap: onTap,
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    image,
+                    width: MediaQuery.of(context).size.width * 0.30,
+                    height: MediaQuery.of(context).size.height * 0.10,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+        Text(
+          title,
+          style: const TextStyle(
+            color: Colors.pink,
+            fontWeight: FontWeight.bold,
+          ),
+        )
+      ],
     );
   }
 }

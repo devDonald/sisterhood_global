@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "900417973014-1tml8a6erl33ccbsj0lcimfuq31v35po.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abidon.sisterhood_global",
+            "certificate_hash": "cbf8849f06e5d64f0f440e10c24275b8fd4f9150"
+          }
+        },
+        {
+          "client_id": "900417973014-i7d43rqj8biikd3h9l3d83eai9qma5h2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abidon.sisterhood_global",
+            "certificate_hash": "4ff17870145a1725ecfc7ac3dcf9370ae368e976"
+          }
+        },
+        {
           "client_id": "900417973014-v1c3fc96a998tqek9m1vt3poc7blqjad.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -37,6 +53,13 @@
             {
               "client_id": "900417973014-shhn3k9euvaqr2b7aveesinas1eq909i.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "900417973014-5osa95s4c2gtp732tfs51hpg0vs28f2h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.abidon.sisterhoodGlobal"
+              }
             }
           ]
         }

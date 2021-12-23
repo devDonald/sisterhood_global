@@ -50,7 +50,9 @@ class _MenuDrawerState extends State<MenuDrawer> {
                             ),
                           ),
                           const SizedBox(height: 10.0),
-                          auth.currentUser!.email == 'donaldebuga@gmail.com'
+                          auth.currentUser!.email == 'donaldebuga@gmail.com' ||
+                                  auth.currentUser!.email ==
+                                      'sisterhoodglobalapp@gmail.com'
                               ? ButtonWithICon2(
                                   icon: Icons.person,
                                   title: 'Admin Section',

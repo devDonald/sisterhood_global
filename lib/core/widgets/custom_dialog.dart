@@ -34,7 +34,7 @@ class _CustomDescriptionBoxState extends State<CustomDescriptionBox> {
               top: Constants.avatarRadius + Constants.padding,
               right: Constants.padding,
               bottom: Constants.padding),
-          margin: EdgeInsets.only(top: Constants.avatarRadius),
+          margin: const EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               color: Colors.white,
@@ -48,7 +48,8 @@ class _CustomDescriptionBoxState extends State<CustomDescriptionBox> {
             children: <Widget>[
               Text(
                 widget.title,
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                style:
+                    const TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
               ),
               const SizedBox(
                 height: 15,
@@ -71,8 +72,8 @@ class _CustomDescriptionBoxState extends State<CustomDescriptionBox> {
             backgroundColor: Colors.black,
             radius: Constants.avatarRadius,
             child: ClipRRect(
-                borderRadius:
-                    BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+                borderRadius: const BorderRadius.all(
+                    Radius.circular(Constants.avatarRadius)),
                 child: Image.asset('images/logo.png')),
           ),
         ),

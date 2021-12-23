@@ -118,6 +118,7 @@ class AuthController extends GetxController {
                 country: 'Nigeria',
                 code: 'NG',
                 dialCode: '+124',
+                isAdmin: false,
                 phone: result.user!.phoneNumber,
                 photo: result.user!.photoURL,
                 email: result.user!.email,

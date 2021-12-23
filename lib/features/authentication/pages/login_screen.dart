@@ -11,6 +11,7 @@ import 'package:sisterhood_global/core/widgets/primary_button.dart';
 import 'package:sisterhood_global/core/widgets/screen_title.dart';
 import 'package:sisterhood_global/core/widgets/social_button.dart';
 import 'package:sisterhood_global/features/authentication/controller/login_controller.dart';
+import 'package:sisterhood_global/features/authentication/pages/reset_password.dart';
 
 class LoginScreen extends GetWidget<AuthController> {
   final TextEditingController _email = TextEditingController();
@@ -120,14 +121,10 @@ class LoginScreen extends GetWidget<AuthController> {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: FlatSecondaryButton(
-                        title: 'Forgot Password?',
+                        title: 'Forgot Password? Click Here!',
                         color: JanguAskColors.primaryColor,
                         onTap: () {
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (context) => ForgotPassword(),
-                          //   ),
-                          // );
+                          Get.to(() => const ResetPassword());
                         },
                       ),
                     ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sisterhood_global/features/authentication/pages/login_screen.dart';
@@ -15,14 +16,23 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
+  final FirebaseMessaging _fcm = FirebaseMessaging.instance;
   @override
   void initState() {
     super.initState();
     startTime();
   }
 
+//update firebase token for every user
   Future<bool> getUserLoginStatus() async {
     if (auth.currentUser != null) {
+      _fcm.getToken().then((token) {
+        // print("Firebase Messaging Token: $token\n");
+        root
+            .collection('users')
+            .doc(auth.currentUser!.uid)
+            .update({"token": token});
+      });
       return true;
     } else {
       return false;

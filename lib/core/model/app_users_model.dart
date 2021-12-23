@@ -10,6 +10,7 @@ class UserModel {
   static const CODE = "code";
   static const TYPE = "type";
   static const DIALCODE = "dialCode";
+  static const ISADMIN = "isAdmin";
 
   String? userId;
   String? name;
@@ -20,6 +21,7 @@ class UserModel {
   String? code;
   String? type;
   String? dialCode;
+  bool? isAdmin = false;
 
   UserModel(
       {this.userId,
@@ -30,7 +32,8 @@ class UserModel {
       this.phone,
       this.code,
       this.dialCode,
-      this.type});
+      this.type,
+      this.isAdmin});
 
   toJson() {
     return {
@@ -40,6 +43,7 @@ class UserModel {
       'country': country,
       'photo': photo,
       'code': code,
+      'isAdmin': isAdmin,
       'dialCode': dialCode,
       'phone': phone,
       'type': type,
@@ -67,5 +71,6 @@ class UserModel {
     code = snapshot.data()![CODE];
     dialCode = snapshot.data()![DIALCODE];
     type = snapshot.data()![TYPE];
+    isAdmin = snapshot.data()![ISADMIN];
   }
 }

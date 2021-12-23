@@ -80,7 +80,7 @@ class _CreateEventState extends State<CreateEvent> {
             'venue': _venue.text,
             'createdAt': createdAt,
             'imageUrl': _uploadedImageURL,
-            'timestamp': FieldValue.serverTimestamp(),
+            'timestamp': timestamp,
           }).then((doc) async {
             pr.hide();
             Fluttertoast.showToast(
@@ -177,7 +177,6 @@ class _CreateEventState extends State<CreateEvent> {
                 textController: _description, height: 70,
               ),
               const SizedBox(height: 16.5),
-
               const PostLabel(label: 'Event Date'),
               const SizedBox(height: 9.5),
               GestureDetector(
@@ -211,30 +210,6 @@ class _CreateEventState extends State<CreateEvent> {
                 textController: _venue, height: 70,
               ),
               const SizedBox(height: 16.5),
-              // DropdownButtonFormField<String>(
-              //   hint: Text('Select Event Type'),
-              //   value: _eventType,
-              //   icon: Icon(Icons.arrow_drop_down),
-              //   iconSize: 25.0,
-              //   elevation: 0,
-              //   style: TextStyle(
-              //     color: JanguAskColors.blackColor1,
-              //     fontSize: 20,
-              //   ),
-              //   decoration: InputDecoration(),
-              //   onChanged: (String? newValue) {
-              //     setState(() {
-              //       _eventType = newValue!;
-              //       print(_eventType);
-              //     });
-              //   },
-              //   items: eventTypes.map<DropdownMenuItem<String>>((String value) {
-              //     return DropdownMenuItem<String>(
-              //       value: value,
-              //       child: Text(value),
-              //     );
-              //   }).toList(),
-              // ),
               const SizedBox(height: 16.5),
               if (_eventType == 'Picture Event')
                 DiscussOutlineButton(
@@ -276,7 +251,7 @@ class _CreateEventState extends State<CreateEvent> {
               const SizedBox(height: 16.5),
               Text(
                 error,
-                style: TextStyle(color: Colors.red),
+                style: const TextStyle(color: Colors.red),
               ),
               Align(
                 alignment: Alignment.centerRight,

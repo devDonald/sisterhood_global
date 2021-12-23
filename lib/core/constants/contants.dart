@@ -4,13 +4,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 final Future<FirebaseApp> initialization = Firebase.initializeApp();
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+FirebaseFirestore root = FirebaseFirestore.instance;
+
+final Timestamp timestamp = Timestamp.fromDate(DateTime.now());
 FirebaseAuth auth = FirebaseAuth.instance;
 FirebaseMessaging fcm = FirebaseMessaging.instance;
 var usersRef = firebaseFirestore.collection('users');
 var eventsRef = firebaseFirestore.collection('events');
+var communityRef = firebaseFirestore.collection('community');
 
 const profilePHOTO =
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6TaCLCqU4K0ieF27ayjl51NmitWaJAh_X0r1rLX4gMvOe0MDaYw&s';
@@ -49,7 +54,7 @@ warningToastMessage({required String msg}) {
 }
 
 bool validateForm(String email, String name, String password, String country,
-    String dialCode, String code, String phone, String confirm_password) {
+    String dialCode, String code, String phone, String confirmPassword) {
   if (email.isEmpty) {
     errorToastMessage(msg: 'email cannot be empty');
     return false;
@@ -74,7 +79,7 @@ bool validateForm(String email, String name, String password, String country,
   } else if (password.isEmpty || password.length < 8) {
     errorToastMessage(msg: 'provide a password with 8 or more characters');
     return false;
-  } else if (password != confirm_password) {
+  } else if (password != confirmPassword) {
     errorToastMessage(msg: 'password mismatch');
     return false;
   } else {
@@ -134,6 +139,21 @@ bool validateLogin(String email, String password) {
   }
 }
 
+bool validateEmail(String email) {
+  if (email.isEmpty) {
+    errorToastMessage(msg: 'email cannot be empty');
+    return false;
+  } else if (!email.contains('.')) {
+    errorToastMessage(msg: 'invalid email id');
+    return false;
+  } else if (!email.contains('@')) {
+    errorToastMessage(msg: 'invalid email id');
+    return false;
+  } else {
+    return true;
+  }
+}
+
 bool validateEvent(
   String title,
   String description,
@@ -161,14 +181,139 @@ bool validateEvent(
   }
 }
 
+bool validateQuestion(
+  String body,
+  String category,
+) {
+  if (body.isEmpty) {
+    errorToastMessage(msg: 'your thoughts cannot be empty');
+    return false;
+  } else if (category.isEmpty) {
+    errorToastMessage(msg: 'category cannot be empty');
+    return false;
+  } else {
+    return true;
+  }
+}
+
 class Constants {
   Constants._();
   static const double padding = 10;
   static const double avatarRadius = 45;
 }
 
-String API_KEY = 'AIzaSyBwtUGqZTCqrko-e6KCo2S1bGQsraAkmOQ';
+String APIKEY = 'AIzaSyBwtUGqZTCqrko-e6KCo2S1bGQsraAkmOQ';
 
 List<String> eventTypes = ["Video Event", "Picture Event"];
+List<String> questionCategory = [
+  "Finances",
+  "Relationship",
+  "Family",
+  "Education",
+  "Spirituality",
+  "Health"
+];
 
 final createdAt = DateTime.now().toUtc().toString();
+
+int getLikeCount(likes) {
+  // if no likes, return 0
+  if (likes == null) {
+    return 0;
+  }
+  int count = 0;
+  // if the key is explicitly set to true, add a like
+  likes.values.forEach((val) {
+    if (val == true) {
+      count += 1;
+    }
+  });
+  return count;
+}
+
+int getViews(views) {
+  // if no likes, return 0
+  if (views == null) {
+    return 0;
+  }
+  int count = 0;
+  // if the key is explicitly set to true, add a like
+  views.values.forEach((val) {
+    if (val == true) {
+      count += 1;
+    }
+  });
+  return count;
+}
+
+String getCount(int count) {
+  String _stPosts = "0";
+  double _dbPosts = 0.0;
+
+  if (count < 1000) {
+    _stPosts = count.toString() + " ";
+  } else if (count >= 1000 && count < 1000000) {
+    _dbPosts = count / 1000;
+    _stPosts = _dbPosts.toStringAsFixed(1) + "K";
+  } else if (count >= 1000000 && count < 1000000000) {
+    _dbPosts = count / 1000000;
+    _stPosts = _dbPosts.toStringAsFixed(1) + "M";
+  } else {
+    _dbPosts = count / 1000000000;
+    _stPosts = _dbPosts.toStringAsFixed(1) + "B";
+  }
+  return _stPosts;
+}
+
+int getCommentCount(comments) {
+  // if no likes, return 0
+  if (comments == null) {
+    return 0;
+  }
+  int count = 0;
+  // if the key is explicitly set to true, add a like
+  comments.values.forEach((val) {
+    if (val == true) {
+      count += 1;
+    }
+  });
+  return count;
+}
+
+String getTimestamp(String date) {
+  String msg = '';
+  var dt = DateTime.parse(date).toLocal();
+
+  if (DateTime.now().toLocal().isBefore(dt)) {
+    return DateFormat.jm().format(DateTime.parse(date).toLocal()).toString();
+  }
+
+  var dur = DateTime.now().toLocal().difference(dt);
+  if (dur.inDays > 0) {
+    msg = '${dur.inDays} days ago';
+    return dur.inDays == 1 ? '1d ago' : DateFormat("dd MMM").format(dt);
+  } else if (dur.inHours > 0) {
+    msg = '${dur.inHours} hrs ago';
+  } else if (dur.inMinutes > 0) {
+    msg = '${dur.inMinutes} m ago';
+  } else if (dur.inSeconds > 0) {
+    msg = '${dur.inSeconds} s ago';
+  } else {
+    msg = 'now';
+  }
+  return msg;
+}
+
+DateTime? toDateTime(Timestamp value) {
+  if (value == null) {
+    return null;
+  }
+
+  return value.toDate();
+}
+
+dynamic fromDateTimeToJson(DateTime date) {
+  if (date == null) return null;
+
+  return date.toUtc();
+}

@@ -38,17 +38,17 @@ class _ContactUsState extends State<ContactUs> {
         children: [
           ContactButtonWithICon(
               icon: Icons.call,
-              title: '+2348036795246',
+              title: '+18326129993',
               onTap: () {
-                launch("tel: +2348036795246");
+                launch("tel: +18326129993");
               },
               description: 'Our call center is open to you 24/7'),
           ContactButtonWithICon(
               icon: Icons.email,
-              title: 'sisterhoodgloballapp@gmail.com',
+              title: 'contact@sisterhoodglobal.org',
               onTap: () {
                 launch(
-                    "mailto:sisterhoodgloballapp@gmail.com?subject=Feedback and Enquiry=New%20plugin");
+                    "mailto:contact@sisterhoodglobal.org?subject=Feedback and Enquiry=New%20plugin");
               },
               description: 'email us for any feedback'),
           ContactButtonWithICon(
@@ -71,7 +71,21 @@ class _ContactUsState extends State<ContactUs> {
               onTap: () {
                 launch("https://web.facebook.com/shgafrica");
               },
-              description: 'Follow our facebook page')
+              description: 'Follow our facebook page'),
+          ContactButtonWithICon(
+              icon: FontAwesomeIcons.internetExplorer,
+              title: 'Contact Website',
+              onTap: () {
+                launch("https://www.sisterhoodglobal.org");
+              },
+              description:
+                  'Check our website\n(www.sisterhoodglobal.org)\n for more information'),
+          ContactButtonWithICon(
+              icon: FontAwesomeIcons.locationArrow,
+              title: 'Tolani Adewole',
+              onTap: () {},
+              description:
+                  'Tolani Adewole \n3rd floor, suite 01, Nusaiba tower.\nAhmadu Bello way, Abuja 900108')
         ],
       ),
     );
@@ -91,12 +105,15 @@ class ContactButtonWithICon extends StatelessWidget {
   final Function() onTap;
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+
     return Container(
       width: double.infinity,
-      height: 70.0,
+      height: height * 0.120,
       margin: const EdgeInsets.only(
-        top: 8.5,
-        bottom: 8.5,
+        top: 10,
+        bottom: 10,
         left: 20,
         right: 20,
       ),
@@ -126,21 +143,21 @@ class ContactButtonWithICon extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 9.2),
+                  const SizedBox(height: 20.0),
                   Text(
                     title,
                     maxLines: 2,
                     style: const TextStyle(
                       color: Colors.pink,
                       fontWeight: FontWeight.bold,
-                      fontSize: 17.0,
+                      fontSize: 16.0,
                     ),
                   ),
-                  const SizedBox(height: 9.2),
+                  const SizedBox(height: 5.2),
                   Text(
                     description,
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+                    maxLines: 3,
                     style: const TextStyle(
                       color: JanguAskColors.blackColor1,
                       fontSize: 14.0,

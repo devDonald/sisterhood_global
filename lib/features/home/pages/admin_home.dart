@@ -7,6 +7,8 @@ import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/features/home/pages/admin/events_home.dart';
 
+import 'admin/all_users.dart';
+
 class AdminHome extends StatefulWidget {
   @override
   _AdminHomeState createState() => _AdminHomeState();
@@ -98,11 +100,13 @@ class _AdminHomeState extends State<AdminHome> {
               HomeCard(
                 icon: Icons.people,
                 title: 'Manage Users',
-                onTap: () async {},
+                onTap: () async {
+                  Get.to(() => DisplayUsers());
+                },
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
         ],
@@ -126,15 +130,15 @@ class ButtonWithICon2 extends StatelessWidget {
     return Container(
       width: 149,
       height: 40.0,
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         top: 8.5,
         bottom: 8.5,
       ),
-      padding: EdgeInsets.only(left: 15.0),
+      padding: const EdgeInsets.only(left: 15.0),
       decoration: BoxDecoration(
         color: JanguAskColors.primaryColor,
         borderRadius: BorderRadius.circular(5.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: JanguAskColors.shadowColor,
             offset: Offset(0.0, 2.5),
@@ -144,23 +148,21 @@ class ButtonWithICon2 extends StatelessWidget {
       ),
       child: GestureDetector(
         onTap: onTap,
-        child: Container(
-          child: Row(
-            children: <Widget>[
-              Icon(
-                icon,
+        child: Row(
+          children: <Widget>[
+            Icon(
+              icon,
+              color: JanguAskColors.whiteColor,
+            ),
+            const SizedBox(width: 9.2),
+            Text(
+              title,
+              style: const TextStyle(
                 color: JanguAskColors.whiteColor,
+                fontSize: 15.0,
               ),
-              SizedBox(width: 9.2),
-              Text(
-                title,
-                style: TextStyle(
-                  color: JanguAskColors.whiteColor,
-                  fontSize: 15.0,
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
@@ -179,51 +181,47 @@ class HomeCard extends StatelessWidget {
   final String title;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.42,
-            height: MediaQuery.of(context).size.height * 0.20,
-            margin: const EdgeInsets.only(
-                top: 17.5, bottom: 5.0, left: 15.0, right: 7.0),
-            //padding: EdgeInsets.only(left: 15.0),
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(8.0),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(0.0, 2.5),
-                  blurRadius: 10.5,
+    return Column(
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width * 0.42,
+          height: MediaQuery.of(context).size.height * 0.20,
+          margin: const EdgeInsets.only(
+              top: 17.5, bottom: 5.0, left: 15.0, right: 7.0),
+          //padding: EdgeInsets.only(left: 15.0),
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black12,
+                offset: Offset(0.0, 2.5),
+                blurRadius: 10.5,
+              ),
+            ],
+          ),
+          child: GestureDetector(
+            onTap: onTap,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  icon,
+                  color: JanguAskColors.primaryColor,
+                  size: 35.0,
                 ),
               ],
             ),
-            child: GestureDetector(
-              onTap: onTap,
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      icon,
-                      color: JanguAskColors.primaryColor,
-                      size: 35.0,
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ),
-          Text(
-            '$title',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          )
-        ],
-      ),
+        ),
+        Text(
+          title,
+          style: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        )
+      ],
     );
   }
 }

@@ -112,7 +112,7 @@ class _AboutUsState extends State<AboutUs> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "We aren’t just another platform for women. We link arms like God’s Children, encouraging one another, listen long, celebrate, pray, ask, learn for the purpose of equipping ourselves and pointing others to the eternal hope of  Christ. We ask you to join us the way you are, there’s a place for you.",
+                      "We are not just another platform for women. We link arms like God’s Children, encouraging one another, listen long, celebrate, pray, ask, learn for the purpose of equipping ourselves and pointing others to the eternal hope of  Christ. We ask you to join us the way you are, there’s a place for you.",
                       style: TextStyle(
                         fontSize: 16.0,
                       ),

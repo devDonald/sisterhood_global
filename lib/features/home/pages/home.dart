@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sisterhood_global/core/widgets/menu_drawer.dart';
+import 'package:sisterhood_global/features/home/pages/community_screen.dart';
 import 'package:sisterhood_global/features/home/pages/home_events.dart';
 import 'package:sisterhood_global/features/home/pages/ngo_page.dart';
 import 'package:sisterhood_global/features/liveStreaming/pages/videos.dart';
@@ -146,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
-                  decoration: new BoxDecoration(color: Colors.black),
+                  decoration: const BoxDecoration(color: Colors.black),
                   child: Column(
                     children: <Widget>[
                       Padding(
@@ -156,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Container(
                           height: MediaQuery.of(context).size.height / 15,
                           width: double.infinity,
-                          decoration: BoxDecoration(),
+                          decoration: const BoxDecoration(),
                           child: Flex(
                             direction: Axis.horizontal,
                             children: <Widget>[
@@ -170,23 +171,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Expanded(
-                        child: Container(
-                          child: PageView(
-                            onPageChanged: (index) {
-                              setState(() {
-                                selectedPage = index;
-                              });
-                            },
-                            controller: _pageController,
-                            scrollDirection: Axis.horizontal,
-                            children: <Widget>[
-                              const HomeEvents(),
-                              Container(),
-                              const NGOPage(),
-                              const Videos(),
-                              Container(),
-                            ],
-                          ),
+                        child: PageView(
+                          onPageChanged: (index) {
+                            setState(() {
+                              selectedPage = index;
+                            });
+                          },
+                          controller: _pageController,
+                          scrollDirection: Axis.horizontal,
+                          children: <Widget>[
+                            const HomeEvents(),
+                            const Community(),
+                            const NGOPage(),
+                            const Videos(),
+                            Container(),
+                          ],
                         ),
                       )
                     ],
