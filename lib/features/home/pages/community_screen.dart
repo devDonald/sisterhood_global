@@ -63,30 +63,28 @@ class _CommunityState extends State<Community> {
                     SizedBox(
                       width: 250.0,
                       child: TypewriterAnimatedTextKit(
-                          speed: const Duration(milliseconds: 200),
-                          totalRepeatCount: 4,
-                          repeatForever: true,
-                          onTap: () {},
-                          text: const [
-                            "Are you worried or Disturbed?",
-                            "Do you need anybody to pray or talk with you?",
-                            "You can drop a prayer request or question so that someone can pray with you or respond immediately",
-                            "We are family. feel free to respond to somebody's prayer or question"
-                          ],
-                          textStyle: const TextStyle(
-                              fontSize: 23.0,
-                              fontFamily: "Agne",
-                              color: Colors.black),
-                          textAlign: TextAlign.start,
-                          alignment: AlignmentDirectional
-                              .topStart // or Alignment.topLeft
-                          ),
+                        speed: const Duration(milliseconds: 200),
+                        totalRepeatCount: 4,
+                        repeatForever: true,
+                        onTap: () {},
+                        text: const [
+                          "Are you worried or Disturbed?",
+                          "Do you need anybody to pray or talk with you?",
+                          "You can drop a prayer request or question so that someone can pray with you or respond immediately",
+                          "We are family. feel free to respond to somebody's prayer or question"
+                        ],
+                        textStyle: const TextStyle(
+                            fontSize: 23.0,
+                            fontFamily: "Agne",
+                            color: Colors.black),
+                        textAlign: TextAlign.start, // or Alignment.topLeft
+                      ),
                     ),
                   ],
                 ),
               ),
               ListView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 children: [
                   Row(
