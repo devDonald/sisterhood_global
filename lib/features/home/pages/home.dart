@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sisterhood_global/core/widgets/menu_drawer.dart';
-import 'package:sisterhood_global/features/home/pages/community_screen.dart';
 import 'package:sisterhood_global/features/home/pages/home_events.dart';
-import 'package:sisterhood_global/features/home/pages/ngo_page.dart';
-import 'package:sisterhood_global/features/liveStreaming/pages/videos.dart';
 import 'package:sisterhood_global/features/liveStreaming/pages/youtube_live.dart';
 
 // import 'package:standart/features/store/data/models/store_model.dart';
@@ -27,6 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
   bool disableBackwardButton = false;
 
   DateTime? currentBackPressTime;
+  int _currentIndex = 0;
+
+  final _inactiveColor = Colors.grey;
 
   showToastMessage({required String msg}) {
     Fluttertoast.showToast(
@@ -55,144 +55,97 @@ class _HomeScreenState extends State<HomeScreen> {
   @override //landingDataController
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: Colors.white,
-        drawer: MenuDrawer(),
-        body: SafeArea(
-          child: NestedScrollView(
-            headerSliverBuilder: (context, n) {
-              return [
-                SliverAppBar(
-                  elevation: 0,
-                  floating: true,
-                  pinned: false,
-                  expandedHeight: MediaQuery.of(context).size.height / 2.5,
-                  flexibleSpace: FlexibleSpaceBar(
-                    stretchModes: const [StretchMode.blurBackground],
-                    collapseMode: CollapseMode.parallax,
-                    background: Container(
-                        height: MediaQuery.of(context).size.height / 2,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(color: Colors.pink),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 15.0, left: 5.0, right: 3.0, bottom: 15.0),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height / 2,
-                            width: MediaQuery.of(context).size.width,
-                            child: Stack(
-                              fit: StackFit.expand,
-                              children: <Widget>[
-                                FittedBox(
-                                  fit: BoxFit.fill,
-                                  child: Image.asset('images/live.jpeg',
-                                      fit: BoxFit.cover),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.6),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom:
-                                      MediaQuery.of(context).size.height / 22,
-                                  left: MediaQuery.of(context).size.width / 15,
-                                  child: ButtonTheme(
-                                    height: 45,
-                                    minWidth: 100,
-                                    child: RaisedButton(
-                                      color: Colors.transparent,
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const YoutubeLive()));
-                                        //Get.to(YoutubeLive());
-                                      },
-                                      child: const Text(
-                                        'WATCH NOW',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                          side: const BorderSide(
-                                              width: 3.0, color: Colors.white)),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )),
-                  ),
-                  leading: InkWell(
-                    onTap: () {
-                      _scaffoldKey!.currentState!.openDrawer();
-                    },
-                    child: const Icon(
-                      Icons.menu,
-                      color: Colors.white,
-                    ),
-                  ),
-                  centerTitle: true,
-                ),
-              ];
-            },
-            body: WillPopScope(
-              onWillPop: onWillPop,
-              child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: const BoxDecoration(color: Colors.black),
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: MediaQuery.of(context).size.height / 80,
-                            vertical: MediaQuery.of(context).size.height / 90),
-                        child: Container(
-                          height: MediaQuery.of(context).size.height / 15,
-                          width: double.infinity,
-                          decoration: const BoxDecoration(),
-                          child: Flex(
-                            direction: Axis.horizontal,
+      key: _scaffoldKey,
+      backgroundColor: Colors.white,
+      drawer: MenuDrawer(),
+      body: SafeArea(
+        child: NestedScrollView(
+          headerSliverBuilder: (context, n) {
+            return [
+              SliverAppBar(
+                title: const Text('Home'),
+                elevation: 0,
+                floating: true,
+                pinned: false,
+                expandedHeight: MediaQuery.of(context).size.height / 2.4,
+                flexibleSpace: FlexibleSpaceBar(
+                  stretchModes: const [StretchMode.fadeTitle],
+                  collapseMode: CollapseMode.parallax,
+                  background: Container(
+                      height: MediaQuery.of(context).size.height / 2,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: const BoxDecoration(color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 15.0, left: 5.0, right: 3.0, bottom: 15.0),
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height / 2,
+                          width: MediaQuery.of(context).size.width,
+                          child: Stack(
+                            fit: StackFit.expand,
                             children: <Widget>[
-                              tabHeaderBtn("Events", true, 0),
-                              tabHeaderBtn("Community", false, 1),
-                              tabHeaderBtn("NGO", false, 2),
-                              tabHeaderBtn("Videos", false, 3),
-                              tabHeaderBtn("Partners Cafe", false, 4),
+                              FittedBox(
+                                fit: BoxFit.fill,
+                                child: Image.asset('images/live.jpeg',
+                                    fit: BoxFit.cover),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.6),
+                                ),
+                              ),
+                              Positioned(
+                                bottom: MediaQuery.of(context).size.height / 22,
+                                left: MediaQuery.of(context).size.width / 15,
+                                child: ButtonTheme(
+                                  height: 45,
+                                  minWidth: 100,
+                                  child: RaisedButton(
+                                    color: Colors.transparent,
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const YoutubeLive()));
+                                      //Get.to(YoutubeLive());
+                                    },
+                                    child: const Text(
+                                      'WATCH NOW',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        side: const BorderSide(
+                                            width: 3.0, color: Colors.white)),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: PageView(
-                          onPageChanged: (index) {
-                            setState(() {
-                              selectedPage = index;
-                            });
-                          },
-                          controller: _pageController,
-                          scrollDirection: Axis.horizontal,
-                          children: <Widget>[
-                            const HomeEvents(),
-                            const Community(),
-                            const NGOPage(),
-                            const Videos(),
-                            Container(),
-                          ],
-                        ),
-                      )
-                    ],
-                  )),
-            ),
-          ),
-        ));
+                      )),
+                ),
+                leading: InkWell(
+                  onTap: () {
+                    _scaffoldKey!.currentState!.openDrawer();
+                  },
+                  child: const Icon(
+                    Icons.menu,
+                    color: Colors.white,
+                  ),
+                ),
+                centerTitle: true,
+              ),
+            ];
+          },
+          body: const HomeEvents(),
+        ),
+      ),
+    );
   }
 
   Flexible tabHeaderBtn(String title, bool isActive, int page) {
@@ -223,7 +176,8 @@ class _HomeScreenState extends State<HomeScreen> {
           decoration: BoxDecoration(
               border: Border(
                   bottom: BorderSide(
-            color: selectedPage == page ? Colors.white : Color(0xFF121922),
+            color:
+                selectedPage == page ? Colors.white : const Color(0xFF121922),
             width: 1,
           ))),
         ),
@@ -234,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<bool> onWillPop() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+        now.difference(currentBackPressTime!) > const Duration(seconds: 2)) {
       currentBackPressTime = now;
       Fluttertoast.showToast(msg: "Press again to exit");
       return Future.value(false);

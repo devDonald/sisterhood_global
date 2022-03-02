@@ -7,15 +7,18 @@ import 'package:sisterhood_global/core/model/app_users_model.dart';
 import 'package:sisterhood_global/core/widgets/customFullScreenDialog.dart';
 import 'package:sisterhood_global/core/widgets/custom_dialog.dart';
 import 'package:sisterhood_global/features/authentication/pages/login_screen.dart';
-import 'package:sisterhood_global/features/home/pages/home.dart';
+import 'package:sisterhood_global/features/dashboard/dashboard.dart';
 
 class AuthController extends GetxController {
-  static AuthController instance = Get.find();
-  late Rx<User> firebaseUser;
+  static AuthController to = Get.find();
+  late Rx<User?> firebaseUser;
   RxBool isLoggedIn = false.obs;
-  late GoogleSignIn googleSign;
-  late User _user;
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: ['email', "https://www.googleapis.com/auth/userinfo.profile"]);
+  //User? _user;
   var isSignIn = false.obs;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final RxBool admin = false.obs;
 
   String usersCollection = "users";
   Rx<UserModel> userModel = UserModel().obs;
@@ -23,11 +26,11 @@ class AuthController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    googleSign = GoogleSignIn();
-    firebaseUser = Rx<User>(auth.currentUser!);
+    //_user = _auth.currentUser!;
+    firebaseUser = Rx<User?>(_auth.currentUser);
     ever(isSignIn, handleAuthStateChanged);
-    isSignIn.value = auth.currentUser != null;
-    auth.authStateChanges().listen((event) {
+    isSignIn.value = _auth.currentUser != null;
+    _auth.authStateChanges().listen((event) {
       isSignIn.value = event != null;
     });
   }
@@ -35,7 +38,7 @@ class AuthController extends GetxController {
   void handleAuthStateChanged(isLoggedIn) {
     if (isLoggedIn) {
       userModel.bindStream(listenToUser());
-      Get.offAll(() => HomeScreen());
+      Get.offAll(() => const DashboardPage());
     } else {
       Get.offAll(() => LoginScreen());
     }
@@ -49,7 +52,7 @@ class AuthController extends GetxController {
           .then((result) {
         successToastMessage(msg: 'Login Successful');
         CustomFullScreenDialog.cancelDialog();
-        Get.offAll(() => HomeScreen());
+        Get.offAll(() => DashboardPage());
       }).onError((error, stackTrace) {
         CustomFullScreenDialog.cancelDialog();
         errorToastMessage(msg: error.toString());
@@ -62,26 +65,32 @@ class AuthController extends GetxController {
   void signUp(String email, String password, UserModel user) async {
     CustomFullScreenDialog.showDialog();
     try {
-      await auth
+      await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((result) {
         user.userId = result.user!.uid;
         _addUserToFirestore(user);
         successToastMessage(msg: 'Registration Successful');
         CustomFullScreenDialog.cancelDialog();
-        Get.offAll(() => HomeScreen());
+        Get.offAll(() => DashboardPage());
       }).onError((error, stackTrace) {
         CustomFullScreenDialog.cancelDialog();
-        errorToastMessage(msg: error.toString());
+        errorToastMessage(msg: 'An error occurred, please try again');
       });
-    } catch (e) {
-      Get.snackbar("Sign In Failed", "Try again");
+    } on FirebaseAuthException catch (error) {
+      CustomFullScreenDialog.cancelDialog();
+      Get.snackbar('auth.signUpErrorTitle'.tr, error.message!,
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 10),
+          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+          colorText: Get.theme.snackBarTheme.actionTextColor);
     }
   }
 
   void signOut() async {
-    googleSign.signOut();
-    auth.signOut();
+    await googleSignIn.signOut();
+    await _auth.signOut();
+    successToastMessage(msg: 'You are logged out');
   }
 
   _addUserToFirestore(UserModel user) {
@@ -89,13 +98,15 @@ class AuthController extends GetxController {
         .collection(usersCollection)
         .doc(user.userId)
         .set(user.toJson());
-    _user.updatePhotoURL(user.photo);
-    _user.updateDisplayName(user.name);
+    // _user!.updatePhotoURL(user.photo);
+    // _user!.updateDisplayName(user.name);
   }
 
   void googleLogin() async {
+    googleSignIn.disconnect();
     CustomFullScreenDialog.showDialog();
-    GoogleSignInAccount? googleSignInAccount = await googleSign.signIn();
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
     if (googleSignInAccount == null) {
       CustomFullScreenDialog.cancelDialog();
     } else {
@@ -105,7 +116,7 @@ class AuthController extends GetxController {
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken);
 
-      await auth.signInWithCredential(oAuthCredential).then((result) async {
+      await _auth.signInWithCredential(oAuthCredential).then((result) async {
         await firebaseFirestore
             .collection(usersCollection)
             .doc(result.user!.uid)
@@ -119,7 +130,9 @@ class AuthController extends GetxController {
                 code: 'NG',
                 dialCode: '+124',
                 isAdmin: false,
-                phone: result.user!.phoneNumber,
+                followersList: {},
+                followingList: {},
+                phone: '',
                 photo: result.user!.photoURL,
                 email: result.user!.email,
                 type: 'USER');
@@ -128,7 +141,7 @@ class AuthController extends GetxController {
         });
         successToastMessage(msg: 'Login Successful');
         CustomFullScreenDialog.cancelDialog();
-        Get.offAll(() => HomeScreen());
+        Get.offAll(() => DashboardPage());
       }).onError((error, stackTrace) {
         errorToastMessage(msg: error.toString());
       });
@@ -138,18 +151,18 @@ class AuthController extends GetxController {
   updateUserData(Map<String, dynamic> data) {
     firebaseFirestore
         .collection(usersCollection)
-        .doc(firebaseUser.value.uid)
+        .doc(firebaseUser.value!.uid)
         .update(data);
   }
 
   Stream<UserModel> listenToUser() => firebaseFirestore
       .collection(usersCollection)
-      .doc(firebaseUser.value.uid)
+      .doc(firebaseUser.value!.uid)
       .snapshots()
       .map((snapshot) => UserModel.fromSnapshot(snapshot));
 
   void resetPassword(String email, BuildContext context) async {
-    await auth.sendPasswordResetEmail(email: email).then((_) {
+    await _auth.sendPasswordResetEmail(email: email).then((_) {
       showDialog(
           context: context,
           builder: (BuildContext context) {

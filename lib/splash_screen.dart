@@ -4,7 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sisterhood_global/features/authentication/pages/login_screen.dart';
-import 'package:sisterhood_global/features/home/pages/home.dart';
+import 'package:sisterhood_global/features/dashboard/dashboard.dart';
 
 import 'core/constants/contants.dart';
 
@@ -47,7 +47,7 @@ class SplashScreenState extends State<SplashScreen> {
   route() async {
     bool isLoggedIn = await getUserLoginStatus();
     isLoggedIn
-        ? Get.offAll(() => HomeScreen())
+        ? Get.offAll(() => const DashboardPage())
         : Get.offAll(() => LoginScreen());
   }
 

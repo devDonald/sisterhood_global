@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:share_extend/share_extend.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/core/widgets/profile_picture.dart';
@@ -8,7 +11,9 @@ import 'package:sisterhood_global/features/home/controller/drawer_controller.dar
 import 'package:sisterhood_global/features/home/pages/about_us.dart';
 import 'package:sisterhood_global/features/home/pages/admin_home.dart';
 import 'package:sisterhood_global/features/home/pages/contact_us.dart';
-import 'package:sisterhood_global/features/profile/pages/profile_screen.dart';
+import 'package:sisterhood_global/features/ngo/pages/ngo_page.dart';
+
+import '../../features/profile/pages/my_profile.dart';
 
 class MenuDrawer extends StatefulWidget {
   MenuDrawer({
@@ -32,12 +37,12 @@ class _MenuDrawerState extends State<MenuDrawer> {
             Expanded(
               flex: 2,
               child: Container(
-                margin: EdgeInsets.only(top: 40.0),
+                margin: const EdgeInsets.only(top: 40.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(left: 25.0),
+                      margin: const EdgeInsets.only(left: 25.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -63,11 +68,19 @@ class _MenuDrawerState extends State<MenuDrawer> {
                                 )
                               : Container(),
                           ButtonWithICon2(
+                            icon: Icons.group,
+                            title: 'NGO',
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Get.to(() => NGOPage());
+                            },
+                          ),
+                          ButtonWithICon2(
                             icon: Icons.person,
                             title: 'My Profile',
                             onTap: () {
                               Navigator.of(context).pop();
-                              Get.to(() => ProfileScreen());
+                              Get.to(() => ProfilePage());
                             },
                           ),
                           ButtonWithICon2(
@@ -92,16 +105,18 @@ class _MenuDrawerState extends State<MenuDrawer> {
                     Container(
                       child: Column(
                         children: <Widget>[
-                          SizedBox(height: 5.0),
+                          const SizedBox(height: 5.0),
                           ButtonWithIcon(
                             icon: (Icons.share),
                             title: ('Invite Friends'),
                             onTap: () {
                               Navigator.of(context).pop();
-                              // ShareExtend.share(
-                              //   'Hey download the God-Life Assembly mobile app https://play.google.com/store/apps/details?id=com.godlife.churchapp.godlifeassembly',
-                              //   'text',
-                              // );
+                              if (Platform.isAndroid) {
+                                ShareExtend.share(
+                                  'Hey download the Sisterhood global mobile app https://play.google.com/store/apps/details?id=com.abidon.sisterhood_global',
+                                  'text',
+                                );
+                              }
                             },
                           ),
                         ],
@@ -168,15 +183,15 @@ class ButtonWithICon2 extends StatelessWidget {
     return Container(
       width: 149.0,
       height: 40.0,
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         top: 8.5,
         bottom: 8.5,
       ),
-      padding: EdgeInsets.only(left: 15.0),
+      padding: const EdgeInsets.only(left: 15.0),
       decoration: BoxDecoration(
         color: Colors.pink,
         borderRadius: BorderRadius.circular(5.0),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: JanguAskColors.pinkishGreyColor,
             offset: Offset(0.0, 2.5),
@@ -186,23 +201,21 @@ class ButtonWithICon2 extends StatelessWidget {
       ),
       child: GestureDetector(
         onTap: onTap,
-        child: Container(
-          child: Row(
-            children: <Widget>[
-              Icon(
-                icon,
+        child: Row(
+          children: <Widget>[
+            Icon(
+              icon,
+              color: JanguAskColors.whiteColor,
+            ),
+            const SizedBox(width: 9.2),
+            Text(
+              title,
+              style: const TextStyle(
                 color: JanguAskColors.whiteColor,
+                fontSize: 15.0,
               ),
-              SizedBox(width: 9.2),
-              Text(
-                title,
-                style: TextStyle(
-                  color: JanguAskColors.whiteColor,
-                  fontSize: 15.0,
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
@@ -227,7 +240,7 @@ class ButtonWithIcon extends StatelessWidget {
       // title: title,
       // onTap: onTap,
       child: Container(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: 10.0,
           bottom: 10.0,
           left: 22.6,
@@ -238,10 +251,10 @@ class ButtonWithIcon extends StatelessWidget {
               icon,
               color: JanguAskColors.primaryGreyColor,
             ),
-            SizedBox(width: 18.5),
+            const SizedBox(width: 18.5),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 15.0,
                 color: JanguAskColors.primaryGreyColor,
                 fontFamily: 'Nunito',

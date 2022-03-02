@@ -6,6 +6,7 @@ import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/features/home/pages/admin/events_home.dart';
+import 'package:sisterhood_global/features/home/pages/admin/youtube_notication.dart';
 
 import 'admin/all_users.dart';
 
@@ -76,7 +77,7 @@ class _AdminHomeState extends State<AdminHome> {
         titleSpacing: -5.0,
       ),
       body: ListView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         shrinkWrap: true,
         children: [
           Row(
@@ -84,7 +85,9 @@ class _AdminHomeState extends State<AdminHome> {
               HomeCard(
                 icon: Icons.live_tv,
                 title: 'Livestream Notification',
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => LivestreamNotification());
+                },
               ),
               HomeCard(
                 icon: Icons.event_available,

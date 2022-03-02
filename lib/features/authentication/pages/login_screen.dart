@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
-import 'package:sisterhood_global/core/routes/app_pages.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/core/themes/theme_images.dart';
 import 'package:sisterhood_global/core/widgets/flat_primary_button.dart';
@@ -11,9 +10,11 @@ import 'package:sisterhood_global/core/widgets/primary_button.dart';
 import 'package:sisterhood_global/core/widgets/screen_title.dart';
 import 'package:sisterhood_global/core/widgets/social_button.dart';
 import 'package:sisterhood_global/features/authentication/controller/login_controller.dart';
+import 'package:sisterhood_global/features/authentication/pages/register_screen.dart';
 import 'package:sisterhood_global/features/authentication/pages/reset_password.dart';
 
-class LoginScreen extends GetWidget<AuthController> {
+class LoginScreen extends StatelessWidget {
+  final AuthController authController = AuthController.to;
   final TextEditingController _email = TextEditingController();
 
   final TextEditingController _password = TextEditingController();
@@ -68,25 +69,28 @@ class LoginScreen extends GetWidget<AuthController> {
                           )
                         ],
                       ),
+
                       width: double.infinity,
                       // width: double.infinity,
                       // height: 40.0,
                       child: TextFormField(
-                        style: const TextStyle(fontSize: 20),
-                        controller: _email,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        textInputAction: TextInputAction.newline,
-                        obscureText: false,
-                        keyboardType: TextInputType.emailAddress,
-                        textCapitalization: TextCapitalization.none,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Email',
-                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        ),
-                      ),
+                          style: const TextStyle(fontSize: 20),
+                          controller: _email,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          textInputAction: TextInputAction.newline,
+                          obscureText: false,
+                          keyboardType: TextInputType.emailAddress,
+                          textCapitalization: TextCapitalization.none,
+                          decoration: InputDecoration(
+                            hintText: 'Email',
+                            prefixIcon: Icon(Icons.email),
+                            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          )),
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 30),
                     Container(
                       // padding: EdgeInsets.symmetric(horizontal: 15),
                       decoration: BoxDecoration(
@@ -103,19 +107,21 @@ class LoginScreen extends GetWidget<AuthController> {
                       width: double.infinity,
                       // height: 40.0,
                       child: TextFormField(
-                        style: const TextStyle(fontSize: 20),
-                        controller: _password,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        textInputAction: TextInputAction.newline,
-                        obscureText: true,
-                        keyboardType: TextInputType.text,
-                        textCapitalization: TextCapitalization.none,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: 'Password',
-                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        ),
-                      ),
+                          style: const TextStyle(fontSize: 20),
+                          controller: _password,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          textInputAction: TextInputAction.newline,
+                          obscureText: true,
+                          keyboardType: TextInputType.text,
+                          textCapitalization: TextCapitalization.none,
+                          decoration: InputDecoration(
+                            hintText: 'Password',
+                            prefixIcon: Icon(Icons.lock),
+                            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          )),
                     ),
                     const SizedBox(height: 10),
                     Align(
@@ -138,7 +144,7 @@ class LoginScreen extends GetWidget<AuthController> {
                       roundedEdge: 10,
                       onTap: () async {
                         if (validateLogin(_email.text, _password.text)) {
-                          controller.signIn(_email.text, _password.text);
+                          authController.signIn(_email.text, _password.text);
                         }
                       },
                     ),
@@ -148,16 +154,16 @@ class LoginScreen extends GetWidget<AuthController> {
                       platformIcon: JanguAskImages.googleLogo,
                       color: JanguAskColors.redColor,
                       onTap: () async {
-                        controller.googleLogin();
+                        authController.googleLogin();
                       },
                     ),
                     const SizedBox(height: 15.0),
                     Center(
                       child: FlatPrimaryButton(
-                        info: 'Dont\'t Have an Account? ',
+                        info: 'Don\'t Have an Account? ',
                         title: 'Register',
                         onTap: () {
-                          Get.offAllNamed(Routes.REGISTER);
+                          Get.offAll(() => RegisterScreen());
                         },
                       ),
                     ),

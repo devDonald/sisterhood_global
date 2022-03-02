@@ -17,6 +17,7 @@ class _EditProfileState extends State<EditProfile> {
   final _name = TextEditingController();
   final _email = TextEditingController();
   final _phone = TextEditingController();
+  final _bio = TextEditingController();
 
   String _code = "NG",
       dateOfBirth = '',
@@ -34,6 +35,7 @@ class _EditProfileState extends State<EditProfile> {
             _phone.text = ds.data()!['phone'];
             _code = ds.data()!['code'];
             _country = ds.data()!['country'];
+            _bio.text = ds.data()!['bio'];
           });
         }
       });
@@ -64,9 +66,9 @@ class _EditProfileState extends State<EditProfile> {
         titleSpacing: -5.0,
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Container(
-          margin: EdgeInsets.only(top: 15),
+          margin: const EdgeInsets.only(top: 15),
           width: double.infinity,
           child: Stack(
             children: [
@@ -77,7 +79,7 @@ class _EditProfileState extends State<EditProfile> {
                   margin: const EdgeInsets.only(
                     left: 10,
                     right: 10,
-                    top: 50,
+                    top: 20,
                     bottom: 50,
                   ),
                   padding: const EdgeInsets.only(bottom: 10),
@@ -93,7 +95,7 @@ class _EditProfileState extends State<EditProfile> {
                     color: JanguAskColors.whiteColor,
                   ),
                   child: Container(
-                    margin: EdgeInsets.only(top: 50),
+                    margin: const EdgeInsets.only(top: 30),
                     child: Column(
                       children: [
                         Container(
@@ -142,7 +144,7 @@ class _EditProfileState extends State<EditProfile> {
                                       },
                                     ),
                                   ),
-                                  SizedBox(width: 15),
+                                  const SizedBox(width: 15),
                                   Flexible(
                                     flex: 2,
                                     child: SizedBox(
@@ -157,8 +159,7 @@ class _EditProfileState extends State<EditProfile> {
                                             BoxShadow(
                                               blurRadius: 7.5,
                                               offset: Offset(0.0, 2.5),
-                                              color:
-                                                  JanguAskColors.shadowColor,
+                                              color: JanguAskColors.shadowColor,
                                             )
                                           ],
                                         ),
@@ -170,7 +171,7 @@ class _EditProfileState extends State<EditProfile> {
                                               TextCapitalization.none,
                                           keyboardType: TextInputType.phone,
                                           controller: _phone,
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             labelText: 'Phone Number',
                                           ),
                                         ),
@@ -179,8 +180,22 @@ class _EditProfileState extends State<EditProfile> {
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
+                              ),
+                              TextFormField(
+                                style: const TextStyle(fontSize: 20),
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                keyboardType: TextInputType.multiline,
+                                controller: _bio,
+                                maxLines: 3,
+                                decoration: const InputDecoration(
+                                  labelText: 'Bio',
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 30,
                               ),
                               Align(
                                 alignment: Alignment.bottomRight,
@@ -198,7 +213,8 @@ class _EditProfileState extends State<EditProfile> {
                                         _country,
                                         dialCode,
                                         _code,
-                                        _phone.text)) {
+                                        _phone.text,
+                                        _bio.text)) {
                                       await firebaseFirestore
                                           .collection('users')
                                           .doc(auth.currentUser!.uid)
@@ -207,6 +223,7 @@ class _EditProfileState extends State<EditProfile> {
                                         'email': _email.text,
                                         'country': _country,
                                         'code': _code,
+                                        'bio': _bio.text,
                                         'dialCode': dialCode,
                                         'phone': _phone.text
                                       }).then((value) {
@@ -219,10 +236,10 @@ class _EditProfileState extends State<EditProfile> {
                                   },
                                 ),
                               ),
-                              SizedBox(height: 15),
+                              const SizedBox(height: 15),
                               Text(
                                 error,
-                                style: TextStyle(color: Colors.red),
+                                style: const TextStyle(color: Colors.red),
                               ),
                             ],
                           ),

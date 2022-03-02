@@ -3,33 +3,46 @@ import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/model/app_users_model.dart';
 
 class CommunityModel {
-  String? question, category, ownerId, postId;
+  String? body, category, ownerId, postId, imageLink, videoLink;
   dynamic comments, likes;
   String? createdAt, ownerName, ownerPhoto, likeCount, commentCount;
   Timestamp? timestamp;
   UserModel? user;
-  bool likeToCard = false, isOwner = false;
+  bool? likeToCard = false,
+      isOwner = false,
+      isPinned = false,
+      isApproved = false,
+      withImage = false;
 
-  CommunityModel(
-      {this.question,
-      this.category,
-      this.ownerId,
-      this.postId,
-      this.comments,
-      this.likes,
-      this.createdAt,
-      this.user,
-      this.timestamp});
+  CommunityModel({
+    this.body,
+    this.category,
+    this.ownerId,
+    this.postId,
+    this.comments,
+    this.likes,
+    this.createdAt,
+    this.user,
+    this.timestamp,
+    this.imageLink,
+    this.videoLink,
+    this.isApproved,
+    this.isPinned,
+  });
 
   toJson() {
     return {
       "ownerId": ownerId,
       "postId": postId,
       "category": category,
-      "question": question,
+      "body": body,
       "comments": comments,
       "createdAt": createdAt,
       "likes": likes,
+      "imageLink": imageLink,
+      "videoLink": videoLink,
+      "isApproved": isApproved,
+      "isPinned": isPinned,
       "timestamp": timestamp,
     };
   }
@@ -37,12 +50,12 @@ class CommunityModel {
   communityUpdate() {
     return {
       "category": category,
-      "question": question,
+      "body": body,
     };
   }
 
   CommunityModel.fromSnapshot({required DocumentSnapshot snap}) {
-    question = snap['question'];
+    body = snap['body'];
     category = snap['category'];
     ownerId = snap['ownerId'];
     postId = snap['postId'];
@@ -50,6 +63,10 @@ class CommunityModel {
     createdAt = snap['createdAt'];
     timestamp = snap['timestamp'];
     likes = snap['likes'];
+    imageLink = snap['imageLink'];
+    videoLink = snap['videoLink'];
+    isApproved = snap['isApproved'];
+    isPinned = snap['isPinned'];
 
     if (snap['likes'] != null) {
       likeCount = getCount(getLikeCount(likes));
@@ -63,6 +80,10 @@ class CommunityModel {
     }
     if (auth.currentUser!.uid == snap['ownerId']) {
       isOwner = true;
+    }
+
+    if (imageLink != '' || imageLink != null) {
+      withImage = true;
     }
   }
 

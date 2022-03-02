@@ -4,13 +4,18 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:new_version/new_version.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:sisterhood_global/splash_screen.dart';
+import 'package:sisterhood_global/features/authentication/controller/login_controller.dart';
+import 'package:sisterhood_global/features/dashboard/dashboard_controller.dart';
 
 import 'core/routes/app_pages.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  //await GetStorage.init();
+  Get.put<AuthController>(AuthController());
+  Get.put<DashboardController>(DashboardController());
+  //Get.put<ThemeController>(ThemeController());
   runApp(const MyApp());
 }
 
@@ -37,8 +42,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: "Sisterhood Global",
-      home: const SplashScreen(),
-      getPages: AppPages.routes,
+      initialRoute: '/',
+      getPages: AppRoutes.routes,
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.dark,
       builder: (context, widget) => ResponsiveWrapper.builder(

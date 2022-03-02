@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/model/app_users_model.dart';
-import 'package:sisterhood_global/core/routes/app_pages.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/core/themes/theme_images.dart';
 import 'package:sisterhood_global/core/widgets/country_code_button.dart';
@@ -10,9 +9,12 @@ import 'package:sisterhood_global/core/widgets/flat_primary_button.dart';
 import 'package:sisterhood_global/core/widgets/primary_button.dart';
 import 'package:sisterhood_global/core/widgets/screen_title.dart';
 import 'package:sisterhood_global/core/widgets/social_button.dart';
-import 'package:sisterhood_global/features/authentication/controller/login_controller.dart';
+import 'package:sisterhood_global/features/authentication/pages/login_screen.dart';
 
-class RegisterScreen extends GetWidget<AuthController> {
+import '../controller/login_controller.dart';
+
+class RegisterScreen extends StatelessWidget {
+  final AuthController authController = AuthController.to;
   final TextEditingController _email = TextEditingController();
 
   final TextEditingController _password = TextEditingController();
@@ -25,8 +27,6 @@ class RegisterScreen extends GetWidget<AuthController> {
 
   String _dialCode = '+234', _country = 'Nigeria', _code = 'NG';
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
   RegisterScreen({Key? key}) : super(key: key);
 
   @override
@@ -37,7 +37,7 @@ class RegisterScreen extends GetWidget<AuthController> {
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.only(left: 16.0, right: 16.0),
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -56,7 +56,7 @@ class RegisterScreen extends GetWidget<AuthController> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 22.1),
+                        const SizedBox(height: 22.1),
                         const ScreenTitleIndicator(
                           title: 'Register',
                         ),
@@ -80,21 +80,23 @@ class RegisterScreen extends GetWidget<AuthController> {
                           // width: double.infinity,
                           // height: 40.0,
                           child: TextFormField(
-                            style: const TextStyle(fontSize: 20),
-                            controller: _fullName,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            textInputAction: TextInputAction.newline,
-                            keyboardType: TextInputType.text,
-                            textCapitalization: TextCapitalization.words,
-                            maxLength: null,
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Full Name',
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
-                            ),
-                          ),
+                              style: const TextStyle(fontSize: 20),
+                              controller: _fullName,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              textInputAction: TextInputAction.newline,
+                              keyboardType: TextInputType.text,
+                              textCapitalization: TextCapitalization.words,
+                              maxLength: null,
+                              decoration: InputDecoration(
+                                hintText: 'Full Name',
+                                prefixIcon: const Icon(Icons.person),
+                                contentPadding:
+                                    const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              )),
                         ),
                         const SizedBox(height: 15),
                         //email
@@ -122,91 +124,91 @@ class RegisterScreen extends GetWidget<AuthController> {
                             textInputAction: TextInputAction.newline,
                             keyboardType: TextInputType.emailAddress,
                             textCapitalization: TextCapitalization.none,
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Email Id',
+                            decoration: InputDecoration(
+                              hintText: 'Email',
+                              prefixIcon: const Icon(Icons.email),
                               contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
+                                  const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
                           ),
                         ),
                         //password
                         const SizedBox(height: 15),
                         Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                // padding: EdgeInsets.symmetric(horizontal: 15),
-                                decoration: BoxDecoration(
-                                  color: JanguAskColors.whiteColor,
-                                  borderRadius: BorderRadius.circular(2.5),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      blurRadius: 7.5,
-                                      offset: Offset(0.0, 2.5),
-                                      color: JanguAskColors.shadowColor,
-                                    )
-                                  ],
-                                ),
-                                width:
-                                    MediaQuery.of(context).size.width / 2.3 + 1,
-                                // width: double.infinity,
-                                // height: 40.0,
-                                child: TextFormField(
-                                  style: const TextStyle(fontSize: 20),
-                                  controller: _password,
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  textInputAction: TextInputAction.newline,
-                                  obscureText: true,
-                                  keyboardType: TextInputType.text,
-                                  textCapitalization: TextCapitalization.none,
-                                  maxLength: null,
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: 'Password',
-                                    contentPadding:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                // padding: EdgeInsets.symmetric(horizontal: 15),
-                                decoration: BoxDecoration(
-                                  color: JanguAskColors.whiteColor,
-                                  borderRadius: BorderRadius.circular(2.5),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      blurRadius: 7.5,
-                                      offset: Offset(0.0, 2.5),
-                                      color: JanguAskColors.shadowColor,
-                                    )
-                                  ],
-                                ),
-                                width:
-                                    MediaQuery.of(context).size.width / 2.3 + 1,
-                                // width: double.infinity,
-                                // height: 40.0,
-                                child: TextFormField(
-                                  style: const TextStyle(fontSize: 20),
-                                  controller: _confirmPassword,
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  textInputAction: TextInputAction.newline,
-                                  obscureText: true,
-                                  keyboardType: TextInputType.text,
-                                  textCapitalization: TextCapitalization.none,
-                                  maxLength: null,
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: 'Confirm Password',
-                                    contentPadding:
-                                        EdgeInsets.symmetric(horizontal: 10),
-                                  ),
-                                ),
-                              ),
+                          // padding: EdgeInsets.symmetric(horizontal: 15),
+                          decoration: BoxDecoration(
+                            color: JanguAskColors.whiteColor,
+                            borderRadius: BorderRadius.circular(2.5),
+                            boxShadow: const [
+                              BoxShadow(
+                                blurRadius: 7.5,
+                                offset: Offset(0.0, 2.5),
+                                color: JanguAskColors.shadowColor,
+                              )
                             ],
+                          ),
+                          width: double.infinity,
+                          // height: 40.0,
+                          child: TextFormField(
+                            style: const TextStyle(fontSize: 20),
+                            controller: _password,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            textInputAction: TextInputAction.newline,
+                            obscureText: true,
+                            keyboardType: TextInputType.text,
+                            textCapitalization: TextCapitalization.none,
+                            maxLength: null,
+                            decoration: InputDecoration(
+                              hintText: 'Password',
+                              prefixIcon: const Icon(Icons.lock),
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+
+                        Container(
+                          // padding: EdgeInsets.symmetric(horizontal: 15),
+                          decoration: BoxDecoration(
+                            color: JanguAskColors.whiteColor,
+                            borderRadius: BorderRadius.circular(2.5),
+                            boxShadow: const [
+                              BoxShadow(
+                                blurRadius: 7.5,
+                                offset: Offset(0.0, 2.5),
+                                color: JanguAskColors.shadowColor,
+                              )
+                            ],
+                          ),
+                          width: double.infinity,
+                          // height: 40.0,
+                          child: TextFormField(
+                            style: const TextStyle(fontSize: 20),
+                            controller: _confirmPassword,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            textInputAction: TextInputAction.newline,
+                            obscureText: true,
+                            keyboardType: TextInputType.text,
+                            textCapitalization: TextCapitalization.none,
+                            maxLength: null,
+                            decoration: InputDecoration(
+                              hintText: 'Confirm Password',
+                              prefixIcon: const Icon(Icons.lock),
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 15),
@@ -230,11 +232,10 @@ class RegisterScreen extends GetWidget<AuthController> {
                                       },
                                     ),
                                   ),
-                                  SizedBox(width: 15),
+                                  const SizedBox(width: 15),
                                   Flexible(
                                     flex: 2,
                                     child: SizedBox(
-                                      height: 65,
                                       child: Container(
                                         // padding: EdgeInsets.symmetric(horizontal: 15),
                                         decoration: BoxDecoration(
@@ -261,12 +262,16 @@ class RegisterScreen extends GetWidget<AuthController> {
                                           keyboardType: TextInputType.phone,
                                           textCapitalization:
                                               TextCapitalization.none,
-                                          decoration: const InputDecoration(
-                                            border: InputBorder.none,
-                                            hintText: 'Phone number',
+                                          decoration: InputDecoration(
+                                            hintText: 'Phone Number',
+                                            prefixIcon: const Icon(Icons.phone),
                                             contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 10),
+                                                const EdgeInsets.fromLTRB(
+                                                    20, 15, 20, 15),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -303,9 +308,11 @@ class RegisterScreen extends GetWidget<AuthController> {
                                 phone: _phoneNumber.text,
                                 dialCode: _dialCode,
                                 code: _code,
+                                followersList: {},
+                                followingList: {},
                                 type: "USER",
                               );
-                              controller.signUp(
+                              authController.signUp(
                                   _email.text, _password.text, model);
                             }
                           },
@@ -317,7 +324,7 @@ class RegisterScreen extends GetWidget<AuthController> {
                           platformIcon: JanguAskImages.googleLogo,
                           color: JanguAskColors.redColor,
                           onTap: () async {
-                            controller.googleLogin();
+                            authController.googleLogin();
                           },
                         ),
                         //
@@ -327,7 +334,7 @@ class RegisterScreen extends GetWidget<AuthController> {
                             info: 'Have an Account? ',
                             title: 'Login',
                             onTap: () {
-                              Get.offAllNamed(Routes.LOGIN);
+                              Get.offAll(() => LoginScreen());
                             },
                           ),
                         ),

@@ -97,12 +97,16 @@ bool validateProfileEdit(
   String dialCode,
   String code,
   String phone,
+  String bio,
 ) {
   if (email.isEmpty) {
     errorToastMessage(msg: 'email cannot be empty');
     return false;
   } else if (!email.contains('.')) {
     errorToastMessage(msg: 'invalid email id');
+    return false;
+  } else if (bio.isEmpty) {
+    errorToastMessage(msg: 'Bio Cannot be Empty');
     return false;
   } else if (!email.contains('@')) {
     errorToastMessage(msg: 'invalid email id, @ is missing');
@@ -283,6 +287,19 @@ int getCommentCount(comments) {
   return count;
 }
 
+int getFollowingCount(comments) {
+  // if no likes, return 0
+  if (comments == null) {
+    return 0;
+  }
+  int count = 0;
+  // if the key is explicitly set to true, add a like
+  comments.values.forEach((val) {
+    count += 1;
+  });
+  return count;
+}
+
 String getTimestamp(String date) {
   String msg = '';
   var dt = DateTime.parse(date).toLocal();
@@ -317,7 +334,7 @@ dynamic fromDateTimeToJson(DateTime date) {
 
 showDownloadProgress(received, total) {
   if (total != -1) {
-    print((received / total * 100).toStringAsFixed(0) + "%");
+    //print((received / total * 100).toStringAsFixed(0) + "%");
   }
 }
 
@@ -334,13 +351,13 @@ Future download2(Dio dio, String url, String savePath) async {
             return status! < 500;
           }),
     );
-    print(response.headers);
+    //print(response.headers);
     File file = File(savePath);
     var raf = file.openSync(mode: FileMode.write);
     // response.data is List<int> type
     raf.writeFromSync(response.data);
     await raf.close();
   } catch (e) {
-    print(e);
+    //print(e);
   }
 }

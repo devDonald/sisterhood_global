@@ -15,6 +15,8 @@ import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/core/widgets/files_widgets.dart';
 import 'package:sisterhood_global/core/widgets/primary_button.dart';
+import 'package:sisterhood_global/features/community/data/community_database.dart';
+import 'package:sisterhood_global/features/notification/notification_type.dart';
 
 class CreateEvent extends StatefulWidget {
   static const String id = 'CreateEvent';
@@ -43,10 +45,10 @@ class _CreateEventState extends State<CreateEvent> {
 
     //Cropping the image
 
-    File? croppedFile = await ImageCropper.cropImage(
+    File? croppedFile = await ImageCropper().cropImage(
       sourcePath: image!.path,
-      maxWidth: 800,
-      maxHeight: 800,
+      maxWidth: 1024,
+      maxHeight: 4096,
     );
 
     setState(() {
@@ -57,7 +59,7 @@ class _CreateEventState extends State<CreateEvent> {
 
   void _uploadEvent() async {
     try {
-      User? _currentUser = await FirebaseAuth.instance.currentUser;
+      User? _currentUser = FirebaseAuth.instance.currentUser;
       String uid = _currentUser!.uid;
       if (pickedImage != null) {
         pr.show();
@@ -91,6 +93,18 @@ class _CreateEventState extends State<CreateEvent> {
                 backgroundColor: Colors.blue,
                 textColor: Colors.white,
                 fontSize: 16.0);
+            await usersRef.get().then((value) {});
+            var result = await usersRef.get();
+            result.docs.forEach((res) {
+              CommunityDB.sendGeneralNotification(
+                  _docRef.id,
+                  res.id,
+                  _description.text,
+                  'Admin',
+                  "Event",
+                  NotificationType.event,
+                  _title.text);
+            });
             Navigator.of(context).pop();
           }).catchError((onError) async {
             pr.hide();
@@ -170,11 +184,12 @@ class _CreateEventState extends State<CreateEvent> {
               const PostLabel(label: 'Event Description'),
               const SizedBox(height: 9.5),
               PostTextFeild(
+                height: 200,
                 isBorder: true,
                 capitalization: TextCapitalization.sentences,
                 hint: 'Type event description here',
                 maxLines: 5, //fix
-                textController: _description, height: 70,
+                textController: _description,
               ),
               const SizedBox(height: 16.5),
               const PostLabel(label: 'Event Date'),

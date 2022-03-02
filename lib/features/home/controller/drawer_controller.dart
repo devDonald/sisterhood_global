@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:sisterhood_global/core/constants/contants.dart';
+
+import '../../authentication/controller/login_controller.dart';
 
 class CusDrawerController extends GetxController {
+  final AuthController authController = AuthController.to;
   late User user;
   @override
   void onInit() async {
@@ -19,6 +21,6 @@ class CusDrawerController extends GetxController {
   void onClose() {}
 
   void logout() async {
-    await auth.signOut();
+    authController.signOut();
   }
 }

@@ -12,6 +12,7 @@ import 'package:path/path.dart' as Path;
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/themes/theme_text.dart';
 import 'package:sisterhood_global/core/widgets/customFullScreenDialog.dart';
+import 'package:sisterhood_global/core/widgets/vertical_divider.dart';
 
 class UserProfileInfo extends StatefulWidget {
   const UserProfileInfo({
@@ -20,12 +21,13 @@ class UserProfileInfo extends StatefulWidget {
     required this.profileImage,
     required this.country,
     required this.flag,
-    required this.email,
-    required this.phone,
     required this.userId,
+    required this.isOwner,
+    required this.isFollowing,
   }) : super(key: key);
-  final String name, profileImage, country, email, phone, userId;
+  final String name, profileImage, country, userId;
   final Widget flag;
+  final bool isOwner, isFollowing;
 
   @override
   State<UserProfileInfo> createState() => _UserProfileInfoState();
@@ -37,6 +39,7 @@ class _UserProfileInfoState extends State<UserProfileInfo> {
   late String _uploadedImageURL;
 
   final _picker = ImagePicker();
+  ImageCropper? imageCropper;
 
   getImageFile(ImageSource source) async {
     //Clicking or Picking from Gallery
@@ -45,7 +48,7 @@ class _UserProfileInfoState extends State<UserProfileInfo> {
 
     //Cropping the image
 
-    File? croppedFile = await ImageCropper.cropImage(
+    File? croppedFile = await ImageCropper().cropImage(
       sourcePath: image!.path,
       maxWidth: 512,
       maxHeight: 512,
@@ -109,15 +112,15 @@ class _UserProfileInfoState extends State<UserProfileInfo> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 20.0),
+              padding: const EdgeInsets.only(top: 10.0),
               child: Stack(fit: StackFit.loose, children: <Widget>[
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        height: MediaQuery.of(context).size.height * 0.25,
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        height: MediaQuery.of(context).size.height * 0.20,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
@@ -128,49 +131,50 @@ class _UserProfileInfoState extends State<UserProfileInfo> {
                         )),
                   ],
                 ),
-                Padding(
-                    padding: EdgeInsets.only(top: 140.0, right: 100.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: () async {
-                            await getImageFile(ImageSource.gallery);
-                            sendImage();
-                          },
-                          child: const CircleAvatar(
-                            backgroundColor: Colors.red,
-                            radius: 30.0,
-                            child: Icon(
-                              Icons.camera_alt,
-                              color: Colors.white,
-                            ),
-                          ),
-                        )
-                      ],
-                    )),
+                widget.isOwner
+                    ? Padding(
+                        padding:
+                            const EdgeInsets.only(top: 100.0, right: 100.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () async {
+                                await getImageFile(ImageSource.gallery);
+                                sendImage();
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Colors.red,
+                                radius: 30.0,
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          ],
+                        ))
+                    : Container(),
               ]),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  child: Text(
-                    widget.name,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xff333333),
-                      fontWeight: JanguAskFontWeight.kBoldText,
-                      fontSize: 23,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                Text(
+                  widget.name,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Color(0xff333333),
+                    fontWeight: JanguAskFontWeight.kBoldText,
+                    fontSize: 23,
                   ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
-            SizedBox(height: 2),
+            const SizedBox(height: 2),
             Container(
               width: MediaQuery.of(context).size.width - 50,
               child: Row(
@@ -181,13 +185,29 @@ class _UserProfileInfoState extends State<UserProfileInfo> {
                   ),
                   Text(
                     widget.country,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 13,
                       color: Color(0xff333333),
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  !widget.isOwner && widget.isFollowing
+                      ? Row(
+                          children: const [
+                            VertDivider(),
+                            Text(
+                              'Following',
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Color(0xff333333),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            )
+                          ],
+                        )
+                      : Container(),
                 ],
               ),
             ),

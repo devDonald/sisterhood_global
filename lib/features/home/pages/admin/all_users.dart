@@ -131,10 +131,10 @@ class _DisplayUsersState extends State<DisplayUsers> {
               shrinkWrap: true,
               physics: BouncingScrollPhysics(),
               itemsPerPage: 50,
-              itemBuilder: (index, context, snapshot) {
-                UserModel _users = UserModel.fromSnapshot(snapshot);
+              itemBuilder: (context, snapshot, index) {
+                UserModel _users = UserModel.fromSnapshot(snapshot.single);
                 if (!_users.isAdmin!) {
-                  return filter == null || filter == ""
+                  return filter == ""
                       ? UserSearchTile(
                           userName: _users.name!,
                           profileImage: _users.photo!,

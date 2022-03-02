@@ -5,6 +5,8 @@ import 'package:sisterhood_global/features/liveStreaming/data/video_list.dart';
 import 'package:sisterhood_global/features/liveStreaming/data/youtube_services.dart';
 import 'package:sisterhood_global/features/liveStreaming/pages/video_player.dart';
 
+import '../../../core/widgets/menu_drawer.dart';
+
 class Videos extends StatefulWidget {
   const Videos({
     Key? key,
@@ -68,6 +70,14 @@ class _VideosState extends State<Videos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.pink,
+        title: const Text(
+          'Videos',
+          style: TextStyle(),
+        ),
+      ),
+      drawer: MenuDrawer(),
       body: Container(
         color: Colors.white,
         child: Column(

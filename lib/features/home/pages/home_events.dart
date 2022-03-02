@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/widgets/files_widgets.dart';
-import 'package:sisterhood_global/features/home/data/eventsModel.dart';
+import 'package:sisterhood_global/features/home/data/events_model.dart';
 import 'package:sisterhood_global/features/home/pages/view_event_image.dart';
 
 class HomeEvents extends StatefulWidget {
@@ -36,29 +37,25 @@ class _HomeEventsState extends State<HomeEvents> {
             ),
           ],
         ),
-        child: Container(
-            child: RefreshIndicator(
+        child: RefreshIndicator(
           child: PaginateFirestore(
             shrinkWrap: true,
             physics: const BouncingScrollPhysics(),
             itemsPerPage: 10,
-            itemBuilder: (index, context, snap) {
-              EventModel model = EventModel.fromSnapshot(snap);
+            itemBuilder: (context, snap, index) {
+              EventModel model = EventModel.fromSnapshot(snap[index]);
+
               return EventDetail(
                 title: model.title!,
                 date: model.date!,
                 location: model.venue!,
                 imageUrl: model.imageUrl!,
                 eventTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ViewAttachedImage(
-                                image:
-                                    CachedNetworkImageProvider(model.imageUrl!),
-                                text: model.title!,
-                                url: model.imageUrl!,
-                              )));
+                  Get.to(ViewAttachedImage(
+                    image: CachedNetworkImageProvider(model.imageUrl!),
+                    text: model.title!,
+                    url: model.imageUrl!,
+                  ));
                 },
               );
             },
@@ -73,6 +70,6 @@ class _HomeEventsState extends State<HomeEvents> {
           onRefresh: () async {
             refreshChangeListener.refreshed = true;
           },
-        )));
+        ));
   }
 }

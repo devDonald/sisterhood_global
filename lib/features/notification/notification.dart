@@ -13,13 +13,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
           android: AndroidNotificationDetails(
             channel.id,
             channel.name,
-            channel.description,
             priority: Priority.high,
             importance: Importance.max,
             fullScreenIntent: true,
             timeoutAfter: 10000,
           ),
-          iOS: IOSNotificationDetails()));
+          iOS: const IOSNotificationDetails()));
 
   _handleMessage(message);
 }
@@ -27,7 +26,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications',
-  '',
   importance: Importance.high,
 );
 
@@ -35,18 +33,17 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 void initMessaging() {
-  var androiInit = AndroidInitializationSettings('@mipmap/ic_launcher');
-  var iosInit = IOSInitializationSettings();
+  var androiInit = const AndroidInitializationSettings('@mipmap/ic_launcher');
+  var iosInit = const IOSInitializationSettings();
   var initSetting = InitializationSettings(android: androiInit, iOS: iosInit);
   var fltNotification = FlutterLocalNotificationsPlugin();
   fltNotification.initialize(initSetting);
-  var androidDetails = AndroidNotificationDetails(
+  var androidDetails = const AndroidNotificationDetails(
     'high_importance_channel', // id
-    'High Importance Notifications',
-    '', // title// description
+    'High Importance Notifications', // title// description
     importance: Importance.high,
   );
-  var iosDetails = IOSNotificationDetails();
+  var iosDetails = const IOSNotificationDetails();
   var generalNotificationDetails =
       NotificationDetails(android: androidDetails, iOS: iosDetails);
 
@@ -81,9 +78,6 @@ void _handleMessage(RemoteMessage message) {
   }
   if (message.data['type'] == NotificationType.livestream) {
     //Get.to(PastorIncomingCall());
-  }
-  if (message.data['type'] == NotificationType.testimony) {
-    //Get.to(CellIncomingCall(cellName: message.data['cell']));
   }
   if (message.data['type'] == NotificationType.prayer ||
       message.data['type'] == NotificationType.prayerLike ||

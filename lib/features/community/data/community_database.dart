@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as Path;
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/features/community/data/community_model.dart';
 import 'package:sisterhood_global/features/notification/notification_type.dart';
@@ -8,22 +12,26 @@ class CommunityDB {
     DocumentReference docRef = communityRef.doc();
     todomodel.postId = docRef.id;
     docRef.set(todomodel.toJson()).then((doc) async {
-      successToastMessage(msg: 'Contemplation Added');
-      await usersRef.get().then((value) {});
-      var result = await usersRef.get();
-      result.docs.forEach((res) {
-        sendGeneralNotification(
-            docRef.id,
-            todomodel.ownerId!,
-            todomodel.question!,
-            auth.currentUser!.displayName!,
-            todomodel.category!,
-            NotificationType.prayer,
-            'New Contemplation added');
-      });
+      successToastMessage(msg: 'Contribution Added to community');
     }).catchError((onError) async {
       errorToastMessage(msg: onError.toString());
     });
+  }
+
+  Future<String?> uploadFile(File file) async {
+    try {
+      var storageReference = FirebaseStorage.instance
+          .ref()
+          .child("community")
+          .child(Path.basename(file.path));
+      await storageReference.putFile(file);
+
+      var url = await storageReference.getDownloadURL();
+
+      return url;
+    } catch (error) {
+      return null;
+    }
   }
 
   static Stream<List<CommunityModel>> communityStream(String category) {
@@ -65,17 +73,19 @@ class CommunityDB {
     removeLikeFromActivityFeed(postId, ownerId, discussion, senderName);
   }
 
-  static void addLikeToActivityFeed(String postId, String ownerId,
-      String discussion, String senderName, String category) {
+  static Future<void> addLikeToActivityFeed(String postId, String ownerId,
+      String discussion, String senderName, String category) async {
     // add a notification to the postOwner's activity feed only if comment made by OTHER user (to avoid getting notification for our own like)
     bool isNotPostOwner = auth.currentUser!.uid != ownerId;
     if (isNotPostOwner) {
-      root.collection('feed').doc(ownerId).collection('feeds').doc(postId).set({
+      DocumentReference _docRef =
+          root.collection('feed').doc(ownerId).collection('feeds').doc();
+      await _docRef.set({
         "type": NotificationType.prayerLike,
         "userId": auth.currentUser!.uid,
         "seen": false,
         "commentData": 'liked Video',
-        "data": discussion,
+        "discussion": discussion,
         "ownerId": ownerId,
         "category": category,
         "postId": postId,
@@ -110,12 +120,14 @@ class CommunityDB {
     // add a notification to the postOwner's activity feed only if comment made by OTHER user (to avoid getting notification for our own like)
     bool isNotPostOwner = auth.currentUser!.uid != ownerId;
     if (isNotPostOwner) {
-      root.collection('feed').doc(ownerId).collection('feeds').doc(postId).set({
-        "type": type,
+      DocumentReference _docRef =
+          root.collection('feed').doc(ownerId).collection('feeds').doc();
+      _docRef.set({
+        "type": type, //type of notification
         "userId": auth.currentUser!.uid,
         "seen": false,
-        "commentData": commentData,
-        "data": discussion,
+        "commentData": commentData, //comment made
+        "discussion": discussion, //the main discussion comment was made on
         "ownerId": ownerId,
         "category": category,
         "postId": postId,

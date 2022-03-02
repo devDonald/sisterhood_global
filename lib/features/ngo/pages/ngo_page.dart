@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sisterhood_global/core/widgets/responsive_ui.dart';
 
+import '../../../core/widgets/menu_drawer.dart';
+
 class NGOPage extends StatefulWidget {
   const NGOPage({Key? key}) : super(key: key);
 
@@ -24,6 +26,14 @@ class _NGOPageState extends State<NGOPage> {
     _medium = ResponsiveWidget.isScreenMedium(_width, _pixelRatio);
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.pink,
+        title: const Text(
+          'NGO',
+          style: TextStyle(),
+        ),
+      ),
+      drawer: MenuDrawer(),
       body: Container(
         width: double.infinity,
         child: Padding(

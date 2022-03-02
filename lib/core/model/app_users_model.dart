@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../constants/contants.dart';
+
 class UserModel {
   static const USERID = "userId";
   static const NAME = "name";
@@ -22,6 +24,12 @@ class UserModel {
   String? type;
   String? dialCode;
   bool? isAdmin = false;
+  String? followers;
+  String? following, bio;
+  int? posts;
+  dynamic followersList;
+  dynamic followingList;
+  bool? isFollower = false, isFollowing = false, isOwner = false;
 
   UserModel(
       {this.userId,
@@ -33,7 +41,15 @@ class UserModel {
       this.code,
       this.dialCode,
       this.type,
-      this.isAdmin});
+      this.isAdmin,
+      this.followers,
+      this.followersList,
+      this.following,
+      this.followingList,
+      this.isFollower,
+      this.isOwner,
+      this.bio,
+      this.posts});
 
   toJson() {
     return {
@@ -46,7 +62,11 @@ class UserModel {
       'isAdmin': isAdmin,
       'dialCode': dialCode,
       'phone': phone,
+      'token': '',
       'type': type,
+      'bio': bio,
+      'followersList': followersList,
+      'followingList': followingList,
     };
   }
 
@@ -62,15 +82,35 @@ class UserModel {
   }
 
   UserModel.fromSnapshot(DocumentSnapshot snapshot) {
-    name = snapshot.data()![NAME];
-    email = snapshot.data()![EMAIL];
-    country = snapshot.data()![COUNTRY];
-    photo = snapshot.data()![PHOTO];
-    userId = snapshot.data()![USERID];
-    phone = snapshot.data()![PHONE];
-    code = snapshot.data()![CODE];
-    dialCode = snapshot.data()![DIALCODE];
-    type = snapshot.data()![TYPE];
-    isAdmin = snapshot.data()![ISADMIN];
+    name = snapshot[NAME];
+    email = snapshot[EMAIL];
+    country = snapshot[COUNTRY];
+    photo = snapshot[PHOTO];
+    userId = snapshot[USERID];
+    phone = snapshot[PHONE];
+    code = snapshot[CODE];
+    dialCode = snapshot[DIALCODE];
+    type = snapshot[TYPE];
+    bio = snapshot['bio'];
+    isAdmin = snapshot[ISADMIN];
+    followingList = snapshot['followingList'];
+    followersList = snapshot['followersList'];
+
+    if (snapshot['followingList'] != null) {
+      following = getCount(getLikeCount(followingList));
+    }
+    if (snapshot['followersList'] != null) {
+      followers = getCount(getCommentCount(followersList));
+    }
+
+    if (followersList[auth.currentUser!.uid] == true) {
+      isFollowing = true;
+    }
+    if (followingList[auth.currentUser!.uid] == true) {
+      isFollower = true;
+    }
+    if (auth.currentUser!.uid == snapshot['userId']) {
+      isOwner = true;
+    }
   }
 }

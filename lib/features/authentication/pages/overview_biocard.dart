@@ -7,22 +7,21 @@ import 'package:sisterhood_global/features/profile/pages/edit_profile.dart';
 class OverViewBioCard extends StatelessWidget {
   const OverViewBioCard({
     Key? key,
-    required this.name,
+    required this.bio,
     required this.email,
     required this.phone,
-    required this.country,
-    required this.gender,
+    required this.isOwner,
   }) : super(key: key);
-  final String name;
+  final String bio;
   final String email;
   final String phone;
-  final String country;
-  final String gender;
+  final bool isOwner;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(9),
-      margin: EdgeInsets.only(
+      padding: const EdgeInsets.all(9),
+      margin: const EdgeInsets.only(
         left: 15.0,
         right: 15.0,
         top: 15,
@@ -49,41 +48,43 @@ class OverViewBioCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'Name',
+                'Bio',
                 style: TextStyle(
                   color: JanguAskColors.blackColor1,
                   fontWeight: JanguAskFontWeight.kBoldText,
                   fontSize: 18,
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  Get.to(() => EditProfile());
-                },
-                child: Row(
-                  children: const [
-                    Text(
-                      'Edit Bio',
-                      style: TextStyle(
-                        color: JanguAskColors.kellyGreen,
-                        fontWeight: JanguAskFontWeight.kBoldText,
-                        fontSize: 15,
+              isOwner
+                  ? GestureDetector(
+                      onTap: () {
+                        Get.to(() => EditProfile());
+                      },
+                      child: Row(
+                        children: const [
+                          Text(
+                            'Edit Bio',
+                            style: TextStyle(
+                              color: JanguAskColors.primaryColor,
+                              fontWeight: JanguAskFontWeight.kBoldText,
+                              fontSize: 15,
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          Icon(
+                            Icons.edit,
+                            color: JanguAskColors.primaryColor,
+                            size: 17,
+                          ),
+                        ],
                       ),
-                    ),
-                    SizedBox(width: 5),
-                    Icon(
-                      Icons.edit,
-                      color: JanguAskColors.kellyGreen,
-                      size: 17,
-                    ),
-                  ],
-                ),
-              ),
+                    )
+                  : Container(),
             ],
           ),
           const SizedBox(height: 8.0),
           Text(
-            name,
+            bio,
             maxLines: 5,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
@@ -91,25 +92,8 @@ class OverViewBioCard extends StatelessWidget {
               fontSize: 16.0,
             ),
           ),
-          SizedBox(height: 15.0),
-          Text(
-            'Country',
-            style: TextStyle(
-              color: JanguAskColors.blackColor1,
-              fontWeight: JanguAskFontWeight.kBoldText,
-              fontSize: 18,
-            ),
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            country,
-            style: TextStyle(
-              color: JanguAskColors.primaryGreyColor,
-              fontSize: 16.0,
-            ),
-          ),
-          SizedBox(height: 15.0),
-          Text(
+          const SizedBox(height: 15.0),
+          const Text(
             'Gender',
             style: TextStyle(
               color: JanguAskColors.blackColor1,
@@ -117,44 +101,44 @@ class OverViewBioCard extends StatelessWidget {
               fontSize: 18,
             ),
           ),
-          SizedBox(height: 8.0),
-          Text(
-            gender,
+          const SizedBox(height: 8.0),
+          const Text(
+            'Female',
             style: TextStyle(
               color: JanguAskColors.primaryGreyColor,
               fontSize: 16.0,
             ),
           ),
-          SizedBox(height: 15.0),
+          const SizedBox(height: 15.0),
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.phone,
-                color: JanguAskColors.primaryGreyColor,
+                color: JanguAskColors.blackColor1,
                 size: 18,
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Text(
                 phone,
-                style: TextStyle(
+                style: const TextStyle(
                   color: JanguAskColors.primaryGreyColor,
                   fontSize: 16,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 15.0),
+          const SizedBox(height: 15.0),
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.email,
-                color: JanguAskColors.primaryGreyColor,
+                color: JanguAskColors.blackColor1,
                 size: 18,
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Text(
                 email,
-                style: TextStyle(
+                style: const TextStyle(
                   color: JanguAskColors.primaryGreyColor,
                   fontSize: 16,
                 ),

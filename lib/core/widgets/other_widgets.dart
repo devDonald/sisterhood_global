@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/core/themes/theme_text.dart';
 import 'package:sisterhood_global/core/widgets/profile_picture.dart';
 import 'package:sisterhood_global/features/community/data/community_database.dart';
+
+import '../../features/home/pages/view_event_image.dart';
 
 class FilesDropDownButton extends StatelessWidget {
   const FilesDropDownButton({
@@ -68,6 +71,9 @@ class QuestionCard extends StatefulWidget {
     required this.onUserTap,
     required this.postId,
     required this.onTap,
+    required this.onMoreTap,
+    required this.withImage,
+    required this.imageUrl,
   }) : super(key: key);
   final String category;
   final String question;
@@ -76,12 +82,12 @@ class QuestionCard extends StatefulWidget {
   final String noOfApplaud;
   final String noOfComment;
   final String timeOfPost;
-  final String ownerId;
-  final bool isApplauded, isOwner;
+  final String ownerId, imageUrl;
+  final bool isApplauded, isOwner, withImage;
   final String postId;
   final Function() onTapComment;
   final Function() onPostTap;
-  final Function() onUserTap, onTap;
+  final Function() onUserTap, onTap, onMoreTap;
   final Color applaudColor;
 
   @override
@@ -112,7 +118,7 @@ class _QuestionCardState extends State<QuestionCard> {
           BoxShadow(
             offset: Offset(0.0, 1.5),
             blurRadius: 3.0,
-            color: JanguAskColors.shadowColor,
+            color: JanguAskColors.primaryColor,
           ),
         ],
       ),
@@ -120,7 +126,7 @@ class _QuestionCardState extends State<QuestionCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               //subject
               GestureDetector(
@@ -152,31 +158,6 @@ class _QuestionCardState extends State<QuestionCard> {
                   ],
                 ),
               ),
-              //level
-            ],
-          ),
-          const Divider(
-            height: 20,
-            color: JanguAskColors.pinkishGreyColor,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: widget.onPostTap,
-                child: SizedBox(
-                  width: 182.0,
-                  child: Text(
-                    widget.question,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 5,
-                    style: const TextStyle(
-                      fontSize: 15.0,
-                      fontWeight: JanguAskFontWeight.kBoldText,
-                    ),
-                  ),
-                ),
-              ),
               DeleteEditPopUp(
                 delete: () async {
                   await communityRef
@@ -185,13 +166,60 @@ class _QuestionCardState extends State<QuestionCard> {
                       .then((value) {});
                   Navigator.of(context).pop();
                 },
-                isOwner: widget.isOwner, edit: () {}, // widget.isOwner,
+                isOwner: widget.isOwner, edit: () {},
+                report: () {
+                  Navigator.of(context).pop();
+                }, // widget.isOwner,
               )
+              //level
+            ],
+          ),
+
+          const Divider(
+            height: 20,
+            color: JanguAskColors.pinkishGreyColor,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: widget.onPostTap,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.750,
+                    child: Text(
+                      widget.question,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 5,
+                      style: const TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: JanguAskFontWeight.kBoldText,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ), //title
+          const SizedBox(height: 5),
 
+          widget.question.characters.length > 100
+              ? GestureDetector(
+                  onTap: widget.onMoreTap, child: const Text('Show More'))
+              : Container(),
           const SizedBox(height: 17.5),
-
+          widget.withImage
+              ? GestureDetector(
+                  onTap: () {
+                    Get.to(ViewAttachedImage(
+                      image: CachedNetworkImageProvider(widget.imageUrl),
+                      text: '',
+                      url: widget.imageUrl,
+                    ));
+                  },
+                  child: CachedNetworkImage(imageUrl: widget.imageUrl))
+              : Container(),
+          const SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -233,7 +261,7 @@ class _QuestionCardState extends State<QuestionCard> {
                   ),
                   const SizedBox(width: 3.0),
                   Text(
-                    (widget.timeOfPost != null) ? widget.timeOfPost : '',
+                    widget.timeOfPost,
                     style: const TextStyle(
                       fontSize: 11.0,
                       color: JanguAskColors.primaryGreyColor,
@@ -241,85 +269,81 @@ class _QuestionCardState extends State<QuestionCard> {
                   ),
                 ],
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    //applaud
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          if (isApplaud == false) {
-                            CommunityDB.handleDiscussionLikes(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  //applaud
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (isApplaud == false) {
+                          CommunityDB.handleDiscussionLikes(
                               widget.postId,
                               widget.ownerId,
                               widget.question,
                               auth.currentUser!.displayName!,
-                              widget.category
-                            );
-                            isApplaud = true;
-                          } else {
-                            CommunityDB.handleDiscussionUnlike(
+                              widget.category);
+                          isApplaud = true;
+                        } else {
+                          CommunityDB.handleDiscussionUnlike(
                               widget.postId,
                               widget.ownerId,
                               widget.question,
                               auth.currentUser!.displayName!,
-                              widget.category
-                            );
-                            isApplaud = false;
-                          }
-                        });
-                      },
-                      child: Container(
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              FontAwesomeIcons.heart,
-                              size: 18.8,
-                              color: isApplaud
-                                  ? Colors.pink
-                                  : JanguAskColors.primaryGreyColor,
-                            ),
-                            SizedBox(width: 3.0),
-                            const Text(
-                              'Like',
-                              style: TextStyle(
-                                fontSize: 11.0,
-                                color: JanguAskColors.primaryGreyColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 22.5,
-                    ),
-                    //comment
-                    GestureDetector(
-                      onTap: widget.onTap,
-                      child: Container(
-                        child: Row(
-                          children: const <Widget>[
-                            Icon(
-                              Icons.comment,
-                              size: 15.6,
+                              widget.category);
+                          isApplaud = false;
+                        }
+                      });
+                    },
+                    child: Container(
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            FontAwesomeIcons.heart,
+                            size: 18.8,
+                            color: isApplaud
+                                ? Colors.pink
+                                : JanguAskColors.primaryGreyColor,
+                          ),
+                          const SizedBox(width: 3.0),
+                          const Text(
+                            'Like',
+                            style: TextStyle(
+                              fontSize: 11.0,
                               color: JanguAskColors.primaryGreyColor,
                             ),
-                            SizedBox(width: 5.0),
-                            Text(
-                              'Comment',
-                              style: TextStyle(
-                                fontSize: 11.0,
-                                color: JanguAskColors.primaryGreyColor,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    width: 22.5,
+                  ),
+                  //comment
+                  GestureDetector(
+                    onTap: widget.onTapComment,
+                    child: Container(
+                      child: Row(
+                        children: const <Widget>[
+                          Icon(
+                            Icons.comment,
+                            size: 15.6,
+                            color: JanguAskColors.primaryGreyColor,
+                          ),
+                          SizedBox(width: 5.0),
+                          Text(
+                            'Comment',
+                            style: TextStyle(
+                              fontSize: 11.0,
+                              color: JanguAskColors.primaryGreyColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -357,6 +381,67 @@ class UserSearchTile extends StatelessWidget {
   }
 }
 
+class UserSearchFollow extends StatelessWidget {
+  const UserSearchFollow({
+    Key? key,
+    this.onTap,
+    this.userName,
+    this.country,
+    this.profileImage,
+    this.isFollowing = false,
+    this.onFollow,
+  }) : super(key: key);
+  final Function()? onTap, onFollow;
+  final String? userName;
+  final String? country;
+  final String? profileImage;
+  final bool? isFollowing;
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap,
+      leading: ProfilePicture(
+        image: CachedNetworkImageProvider(
+          profileImage ?? '',
+        ),
+        width: 40,
+        height: 40,
+      ),
+      title: Text((userName!)),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(country!),
+          const SizedBox(height: 5),
+          //Text(state!),
+        ],
+      ),
+      trailing: GestureDetector(
+        onTap: onFollow,
+        child: Container(
+          width: 86,
+          height: 33,
+          padding: const EdgeInsets.symmetric(horizontal: 13),
+          decoration: BoxDecoration(
+            color: (isFollowing!)
+                ? JanguAskColors.primaryColor
+                : JanguAskColors.kellyGreen,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Center(
+              child: Text(
+            (isFollowing!) ? 'Following' : 'Follow',
+            style: const TextStyle(
+              color: JanguAskColors.whiteColor,
+              fontSize: 12,
+            ),
+          )),
+        ),
+      ),
+    );
+  }
+}
+
 class DeleteEditPopUp extends StatelessWidget {
   const DeleteEditPopUp({
     Key? key,
@@ -364,9 +449,10 @@ class DeleteEditPopUp extends StatelessWidget {
     required this.edit,
     this.isEditable = false,
     this.isOwner = false,
+    required this.report,
   }) : super(key: key);
   final Function() delete;
-  final Function() edit;
+  final Function() edit, report;
   final bool isEditable, isOwner;
   @override
   Widget build(BuildContext context) {
@@ -378,15 +464,15 @@ class DeleteEditPopUp extends StatelessWidget {
                 PopupMenuItem(
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.delete,
                         size: 17,
                         color: JanguAskColors.primaryGreyColor,
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       GestureDetector(
                         onTap: delete,
-                        child: Text(
+                        child: const Text(
                           "Delete",
                           style: TextStyle(
                             color: JanguAskColors.brownishGrey,
@@ -404,15 +490,15 @@ class DeleteEditPopUp extends StatelessWidget {
                       PopupMenuItem(
                         child: Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.edit,
                               size: 17,
                               color: JanguAskColors.primaryGreyColor,
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             GestureDetector(
                               onTap: edit,
-                              child: Text(
+                              child: const Text(
                                 "Edit",
                                 style: TextStyle(
                                   color: JanguAskColors.brownishGrey,
@@ -427,9 +513,34 @@ class DeleteEditPopUp extends StatelessWidget {
                     )
                   : Container();
 
+              list.add(
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.report_outlined,
+                        size: 17,
+                        color: JanguAskColors.primaryGreyColor,
+                      ),
+                      const SizedBox(width: 8),
+                      GestureDetector(
+                        onTap: report,
+                        child: const Text(
+                          "Report Post",
+                          style: TextStyle(
+                            color: JanguAskColors.brownishGrey,
+                            fontSize: 17,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  value: 1,
+                ),
+              );
               return list;
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.more_horiz,
               size: 20,
               color: JanguAskColors.primaryGreyColor,

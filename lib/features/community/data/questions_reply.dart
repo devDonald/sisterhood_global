@@ -4,10 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
-import 'package:sisterhood_global/core/widgets/other_widgets.dart';
 import 'package:sisterhood_global/core/widgets/profile_picture.dart';
 import 'package:sisterhood_global/features/community/controller/firebase_api.dart';
 import 'package:sticky_grouped_list/sticky_grouped_list.dart';
+
+import '../../../core/widgets/other_widgets.dart';
 
 class QuestionReply extends StatefulWidget {
   QuestionReply({
@@ -56,8 +57,15 @@ class _QuestionReplyState extends State<QuestionReply> {
   void sendMessage() async {
     FocusScope.of(context).unfocus();
     try {
-      await FirebaseApi.uploadMessage(_currentUserImage, message, widget.postId,
-          widget.ownerId, _currentUserName, widget.ownerId);
+      await FirebaseApi.uploadMessage(
+          _currentUserImage,
+          message,
+          widget.postId,
+          widget.ownerId,
+          _currentUserName,
+          widget.ownerId,
+          widget.category,
+          widget.question);
     } catch (e) {
       Scaffold.of(context).showSnackBar(
         const SnackBar(
@@ -172,13 +180,13 @@ class _QuestionReplyState extends State<QuestionReply> {
                     }
                   },
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.orange,
                     ),
-                    margin: EdgeInsets.only(right: 10, left: 5),
-                    padding: EdgeInsets.all(4),
-                    child: Icon(
+                    margin: const EdgeInsets.only(right: 10, left: 5),
+                    padding: const EdgeInsets.all(4),
+                    child: const Icon(
                       Icons.send,
                       size: 20,
                       color: Colors.white,
@@ -203,294 +211,244 @@ class _QuestionReplyState extends State<QuestionReply> {
     }
 
     return Scaffold(
-      appBar: PreferredSize(
-        child: SafeArea(
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  blurRadius: 5,
-                  offset: Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                const SizedBox(height: 15),
-                Row(
-                  children: [
-                    Flexible(
-                        flex: 1,
-                        child: IconButton(
-                            icon: const Icon(Icons.arrow_back),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            })),
-                    const SizedBox(width: 15),
-                    const Text(
-                      'Communication',
-                      // maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        //subject
-                        Text(
-                          (widget.category != null) ? widget.category : '',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13.0,
-                          ),
-                        ), //level
-                      ],
-                    ),
-                    const Divider(
-                      height: 20,
-                      color: Colors.blueGrey,
-                    ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        //
-                        DeleteEditPopUp(
-                          delete: () async {
-                            await communityRef
-                                .doc(widget.postId)
-                                .delete()
-                                .then((value) {});
-                            Navigator.of(context).pop();
-                          },
-                          edit: () {},
-                          isEditable: false,
-                          isOwner: widget.isOwner, // widget.isOwner,
-                        )
-                      ],
-                    ), //title
-                    const SizedBox(height: 5.0),
-                    Container(
-                      padding: const EdgeInsets.only(
-                        right: 13.0,
-                      ),
-                      child: Center(
-                        child: Text(
-                          widget.question,
-                          maxLines: 4,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16.0,
-                            fontFamily: 'Nunito',
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 5.0),
-
-                    const Divider(
-                      height: 2,
-                      color: Colors.grey,
-                    ),
-                    const SizedBox(height: 5.0),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          //time
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              const Icon(
-                                Icons.timer,
-                                size: 14.6,
-                                color: Colors.grey,
-                              ),
-                              const SizedBox(width: 3.0),
-                              Text(
-                                widget.timeOfPost,
-                                style: const TextStyle(
-                                  fontSize: 11.0,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Divider(
-                      height: 20,
-                      color: Colors.blueGrey,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        GestureDetector(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              ProfilePicture(
-                                image: NetworkImage(
-                                  (widget.userPhoto != null)
-                                      ? widget.userPhoto
-                                      : '',
-                                ),
-                                width: 30.0,
-                                height: 29.5,
-                              ),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              SizedBox(
-                                width: 130,
-                                child: Text(
-                                  (widget.userName != null)
-                                      ? widget.userName
-                                      : '',
-                                  // maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.start,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 5.0),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        preferredSize: const Size.fromHeight(270),
+      appBar: AppBar(
+        backgroundColor: Colors.pink,
+        title: Text(widget.userName),
       ),
-      body: Container(
-        child: Stack(
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-            const Text(
-              'Responses',
-              // maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                color: Colors.pink,
-                fontWeight: FontWeight.bold,
-                fontSize: 18.0,
-              ),
-            ),
             Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: StreamBuilder<QuerySnapshot>(
-                      stream: communityRef
-                          .doc(widget.postId)
-                          .collection('comments')
-                          .orderBy('timestamp', descending: false)
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) return const Text("Loading...");
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    //subject
+                    Text(
+                      widget.category,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13.0,
+                      ),
+                    ), //level
+                  ],
+                ),
+                const Divider(
+                  height: 20,
+                  color: Colors.blueGrey,
+                ),
 
-                        return StickyGroupedListView<dynamic, String>(
-                          floatingHeader: true,
-                          scrollDirection: Axis.vertical,
-                          stickyHeaderBackgroundColor: Colors.orange,
-                          physics: const BouncingScrollPhysics(),
-                          elements: snapshot.data!.docs,
-                          groupBy: (element) => element['date'],
-                          itemScrollController: GroupedItemScrollController(),
-                          order: StickyGroupedListOrder.DESC,
-                          reverse: true,
-                          groupSeparatorBuilder: (dynamic element) => Container(
-                            height: 50,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                width: 120,
-                                decoration: BoxDecoration(
-                                  color: Colors.orange[300],
-                                  border: Border.all(
-                                    color: Colors.pinkAccent,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    //
+                    DeleteEditPopUp(
+                      delete: () async {
+                        await communityRef
+                            .doc(widget.postId)
+                            .delete()
+                            .then((value) {});
+                        Navigator.of(context).pop();
+                      },
+                      edit: () {},
+                      isEditable: false,
+                      isOwner: widget.isOwner,
+                      report: () {
+                        Navigator.of(context).pop();
+                      }, // widget.isOwner,
+                    )
+                  ],
+                ), //title
+                const SizedBox(height: 5.0),
+                Container(
+                  padding: const EdgeInsets.only(
+                    right: 13.0,
+                  ),
+                  child: Center(
+                    child: Text(
+                      widget.question,
+                      maxLines: 100,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
+                        fontFamily: 'Nunito',
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 5.0),
+
+                const Divider(
+                  height: 2,
+                  color: Colors.grey,
+                ),
+                const SizedBox(height: 5.0),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      //time
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          const Icon(
+                            Icons.timer,
+                            size: 14.6,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(width: 3.0),
+                          Text(
+                            widget.timeOfPost,
+                            style: const TextStyle(
+                              fontSize: 11.0,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const Divider(
+                  height: 20,
+                  color: Colors.blueGrey,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          ProfilePicture(
+                            image: NetworkImage(
+                              (widget.userPhoto != null)
+                                  ? widget.userPhoto
+                                  : '',
+                            ),
+                            width: 30.0,
+                            height: 29.5,
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          SizedBox(
+                            width: 130,
+                            child: Text(
+                              (widget.userName != null) ? widget.userName : '',
+                              // maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 5.0),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: communityRef
+                            .doc(widget.postId)
+                            .collection('comments')
+                            .orderBy('timestamp', descending: false)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData)
+                            return const Text("Loading...");
+
+                          return StickyGroupedListView<dynamic, String>(
+                            floatingHeader: true,
+                            scrollDirection: Axis.vertical,
+                            stickyHeaderBackgroundColor: Colors.orange,
+                            physics: const BouncingScrollPhysics(),
+                            elements: snapshot.data!.docs,
+                            groupBy: (element) => element['date'],
+                            itemScrollController: GroupedItemScrollController(),
+                            order: StickyGroupedListOrder.DESC,
+                            reverse: true,
+                            groupSeparatorBuilder: (dynamic element) =>
+                                Container(
+                              height: 50,
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  width: 120,
+                                  decoration: BoxDecoration(
+                                    color: Colors.orange[300],
+                                    border: Border.all(
+                                      color: Colors.pinkAccent,
+                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(20.0)),
                                   ),
-                                  borderRadius: BorderRadius.all(
-                                      const Radius.circular(20.0)),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    element['date'],
-                                    textAlign: TextAlign.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      element['date'],
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          itemBuilder: (c, element) {
-                            bool isOwner = false;
+                            itemBuilder: (c, element) {
+                              bool isOwner = false;
 
-                            if (_currentUserId == element['senderId']) {
-                              isOwner = true;
-                              print('senderId: $isOwner');
-                            } else {
-                              isOwner = false;
-                            }
+                              if (_currentUserId == element['senderId']) {
+                                isOwner = true;
+                                print('senderId: $isOwner');
+                              } else {
+                                isOwner = false;
+                              }
 
-                            return isOwner
-                                ? RecieverChatBox(
-                                    chatId: element['messageId'],
-                                    commentId: widget.postId,
-                                    receiverId: widget.postId,
-                                    messageContent: element['messageContent'],
-                                    timeOfMessage: element['time'],
-                                    recieverName: element['userName'],
-                                    recieverPhoto: element['photo'],
-                                  )
-                                : SenderChatBox(
-                                    messageContent: element['messageContent'],
-                                    senderName: element['userName'],
-                                    senderPhoto: element['photo'],
-                                    timeOfMessage: element['time'],
-                                  );
-                          },
-                        );
-                      }),
-                ),
-                //TextPart
-                Container(
-                  child: Column(
-                    children: [
-                      buildInput(),
-                    ],
+                              return isOwner
+                                  ? RecieverChatBox(
+                                      chatId: element['messageId'],
+                                      commentId: widget.postId,
+                                      receiverId: widget.postId,
+                                      messageContent: element['messageContent'],
+                                      timeOfMessage: element['time'],
+                                      recieverName: element['userName'],
+                                      recieverPhoto: element['photo'],
+                                    )
+                                  : SenderChatBox(
+                                      messageContent: element['messageContent'],
+                                      senderName: element['userName'],
+                                      senderPhoto: element['photo'],
+                                      timeOfMessage: element['time'],
+                                    );
+                            },
+                          );
+                        }),
                   ),
-                ),
-              ],
-            ),
+                  //TextPart
+                  Container(
+                    child: Column(
+                      children: [
+                        buildInput(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -511,11 +469,11 @@ class TextFeildButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.all(4.0),
+        margin: const EdgeInsets.all(4.0),
         child: Icon(
           icon,
           size: 19,
-          color: Color(0xff8e8e8e),
+          color: const Color(0xff8e8e8e),
         ),
       ),
     );
@@ -544,18 +502,18 @@ class RecieverChatBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         left: 70.5,
         right: 13.9,
         bottom: 10.5,
       ),
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         right: 11.5,
         left: 19.6,
         top: 5.5,
         bottom: 5.5,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white, //for now
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10.0),
@@ -575,7 +533,7 @@ class RecieverChatBox extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     '$timeOfMessage',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 9.0,
                       color: Colors.grey,
                     ),
@@ -644,10 +602,10 @@ class RecieverChatBox extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           Text(
             '$messageContent',
-            style: TextStyle(fontSize: 13.0),
+            style: const TextStyle(fontSize: 13.0),
           ),
         ],
       ),
@@ -668,19 +626,19 @@ class SenderChatBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         right: 70.5,
         left: 13.9,
         top: 10.0,
         bottom: 10.5,
       ),
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         right: 11.5,
         left: 19.6,
         top: 5.5,
         bottom: 5.5,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white, //for now
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(0.0),
@@ -703,10 +661,10 @@ class SenderChatBox extends StatelessWidget {
                     width: 30.0,
                     height: 29.5,
                   ),
-                  SizedBox(width: 10.0),
+                  const SizedBox(width: 10.0),
                   Text(
                     '$senderName',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 13.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -719,7 +677,7 @@ class SenderChatBox extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     '$timeOfMessage',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 9.0,
                       color: Colors.grey,
                     ),
@@ -728,10 +686,10 @@ class SenderChatBox extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           Text(
             '$messageContent',
-            style: TextStyle(fontSize: 13.0),
+            style: const TextStyle(fontSize: 13.0),
           ),
         ],
       ),
