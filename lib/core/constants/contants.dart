@@ -6,8 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final Future<FirebaseApp> initialization = Firebase.initializeApp();
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -361,3 +363,18 @@ Future download2(Dio dio, String url, String savePath) async {
     //print(e);
   }
 }
+
+Future<void> onOpen(LinkableElement link) async {
+  if (await canLaunch(link.url)) {
+    await launch(link.url);
+  } else {
+    throw 'Could not launch $link';
+  }
+}
+
+const style = TextStyle(
+  color: Colors.red,
+  fontSize: 16,
+  fontWeight: FontWeight.w500,
+  height: 1.375,
+);

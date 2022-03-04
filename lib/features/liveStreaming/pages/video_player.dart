@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:sisterhood_global/features/liveStreaming/data/video_list.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import '../../../core/widgets/linkify_widgets.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   //
@@ -101,38 +101,23 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               ],
             ),
             Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 5,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: SelectableLinkify(
-                  text: widget.videoItem.video!.title!,
-                  style: const TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black),
-                  linkStyle: TextStyle(color: Colors.blue),
-                  onOpen: onOpen,
-                )),
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 5,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: buildTextWithLinks(widget.videoItem.video!.title!),
+            ),
           ],
         ),
       ),
     );
-  }
-}
-
-Future<void> onOpen(LinkableElement link) async {
-  if (await canLaunch(link.url)) {
-    await launch(link.url);
-  } else {
-    throw 'Could not launch $link';
   }
 }

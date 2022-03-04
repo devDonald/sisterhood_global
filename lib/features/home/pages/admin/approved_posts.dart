@@ -5,21 +5,21 @@ import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:sisterhood_global/core/widgets/responsive_ui.dart';
 import 'package:sisterhood_global/features/community/data/post_body.dart';
 
-import '../../../core/constants/contants.dart';
-import '../../../core/widgets/other_widgets.dart';
-import '../../profile/pages/follow_user_screen.dart';
-import '../data/community_model.dart';
+import '../../../../core/constants/contants.dart';
+import '../../../../core/widgets/other_widgets.dart';
+import '../../../community/data/community_model.dart';
+import '../../../profile/pages/follow_user_screen.dart';
 
-class PinnedPosts extends StatefulWidget {
-  const PinnedPosts({
+class ApprovedPosts extends StatefulWidget {
+  const ApprovedPosts({
     Key? key,
   }) : super(key: key);
 
   @override
-  _PinnedPostsState createState() => _PinnedPostsState();
+  _ApprovedPostsState createState() => _ApprovedPostsState();
 }
 
-class _PinnedPostsState extends State<PinnedPosts> {
+class _ApprovedPostsState extends State<ApprovedPosts> {
   PaginateRefreshedChangeListener refreshChangeListener =
       PaginateRefreshedChangeListener();
   late double _height;
@@ -89,8 +89,8 @@ class _PinnedPostsState extends State<PinnedPosts> {
                   category: doc.category!,
                   question: doc.body!,
                   userName: _name,
-                  userPhoto: _pics,
                   isVerified: doc.isApproved!,
+                  userPhoto: _pics,
                   isOwner: doc.isOwner!,
                   ownerId: doc.ownerId!,
                   postId: doc.postId!,
@@ -139,7 +139,6 @@ class _PinnedPostsState extends State<PinnedPosts> {
           // orderBy is compulsary to enable pagination
           query: communityRef
               .where('isApproved', isEqualTo: true)
-              .where('isPinned', isEqualTo: true)
               .orderBy('timestamp', descending: true),
           isLive: true,
           listeners: [

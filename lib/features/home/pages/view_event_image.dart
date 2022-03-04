@@ -2,12 +2,12 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:share_extend/share_extend.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
-import 'package:sisterhood_global/features/liveStreaming/pages/video_player.dart';
+
+import '../../../core/widgets/linkify_widgets.dart';
 
 class ViewAttachedImage extends StatefulWidget {
   static const String id = 'ViewAttachedImage';
@@ -144,16 +144,7 @@ class _ViewAttachedImageState extends State<ViewAttachedImage> {
                       ),
                       width: deviceWidth,
                       color: Colors.black.withOpacity(0.15),
-                      child: SelectableLinkify(
-                        text: widget.text,
-                        maxLines: 4,
-                        style: const TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white),
-                        linkStyle: TextStyle(color: Colors.blue),
-                        onOpen: onOpen,
-                      ),
+                      child: buildTextWithLinks(widget.text),
                     ),
                   )
                 : Container(),

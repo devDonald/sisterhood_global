@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sisterhood_global/features/community/pages/pinned_posts.dart';
+import 'package:sisterhood_global/features/home/pages/admin/approved_posts.dart';
+import 'package:sisterhood_global/features/home/pages/admin/unpproved_posts.dart';
 
-import '../../../core/widgets/menu_drawer.dart';
-import 'create_contribution.dart';
+import '../../../community/pages/create_contribution.dart';
+import 'admin_pinned_posts.dart';
 
-class CommunityHome extends StatefulWidget {
+class AdminCommunityHome extends StatefulWidget {
   static const String id = 'Search';
 
-  CommunityHome({Key? key}) : super(key: key);
+  AdminCommunityHome({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return new _CommunityHomeState();
+    return new _AdminCommunityHomeState();
   }
 }
 
-class _CommunityHomeState extends State<CommunityHome>
+class _AdminCommunityHomeState extends State<AdminCommunityHome>
     with SingleTickerProviderStateMixin {
   TextEditingController searchController = TextEditingController();
   //FocusNode searchFocus = FocusNode();
   late TabController _tabController;
   static const List<Tab> commTabs = <Tab>[
-    Tab(text: 'Pinned Posts'),
-    Tab(text: 'Latest Posts'),
+    Tab(text: 'Approved'),
+    Tab(text: 'Unapproved'),
+    Tab(text: 'Pinned'),
   ];
   @override
   initState() {
@@ -46,18 +48,18 @@ class _CommunityHomeState extends State<CommunityHome>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text('Community'),
+          title: const Text('Community Post Verification'),
           backgroundColor: Colors.pink,
           bottom: TabBar(
             controller: _tabController,
             tabs: commTabs,
           )),
-      drawer: MenuDrawer(),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          const PinnedPosts(),
-          Container(),
+        children: const [
+          ApprovedPosts(),
+          UnApprovedPosts(),
+          AdminPinnedPosts()
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -68,11 +70,10 @@ class _CommunityHomeState extends State<CommunityHome>
         ),
         onPressed: () {
           Get.to(() => const CreateContribution(
-                isAdmin: false,
+                isAdmin: true,
               ));
         },
       ),
     );
   }
 }
-//TODO if we have to use tabs

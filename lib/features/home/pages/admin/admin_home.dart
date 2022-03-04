@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paginate_firestore/bloc/pagination_listeners.dart';
-import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/features/home/pages/admin/events_home.dart';
+import 'package:sisterhood_global/features/home/pages/admin/manage_community_post.dart';
 import 'package:sisterhood_global/features/home/pages/admin/youtube_notication.dart';
 
-import 'admin/all_users.dart';
+import 'all_users.dart';
 
 class AdminHome extends StatefulWidget {
   @override
@@ -22,39 +22,6 @@ class _AdminHomeState extends State<AdminHome> {
       PaginateRefreshedChangeListener();
 
   late String _uid;
-
-  void checkInGroup() async {
-    if (mounted == true) {
-      setState(() {
-        isLoading = true;
-      });
-    }
-    // final prefs = await SharedPreferences.getInstance();
-    //  = prefs.getString('uid');
-    print('uid $_uid');
-    try {
-      User? _currentUser = FirebaseAuth.instance.currentUser;
-      String authid = _currentUser!.uid;
-
-      usersRef.doc(authid).get().then((ds) {
-        if (ds.exists) {
-          if (mounted) {
-            setState(() {
-              isAdmin = ds.data()!['isAdmin'];
-              _uid = ds.data()!['userId'];
-            });
-          }
-        }
-      });
-      if (mounted == true) {
-        setState(() {
-          isLoading = false;
-        });
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
 
   @override
   void initState() {
@@ -105,6 +72,13 @@ class _AdminHomeState extends State<AdminHome> {
                 title: 'Manage Users',
                 onTap: () async {
                   Get.to(() => DisplayUsers());
+                },
+              ),
+              HomeCard(
+                icon: Icons.post_add,
+                title: 'Manage Posts',
+                onTap: () async {
+                  Get.to(() => AdminCommunityHome());
                 },
               ),
             ],

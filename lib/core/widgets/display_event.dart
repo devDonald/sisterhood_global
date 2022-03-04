@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:sisterhood_global/core/constants/usertag_linkify.dart';
+
+import '../constants/contants.dart';
 
 class ViewAttachedImage extends StatefulWidget {
   static const String id = 'ViewAttachedImage';
@@ -80,12 +83,17 @@ class _ViewAttachedImageState extends State<ViewAttachedImage> {
                       width: deviceWidth,
                       color: Colors.black.withOpacity(0.15),
                       child: SelectableLinkify(
+                        onOpen: onOpen,
+                        linkifiers: const [
+                          EmailLinkifier(),
+                          UrlLinkifier(),
+                          UserTagLinkifier(),
+                        ],
                         text: widget.text,
-                        maxLines: 4,
                         style: const TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w600,
-                            color: Colors.white),
+                            color: Colors.black87),
                         linkStyle: const TextStyle(color: Colors.blue),
                       ),
                     ),

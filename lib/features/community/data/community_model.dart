@@ -82,7 +82,7 @@ class CommunityModel {
       isOwner = true;
     }
 
-    if (imageLink != '' || imageLink != null) {
+    if (imageLink!.isNotEmpty) {
       withImage = true;
     }
   }

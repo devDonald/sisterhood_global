@@ -63,7 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
           headerSliverBuilder: (context, n) {
             return [
               SliverAppBar(
-                title: const Text('Home'),
                 elevation: 0,
                 floating: true,
                 pinned: false,

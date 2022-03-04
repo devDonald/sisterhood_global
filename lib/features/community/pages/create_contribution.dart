@@ -15,8 +15,9 @@ import 'package:sisterhood_global/features/community/data/community_model.dart';
 import '../../../core/widgets/add_photo_buttons.dart';
 
 class CreateContribution extends StatefulWidget {
+  final bool isAdmin;
   static const String id = 'CreateQuestion';
-  const CreateContribution({Key? key}) : super(key: key);
+  const CreateContribution({Key? key, required this.isAdmin}) : super(key: key);
 
   @override
   _CreateContributionState createState() => _CreateContributionState();
@@ -76,8 +77,8 @@ class _CreateContributionState extends State<CreateContribution> {
         imageLink: url ?? '',
         comments: {},
         likes: {},
-        isApproved: false,
-        isPinned: false,
+        isApproved: widget.isAdmin ? true : false,
+        isPinned: widget.isAdmin ? true : false,
         createdAt: createdAt,
         timestamp: timestamp,
       );

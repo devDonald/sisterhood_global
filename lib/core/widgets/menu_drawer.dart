@@ -9,7 +9,7 @@ import 'package:sisterhood_global/core/widgets/profile_picture.dart';
 import 'package:sisterhood_global/features/authentication/pages/login_screen.dart';
 import 'package:sisterhood_global/features/home/controller/drawer_controller.dart';
 import 'package:sisterhood_global/features/home/pages/about_us.dart';
-import 'package:sisterhood_global/features/home/pages/admin_home.dart';
+import 'package:sisterhood_global/features/home/pages/admin/admin_home.dart';
 import 'package:sisterhood_global/features/home/pages/contact_us.dart';
 import 'package:sisterhood_global/features/ngo/pages/ngo_page.dart';
 
