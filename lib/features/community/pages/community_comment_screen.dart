@@ -173,14 +173,14 @@ class _CommentScreenState extends State<CommentScreen> {
                         }
 
                         return isOwner
-                            ? RecieverChatBox(
+                            ? RecieverBox(
                                 commentId: element['messageId'],
                                 postId: widget.postId,
                                 receiverId: widget.postId,
                                 messageContent: element['messageContent'],
                                 timeOfMessage: element['time'],
                               )
-                            : SenderChatBox(
+                            : SenderBox(
                                 messageContent: element['messageContent'],
                                 senderName: element['userName'],
                                 senderPhoto: element['photo'],
@@ -299,10 +299,17 @@ class _CommentScreenState extends State<CommentScreen> {
                   await communityRef
                       .doc(widget.postId)
                       .delete()
-                      .then((value) {});
+                      .then((value) async {
+                    await usersRef
+                        .doc(widget.ownerId)
+                        .update({"posts": FieldValue.increment(-1)});
+                  });
                   Navigator.of(context).pop();
                 },
-                isOwner: widget.isOwner, edit: () {},
+                isOwner: widget.isOwner,
+                edit: () {
+                  Navigator.of(context).pop();
+                },
                 report: () {
                   Navigator.of(context).pop();
                 }, // widget.isOwner,

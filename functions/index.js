@@ -30,6 +30,18 @@ exports.cellCallStarted = functions.firestore
                       }`;
                       title = "New Community Activity";
                       break;
+                   case "Following":
+                     body = `${document.username} Started following you: ${
+                       document.commentData
+                     }`;
+                     title = "New Follower";
+                     break;
+                   case "Chat":
+                      body = `${document.username} : ${
+                       document.commentData
+                     }`;
+                     title = "New Private Chat";
+                     break;
                   case "Event":
                       body = `${document.username} posted an Event: ${
                         document.commentData

@@ -38,7 +38,7 @@ class AuthController extends GetxController {
   void handleAuthStateChanged(isLoggedIn) {
     if (isLoggedIn) {
       userModel.bindStream(listenToUser());
-      Get.offAll(() => const DashboardPage());
+      Get.offAll(() => DashboardPage());
     } else {
       Get.offAll(() => LoginScreen());
     }
@@ -132,11 +132,16 @@ class AuthController extends GetxController {
                 isAdmin: false,
                 followersList: {},
                 followingList: {},
+                marital: 'Married',
+                posts: 0,
                 phone: '',
+                bio: "I am new to sisterhood global App",
                 photo: result.user!.photoURL,
                 email: result.user!.email,
                 type: 'USER');
             _addUserToFirestore(model);
+          } else {
+            successToastMessage(msg: 'Welcome back');
           }
         });
         successToastMessage(msg: 'Login Successful');
