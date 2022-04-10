@@ -1,91 +1,42 @@
-import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dropdown/flutter_dropdown.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/core/widgets/primary_button.dart';
 import 'package:sisterhood_global/features/community/data/community_database.dart';
-import 'package:sisterhood_global/features/community/data/community_model.dart';
 
-import '../../../core/widgets/add_photo_buttons.dart';
+import '../../data/talk_model.dart';
 
-class CreateContribution extends StatefulWidget {
-  final bool isAdmin;
-  final String category;
-  static const String id = 'CreateQuestion';
-  const CreateContribution(
-      {Key? key, required this.isAdmin, required this.category})
-      : super(key: key);
+class PostTalkAdmin extends StatefulWidget {
+  static const String id = 'PostTalkAdmin';
+  const PostTalkAdmin({Key? key}) : super(key: key);
 
   @override
-  _CreateContributionState createState() => _CreateContributionState();
+  _PostTalkAdminState createState() => _PostTalkAdminState();
 }
 
-class _CreateContributionState extends State<CreateContribution> {
+class _PostTalkAdminState extends State<PostTalkAdmin> {
   String error = '';
-  String categoryOption = "";
   late ProgressDialog pr;
-  bool isPhotoAdded = false;
-  final _question = TextEditingController();
+  final _videoId = TextEditingController();
+  final _videoTitle = TextEditingController();
+
   final FocusNode focusNode = FocusNode();
 
-  clearPhoto() {
-    setState(() {
-      pickedImage = null;
-      isPhotoAdded = false;
-    });
-  }
-
-  File? pickedImage;
-  final _picker = ImagePicker();
-  getImageFile(ImageSource source) async {
-    //Clicking or Picking from Gallery
-
-    var image = await _picker.pickImage(source: source);
-
-    //Cropping the image
-
-    File? croppedFile = await ImageCropper().cropImage(
-      sourcePath: image!.path,
-      maxWidth: 512,
-      maxHeight: 512,
-    );
-
-    setState(() {
-      pickedImage = croppedFile;
-      isPhotoAdded = true;
-      //print(pickedImage!.lengthSync());
-    });
-  }
-
-  void _uploadEvent() async {
+  void _uploadTalk() async {
     try {
-      User? _currentUser = FirebaseAuth.instance.currentUser;
-      String uid = _currentUser!.uid;
-      String? url;
-
-      if (pickedImage != null) {
-        pr.show();
-        url = await CommunityDB().uploadFile(pickedImage!);
-      }
-      final CommunityModel model = CommunityModel(
-        body: _question.text.trim(),
-        category: categoryOption,
-        ownerId: uid,
-        imageLink: url ?? '',
+      pr.show();
+      final TalkModel model = TalkModel(
+        videoId: _videoId.text.trim(),
+        videoTitle: _videoTitle.text.trim(),
         comments: {},
         likes: {},
-        isApproved: widget.isAdmin ? true : false,
-        isPinned: widget.isAdmin ? true : false,
+        isApproved: true,
+        isLive: true,
         createdAt: createdAt,
         timestamp: timestamp,
       );
-      await CommunityDB.addContemplation(model);
+      await CommunityDB.addTalk(model);
 
       pr.hide();
       Navigator.of(context).pop();
@@ -101,15 +52,15 @@ class _CreateContributionState extends State<CreateContribution> {
   @override
   Widget build(BuildContext context) {
     pr = ProgressDialog(context);
-    pr.style(message: 'Please wait, sending post');
+    pr.style(message: 'Please wait, Posting Talk Link');
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: JanguAskColors.primaryColor,
+        backgroundColor: ThemeColors.primaryColor,
         elevation: 3.0,
         titleSpacing: -3.0,
         title: const Text(
-          'Contribute to Community',
+          'Let\'s Talk About it Video',
           style: TextStyle(
               color: Colors.white,
               fontSize: 18.0,
@@ -136,27 +87,8 @@ class _CreateContributionState extends State<CreateContribution> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
-                children: [
-                  const Icon(Icons.people_outline_sharp),
-                  const SizedBox(width: 8),
-                  DropDown(
-                    showUnderline: true,
-                    initialValue: widget.category,
-                    items: questionCategory,
-                    hint: const Text("Select Category"),
-                    icon: const Icon(
-                      Icons.expand_more,
-                      color: Colors.pink,
-                    ),
-                    onChanged: (String? value) {
-                      categoryOption = value!;
-                    },
-                  ),
-                ],
-              ),
               const SizedBox(height: 16.5),
-              const PostLabel(label: 'Post Something'),
+              const PostLabel(label: 'Video Title'),
               const SizedBox(height: 9.5),
               TextField(
                 textInputAction: TextInputAction.newline,
@@ -167,45 +99,36 @@ class _CreateContributionState extends State<CreateContribution> {
                 focusNode: focusNode,
                 style: const TextStyle(color: Colors.blueGrey, fontSize: 15.0),
                 minLines: 1,
-                maxLines: 10, //fix
-                controller: _question,
+                maxLines: 2, //fix
+                controller: _videoTitle,
+              ),
+              const SizedBox(height: 16.5),
+              const PostLabel(label: 'Video ID'),
+              const SizedBox(height: 9.5),
+              TextField(
+                textInputAction: TextInputAction.newline,
+                keyboardType: TextInputType.multiline,
+                textCapitalization: TextCapitalization.sentences,
+                enableSuggestions: true,
+                style: const TextStyle(color: Colors.blueGrey, fontSize: 15.0),
+                minLines: 1,
+                maxLines: 2, //fix
+                controller: _videoId,
               ),
               Align(
                 alignment: Alignment.bottomRight,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    AddPhotoWidget(
-                      onClearTap: () {
-                        clearPhoto();
-                      },
-                      isPhotoAdded: isPhotoAdded,
-                      onAddImageTap: () async {
-                        getImageFile(
-                          ImageSource.gallery,
-                        );
-                      },
-                      fileImage: pickedImage == null
-                          ? Container()
-                          : Image.file(
-                              pickedImage!,
-                            ),
-                    ),
-                    const SizedBox(width: 20),
-                    PrimaryButton(
-                      width: 81.5,
-                      height: 36.5,
-                      blurRadius: 3.0,
-                      roundedEdge: 5.0,
-                      color: Colors.pink,
-                      buttonTitle: 'Post',
-                      onTap: () {
-                        if (validateQuestion(_question.text, categoryOption)) {
-                          _uploadEvent();
-                        }
-                      },
-                    ),
-                  ],
+                child: PrimaryButton(
+                  width: 81.5,
+                  height: 36.5,
+                  blurRadius: 3.0,
+                  roundedEdge: 5.0,
+                  color: Colors.pink,
+                  buttonTitle: 'Post Talk',
+                  onTap: () {
+                    if (validateTalk(_videoTitle.text, _videoId.text)) {
+                      _uploadTalk();
+                    }
+                  },
                 ),
               ),
             ],

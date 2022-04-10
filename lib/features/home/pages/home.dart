@@ -1,8 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:sisterhood_global/core/widgets/menu_drawer.dart';
+import 'package:get/get.dart';
 import 'package:sisterhood_global/features/home/pages/home_events.dart';
+import 'package:sisterhood_global/features/liveStreaming/pages/videos.dart';
 import 'package:sisterhood_global/features/liveStreaming/pages/youtube_live.dart';
+import 'package:sisterhood_global/features/profile/pages/my_profile.dart';
+import 'package:sisterhood_global/features/search/pages/sisterhood_users_search.dart';
+
+import 'admin/admin_home.dart';
 
 // import 'package:standart/features/store/data/models/store_model.dart';
 // import 'package:standart/features/store/presentation/bloc/store_bloc.dart';
@@ -10,7 +16,7 @@ import 'package:sisterhood_global/features/liveStreaming/pages/youtube_live.dart
 class HomeScreen extends StatefulWidget {
   static const routeName = "home";
 
-  HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -57,7 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      drawer: MenuDrawer(),
       body: SafeArea(
         child: NestedScrollView(
           headerSliverBuilder: (context, n) {
@@ -128,20 +133,55 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       )),
                 ),
-                leading: InkWell(
-                  onTap: () {
-                    _scaffoldKey!.currentState!.openDrawer();
-                  },
-                  child: const Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                  ),
-                ),
                 centerTitle: true,
               ),
             ];
           },
-          body: const HomeEvents(),
+          body: ListView(
+            physics: const BouncingScrollPhysics(),
+            shrinkWrap: true,
+            children: [
+              Row(
+                children: [
+                  HomeCard1(
+                    icon: Icons.event_available,
+                    title: 'Events',
+                    onTap: () {
+                      Get.to(() => const HomeEvents());
+                    },
+                  ),
+                  HomeCard1(
+                    icon: Icons.video_collection_sharp,
+                    title: 'Videos',
+                    onTap: () {
+                      Get.to(() => const Videos());
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
+                children: [
+                  HomeCard1(
+                    icon: Icons.person,
+                    title: 'My Profile',
+                    onTap: () {
+                      Get.to(() => ProfilePage());
+                    },
+                  ),
+                  HomeCard1(
+                    icon: Icons.search_outlined,
+                    title: 'Search Users',
+                    onTap: () {
+                      Get.to(() => const PeopleSearch());
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

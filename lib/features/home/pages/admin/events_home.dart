@@ -20,13 +20,12 @@ class _EventHomeState extends State<EventHome> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 3.0,
-        backgroundColor: Colors.pink,
-        title: const Text('All Events',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-            )),
+        title: Text(
+          'All Events',
+          style: Theme.of(context).textTheme.headline5,
+        ),
+        iconTheme: const IconThemeData(color: Colors.black, size: 35),
+        backgroundColor: ThemeColors.whiteColor,
         titleSpacing: -5.0,
       ),
       body: Container(
@@ -62,7 +61,7 @@ class _EventHomeState extends State<EventHome> {
             }),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.pink,
+        backgroundColor: ThemeColors.blackColor1,
         child: const Icon(
           Icons.add,
           color: Colors.white,
@@ -94,7 +93,7 @@ class EventList extends StatelessWidget {
       child: ListTile(
         leading: const Icon(
           Icons.event_note,
-          color: Colors.pink,
+          color: ThemeColors.blackColor1,
         ),
         title: Text(
           eventTitle,
@@ -110,7 +109,7 @@ class EventList extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
-            color: JanguAskColors.primaryGreyColor,
+            color: ThemeColors.primaryGreyColor,
             fontSize: 13.5,
           ),
         ),

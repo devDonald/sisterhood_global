@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
+import 'package:sisterhood_global/core/widgets/app_bar_icon_button.dart';
 import 'package:sisterhood_global/features/profile/pages/follow_user_screen.dart';
 
 import '../../../core/model/app_users_model.dart';
 import '../../../core/themes/theme_colors.dart';
-import '../../../core/widgets/menu_drawer.dart';
 import '../../../core/widgets/other_widgets.dart';
 import '../../profile/controller/follow_user_controller.dart';
 
@@ -27,6 +27,37 @@ class _PeopleSearchState extends State<PeopleSearch> {
   String filter = '';
   TextEditingController searchController = TextEditingController();
   FocusNode searchFocus = FocusNode();
+  bool searchBar = false;
+
+  PreferredSizeWidget buildSearchAppBar() {
+    setState(() {
+      searchBar = true;
+    });
+    return AppBar(
+      backgroundColor: ThemeColors.primaryColor,
+      leading: GestureDetector(
+        onTap: () {
+          setState(() {
+            searchBar = false;
+          });
+        },
+        child: const Icon(Icons.arrow_back),
+      ),
+      title: TextField(
+        controller: searchController,
+        decoration: InputDecoration(
+          hintStyle: const TextStyle(color: Colors.white),
+          hintText: 'Search Users',
+          suffixIcon: GestureDetector(
+            onTap: () {
+              searchController.clear();
+            },
+            child: const Icon(Icons.close),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   initState() {
@@ -42,73 +73,35 @@ class _PeopleSearchState extends State<PeopleSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: MenuDrawer(),
-      appBar: PreferredSize(
-        child: SafeArea(
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: const BoxDecoration(
-              color: JanguAskColors.whiteColor,
-              boxShadow: [
-                BoxShadow(
-                  color: JanguAskColors.shadowColor,
-                  blurRadius: 5,
-                  offset: Offset(0, 4),
+      appBar: searchBar
+          ? buildSearchAppBar()
+          : AppBar(
+              backgroundColor: ThemeColors.whiteColor,
+              title: Text(
+                'Follow Users',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              iconTheme: const IconThemeData(color: Colors.black, size: 35),
+              titleSpacing: -5,
+              actions: [
+                AppBarButtonIcon(
+                  icon: const Icon(Icons.search),
+                  onTap: () {
+                    buildSearchAppBar();
+                  },
                 ),
               ],
+              // elevation: 2.0,
             ),
-            child: Column(
-              children: [
-                const SizedBox(height: 15),
-                Row(
-                  children: [
-                    Flexible(
-                      flex: 10,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: JanguAskColors.whiteColor, //5
-                        ),
-                        child: TextFormField(
-                          style: const TextStyle(fontSize: 20),
-                          textCapitalization: TextCapitalization.sentences,
-                          focusNode: searchFocus,
-                          controller: searchController,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.search,
-                                color: JanguAskColors.primaryGreyColor),
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                searchController.clear();
-                              },
-                              child: const Icon(Icons.close,
-                                  color: JanguAskColors.primaryGreyColor),
-                            ),
-                            border: InputBorder.none,
-                            hintText: 'Search for People',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 15),
-              ],
-            ),
-          ),
-        ),
-        preferredSize: const Size.fromHeight(100),
-      ),
       body: Container(
         width: double.infinity,
         margin: const EdgeInsets.all(15),
         decoration: BoxDecoration(
-          color: JanguAskColors.whiteColor,
+          color: ThemeColors.whiteColor,
           borderRadius: BorderRadius.circular(10),
           boxShadow: const [
             BoxShadow(
-              color: JanguAskColors.shadowColor,
+              color: ThemeColors.shadowColor,
               blurRadius: 5,
               offset: Offset(0, 2.5),
             ),
@@ -125,7 +118,7 @@ class _PeopleSearchState extends State<PeopleSearch> {
                 return filter == ""
                     ? UserSearchFollow(
                         isFollowing: _users.isFollowing,
-                        userName: _users.name,
+                        userName: _users.name!.toUpperCase(),
                         country: _users.country,
                         profileImage: _users.photo,
                         onTap: () {

@@ -20,7 +20,7 @@ class FlatPrimaryButton extends StatelessWidget {
         text: TextSpan(
           text: (info != null) ? info : '',
           style: const TextStyle(
-            color: JanguAskColors.blackColor1,
+            color: ThemeColors.blackColor1,
             fontFamily: JanguAskFontFamily.primaryFontNunito,
             fontSize: 15.0,
           ),
@@ -28,7 +28,7 @@ class FlatPrimaryButton extends StatelessWidget {
             TextSpan(
               text: (title != null) ? title : '',
               style: const TextStyle(
-                color: JanguAskColors.primaryColor,
+                color: ThemeColors.primaryColor,
                 fontFamily: JanguAskFontFamily.primaryFontNunito,
                 fontSize: 15.0,
               ),

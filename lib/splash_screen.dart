@@ -47,7 +47,7 @@ class SplashScreenState extends State<SplashScreen> {
   route() async {
     bool isLoggedIn = await getUserLoginStatus();
     isLoggedIn
-        ? Get.offAll(() => const DashboardPage())
+        ? Get.offAll(() => DashboardPage())
         : Get.offAll(() => LoginScreen());
   }
 

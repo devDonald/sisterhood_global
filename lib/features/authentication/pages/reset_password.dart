@@ -19,9 +19,13 @@ class _ResetPasswordState extends State<ResetPassword> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        backgroundColor: Colors.pink,
-        title: const Text('Password Reset'),
-      ),
+          backgroundColor: ThemeColors.whiteColor,
+          title: Text(
+            'Password Reset',
+            style: Theme.of(context).textTheme.headline5,
+          ),
+          iconTheme:
+              const IconThemeData(color: ThemeColors.blackColor1, size: 35)),
       body: ListView(
         children: <Widget>[
           const SizedBox(
@@ -44,13 +48,13 @@ class _ResetPasswordState extends State<ResetPassword> {
                 Container(
                   // padding: EdgeInsets.symmetric(horizontal: 15),
                   decoration: BoxDecoration(
-                    color: JanguAskColors.whiteColor,
+                    color: ThemeColors.whiteColor,
                     borderRadius: BorderRadius.circular(2.5),
                     boxShadow: const [
                       BoxShadow(
                         blurRadius: 7.5,
                         offset: Offset(0.0, 2.5),
-                        color: JanguAskColors.shadowColor,
+                        color: ThemeColors.shadowColor,
                       )
                     ],
                   ),
@@ -77,8 +81,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                   height: 40.0,
                   child: Material(
                     borderRadius: BorderRadius.circular(20.0),
-                    shadowColor: Colors.pinkAccent,
-                    color: Colors.pink,
+                    shadowColor: Colors.black54,
+                    color: Colors.black,
                     elevation: 7.0,
                     child: GestureDetector(
                         onTap: () async {

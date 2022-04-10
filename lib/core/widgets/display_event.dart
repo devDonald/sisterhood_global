@@ -63,7 +63,7 @@ class _ViewAttachedImageState extends State<ViewAttachedImage> {
                     ),
                     child: const Icon(
                       Icons.clear,
-                      color: Colors.black,
+                      color: Colors.white,
                       size: 30.0,
                     ),
                   ),

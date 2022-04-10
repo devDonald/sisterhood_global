@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/model/app_users_model.dart';
 import 'package:sisterhood_global/core/widgets/other_widgets.dart';
+
+import '../../../profile/pages/follow_user_screen.dart';
 
 class DisplayUsers extends StatefulWidget {
   DisplayUsers({Key? key}) : super(key: key);
@@ -65,11 +68,11 @@ class _DisplayUsersState extends State<DisplayUsers> {
                       Flexible(
                           flex: 2,
                           child: IconButton(
-                              icon: Icon(Icons.arrow_back),
+                              icon: const Icon(Icons.arrow_back),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               })),
-                      Flexible(
+                      const Flexible(
                         flex: 8,
                         child: Text(
                           'All Members',
@@ -82,24 +85,25 @@ class _DisplayUsersState extends State<DisplayUsers> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.white, //5
                     ),
                     child: TextFormField(
-                      style: TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 20),
                       textCapitalization: TextCapitalization.sentences,
                       focusNode: searchFocus,
                       controller: searchController,
                       decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.search, color: Colors.grey),
+                        prefixIcon:
+                            const Icon(Icons.search, color: Colors.grey),
                         suffixIcon: GestureDetector(
                           onTap: () {
                             searchController.clear();
                           },
-                          child: Icon(Icons.close, color: Colors.red),
+                          child: const Icon(Icons.close, color: Colors.red),
                         ),
                         border: InputBorder.none,
                         hintText: 'Search by Name',
@@ -110,15 +114,15 @@ class _DisplayUsersState extends State<DisplayUsers> {
               ),
             ),
           ),
-          preferredSize: Size.fromHeight(115),
+          preferredSize: const Size.fromHeight(115),
         ),
         body: Container(
           width: double.infinity,
-          margin: EdgeInsets.all(15),
+          margin: const EdgeInsets.all(15),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Colors.black26,
                 blurRadius: 5,
@@ -129,31 +133,33 @@ class _DisplayUsersState extends State<DisplayUsers> {
           child: RefreshIndicator(
             child: PaginateFirestore(
               shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               itemsPerPage: 50,
               itemBuilder: (context, snapshot, index) {
-                UserModel _users = UserModel.fromSnapshot(snapshot.single);
-                if (!_users.isAdmin!) {
-                  return filter == ""
-                      ? UserSearchTile(
-                          userName: _users.name!,
-                          profileImage: _users.photo!,
-                          onTap: () {},
-                          country: _users.country!,
-                        )
-                      : '${_users.name}'
-                              .toLowerCase()
-                              .contains(filter.toLowerCase())
-                          ? UserSearchTile(
-                              country: _users.country!,
-                              userName: _users.name!,
-                              profileImage: _users.photo!,
-                              onTap: () {},
-                            )
-                          : new Container();
-                } else {
-                  return new Container();
-                }
+                UserModel _users = UserModel.fromSnapshot(snapshot[index]);
+                return filter == ""
+                    ? UserSearchTile(
+                        userName: _users.name!,
+                        profileImage: _users.photo!,
+                        onTap: () {
+                          Get.to(() => FollowUserScreen(
+                              name: _users.name!, userId: _users.userId!));
+                        },
+                        country: _users.country!,
+                      )
+                    : '${_users.name}'
+                            .toLowerCase()
+                            .contains(filter.toLowerCase())
+                        ? UserSearchTile(
+                            country: _users.country!,
+                            userName: _users.name!,
+                            profileImage: _users.photo!,
+                            onTap: () {
+                              Get.to(() => FollowUserScreen(
+                                  name: _users.name!, userId: _users.userId!));
+                            },
+                          )
+                        : Container();
               },
               // orderBy is compulsary to enable pagination
               query: usersRef.orderBy('name', descending: false),

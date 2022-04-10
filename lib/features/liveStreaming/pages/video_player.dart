@@ -1,36 +1,41 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:sisterhood_global/features/liveStreaming/data/video_list.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../../../core/widgets/linkify_widgets.dart';
+import '../../../core/themes/theme_colors.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
+  final String videoID, videoTitle;
   //
-  VideoPlayerScreen({required this.videoItem});
-  final VideoItem videoItem;
+  VideoPlayerScreen({required this.videoID, required this.videoTitle});
 
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
 }
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
-  //
   late YoutubePlayerController _controller;
   late bool _isPlayerReady;
   int progress = 0;
 
+  FocusNode textFeildFocus = FocusNode();
+
+  TextEditingController comment = TextEditingController();
+
+  bool isGetUsers = false, isGetImageType = false;
+
   @override
   void initState() {
-    print('videoLink ${widget.videoItem}');
     super.initState();
     _isPlayerReady = false;
     _controller = YoutubePlayerController(
-      initialVideoId: widget.videoItem.video!.resourceId!.videoId!,
+      initialVideoId: widget.videoID,
       flags: const YoutubePlayerFlags(
         mute: false,
+        enableCaption: false,
         autoPlay: true,
+        isLive: false,
       ),
     )..addListener(_listener);
   }
@@ -53,71 +58,84 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     super.dispose();
   }
 
-  @override
+  @override //landingDataController
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: Text(widget.videoItem.video!.title!),
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: _controller,
+        liveUIColor: Colors.red,
+        onReady: () {
+          _isPlayerReady = true;
+        },
       ),
-      body: Container(
-        child: ListView(
-          children: [
-            Stack(
+      builder: (context, player) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: ThemeColors.primaryColor,
+            elevation: 3.0,
+            titleSpacing: -3.0,
+            title: const Text(
+              'Let\'s Talk About it',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Montserrat'),
+            ),
+          ),
+          backgroundColor: const Color(0xFF282828),
+          body: SafeArea(
+            child: Column(
               children: [
-                YoutubePlayer(
-                  controller: _controller,
-                  showVideoProgressIndicator: true,
-                  onReady: () {
-                    print('Player is ready.');
-                    _isPlayerReady = true;
-                  },
+                player,
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10, right: 10, left: 10),
+                          child: Column(
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width - 80,
+                                    child: Text(
+                                      widget.videoTitle,
+                                      maxLines: 3,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        height: 1.3,
+                                      ),
+                                    ),
+                                  ),
+                                  // Icon(
+                                  //   Icons.keyboard_arrow_down,
+                                  //   color: Colors.white,
+                                  //   size: 30,
+                                  // ),
+                                ],
+                              ),
+                              const SizedBox(height: 5),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                // IconButton(
-                //   icon: Icon(
-                //     Icons.download_rounded,
-                //     size: 40,
-                //     color: Colors.green,
-                //   ),
-                //   onPressed: () async {
-                //     final status = await Permission.storage.request();
-                //
-                //     if (status.isGranted) {
-                //       final externalDir = await getExternalStorageDirectory();
-                //
-                //       String id = await FlutterDownloader.enqueue(
-                //         url:
-                //             "https://firebasestorage.googleapis.com/v0/b/jangu-98ad9.appspot.com/o/icons%2F2019?alt=media&token=988199c1-3e18-42be-a155-0d3ba4a5e54e",
-                //         savedDir: externalDir.path,
-                //         fileName: "${widget.videoItem.video.title}",
-                //         showNotification: true,
-                //         openFileFromNotification: true,
-                //       );
-                //     } else {
-                //       print("Permission deined");
-                //     }
-                //   },
-                // )
               ],
             ),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 5,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: buildTextWithLinks(widget.videoItem.video!.title!),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

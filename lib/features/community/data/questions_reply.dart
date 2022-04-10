@@ -6,8 +6,8 @@ import 'package:sisterhood_global/core/widgets/other_widgets.dart';
 import '../../../core/constants/contants.dart';
 import '../../../core/widgets/profile_picture.dart';
 
-class RecieverChatBox extends StatelessWidget {
-  const RecieverChatBox({
+class RecieverBox extends StatelessWidget {
+  const RecieverBox({
     Key? key,
     required this.timeOfMessage,
     required this.messageContent,
@@ -85,8 +85,8 @@ class RecieverChatBox extends StatelessWidget {
   }
 }
 
-class SenderChatBox extends StatelessWidget {
-  SenderChatBox({
+class SenderBox extends StatelessWidget {
+  SenderBox({
     Key? key,
     required this.senderName,
     required this.senderPhoto,

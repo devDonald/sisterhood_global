@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sisterhood_global/features/home/pages/admin/approved_posts.dart';
 import 'package:sisterhood_global/features/home/pages/admin/unpproved_posts.dart';
+import 'package:sisterhood_global/features/notification/notification_type.dart';
 
+import '../../../../core/themes/theme_colors.dart';
 import '../../../community/pages/create_contribution.dart';
 import 'admin_pinned_posts.dart';
 
@@ -24,7 +26,7 @@ class _AdminCommunityHomeState extends State<AdminCommunityHome>
   late TabController _tabController;
   static const List<Tab> commTabs = <Tab>[
     Tab(text: 'Approved'),
-    Tab(text: 'Unapproved'),
+    Tab(text: 'New Posts'),
     Tab(text: 'Pinned'),
   ];
   @override
@@ -48,8 +50,13 @@ class _AdminCommunityHomeState extends State<AdminCommunityHome>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text('Community Post Verification'),
-          backgroundColor: Colors.pink,
+          backgroundColor: ThemeColors.whiteColor,
+          title: Text(
+            'Community Post Verification',
+            style: Theme.of(context).textTheme.headline5,
+          ),
+          iconTheme:
+              const IconThemeData(color: ThemeColors.blackColor1, size: 35),
           bottom: TabBar(
             controller: _tabController,
             tabs: commTabs,
@@ -63,14 +70,15 @@ class _AdminCommunityHomeState extends State<AdminCommunityHome>
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.pink,
+        backgroundColor: ThemeColors.blackColor1,
         child: const Icon(
           Icons.add,
-          color: Colors.white,
+          color: ThemeColors.whiteColor,
         ),
         onPressed: () {
           Get.to(() => const CreateContribution(
                 isAdmin: true,
+                category: PostType.community,
               ));
         },
       ),

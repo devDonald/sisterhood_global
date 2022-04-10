@@ -19,7 +19,7 @@ class FlatSecondaryButton extends StatelessWidget {
       child: Text(
         (title != null) ? title : '',
         style: TextStyle(
-          color: (color != null) ? color : JanguAskColors.primaryColor,
+          color: (color != null) ? color : ThemeColors.primaryColor,
           fontWeight: JanguAskFontWeight.kBoldText,
           fontSize: 15.0,
         ),

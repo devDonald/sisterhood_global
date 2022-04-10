@@ -7,6 +7,7 @@ import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/core/themes/theme_text.dart';
 import 'package:sisterhood_global/core/widgets/profile_picture.dart';
 import 'package:sisterhood_global/features/community/data/community_database.dart';
+import 'package:sisterhood_global/features/community/pages/report_user.dart';
 
 import '../../features/home/pages/view_event_image.dart';
 import 'linkify_text_widget.dart';
@@ -112,13 +113,13 @@ class _QuestionCardState extends State<QuestionCard> {
         12.2,
       ),
       decoration: BoxDecoration(
-        color: JanguAskColors.whiteColor,
+        color: ThemeColors.whiteColor,
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: const [
           BoxShadow(
             offset: Offset(0.0, 1.5),
             blurRadius: 3.0,
-            color: JanguAskColors.primaryColor,
+            color: ThemeColors.primaryColor,
           ),
         ],
       ),
@@ -135,7 +136,7 @@ class _QuestionCardState extends State<QuestionCard> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     ProfilePicture(
-                      image: NetworkImage(
+                      image: CachedNetworkImageProvider(
                         widget.userPhoto,
                       ),
                       width: 30.0,
@@ -148,7 +149,7 @@ class _QuestionCardState extends State<QuestionCard> {
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.end,
                       style: const TextStyle(
-                        color: JanguAskColors.primaryGreyColor,
+                        color: ThemeColors.primaryGreyColor,
                         fontWeight: JanguAskFontWeight.kBoldText,
                         fontSize: 12.0,
                         fontFamily: JanguAskFontFamily.secondaryFontLato,
@@ -160,24 +161,155 @@ class _QuestionCardState extends State<QuestionCard> {
               ),
               widget.isAdmin
                   ? AdminPopUp(
-                      deleteTap: () {},
+                      deleteTap: () async {
+                        Get.defaultDialog(
+                          title: 'Delete Post',
+                          middleText: 'Do you want to delete this post?',
+                          barrierDismissible: false,
+                          radius: 25,
+                          cancel: ElevatedButton(
+                              style:
+                                  ElevatedButton.styleFrom(primary: Colors.red),
+                              onPressed: () {
+                                Get.back();
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                'Cancel',
+                              )),
+                          confirm: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.green),
+                              onPressed: () async {
+                                await communityRef
+                                    .doc(widget.postId)
+                                    .delete()
+                                    .then((value) {
+                                  successToastMessage(
+                                      msg: 'Post Deleted Successfully');
+                                });
+                                Get.back();
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Confirm')),
+                        );
+                      },
                       editTap: () {},
-                      pinTap: () {},
+                      pinTap: () async {
+                        Get.defaultDialog(
+                          title: widget.isPinned ? 'Unpin Post' : 'Pin Post',
+                          middleText: widget.isPinned
+                              ? 'Do you want to Unpin this post?'
+                              : 'Do you want to Pin this post?',
+                          barrierDismissible: true,
+                          radius: 25,
+                          cancel: ElevatedButton(
+                              style:
+                                  ElevatedButton.styleFrom(primary: Colors.red),
+                              onPressed: () {
+                                Get.back();
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                'Cancel',
+                              )),
+                          confirm: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.green),
+                              onPressed: () async {
+                                await communityRef.doc(widget.postId).update({
+                                  "isPinned": widget.isPinned ? false : true
+                                });
+                                successToastMessage(
+                                    msg: widget.isPinned
+                                        ? 'post unpinned'
+                                        : 'post pinned');
+                                Get.back();
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Confirm')),
+                        );
+                      },
                       isOwner: true,
                       isPinned: widget.isPinned,
                       isApproved: widget.isVerified,
-                      approveTap: () {})
+                      approveTap: () async {
+                        Get.defaultDialog(
+                          title: widget.isVerified
+                              ? 'UnApprove Post'
+                              : 'Approve Post',
+                          middleText: widget.isVerified
+                              ? 'Do you want to UnApprove this post?'
+                              : 'Do you want to Approve this post?',
+                          barrierDismissible: true,
+                          radius: 25,
+                          cancel: ElevatedButton(
+                              style:
+                                  ElevatedButton.styleFrom(primary: Colors.red),
+                              onPressed: () {
+                                Get.back();
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                'Cancel',
+                              )),
+                          confirm: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.green),
+                              onPressed: () async {
+                                await communityRef.doc(widget.postId).update({
+                                  "isApproved": widget.isVerified ? false : true
+                                });
+                                successToastMessage(
+                                    msg: widget.isVerified
+                                        ? 'post unapproved'
+                                        : 'post approved');
+                                Get.back();
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Confirm')),
+                        );
+                      })
                   : DeleteEditPopUp(
                       delete: () async {
-                        await communityRef
-                            .doc(widget.postId)
-                            .delete()
-                            .then((value) {});
-                        Navigator.of(context).pop();
+                        Get.defaultDialog(
+                          title: 'Delete Post',
+                          middleText: 'Do you want to delete this post?',
+                          barrierDismissible: false,
+                          radius: 25,
+                          cancel: ElevatedButton(
+                              style:
+                                  ElevatedButton.styleFrom(primary: Colors.red),
+                              onPressed: () {
+                                Get.back();
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                'Cancel',
+                              )),
+                          confirm: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.green),
+                              onPressed: () async {
+                                await communityRef
+                                    .doc(widget.postId)
+                                    .delete()
+                                    .then((value) {});
+                                successToastMessage(
+                                    msg: 'Post Deleted Successfully');
+                                Get.back();
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Confirm')),
+                        );
+                        //Navigator.of(context).pop();
                       },
                       isOwner: widget.isOwner, edit: () {},
                       report: () {
-                        Navigator.of(context).pop();
+                        Get.to(() => ReportPost(
+                            ownerId: widget.ownerId,
+                            postId: widget.postId,
+                            ownerName: widget.userName));
                       }, // widget.isOwner,
                     )
               //level
@@ -186,7 +318,7 @@ class _QuestionCardState extends State<QuestionCard> {
 
           const Divider(
             height: 20,
-            color: JanguAskColors.pinkishGreyColor,
+            color: ThemeColors.pinkishGreyColor,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -197,6 +329,7 @@ class _QuestionCardState extends State<QuestionCard> {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.750,
                     child: LinkifyTextWidget(
+                      scroll: const NeverScrollableScrollPhysics(),
                       messageContent: widget.question,
                       maxLength: 6,
                     ),
@@ -207,21 +340,25 @@ class _QuestionCardState extends State<QuestionCard> {
           ), //title
           const SizedBox(height: 5),
 
-          widget.question.length > 200
-              ? GestureDetector(
-                  onTap: widget.onTapComment, child: const Text('Show More'))
-              : Container(),
+          // widget.question.length > 200
+          //     ? GestureDetector(
+          //         onTap: widget.onTapComment, child: const Text('Show More'))
+          //     : Container(),
+          GestureDetector(
+              onTap: widget.onTapComment, child: const Text('Show More')),
           const SizedBox(height: 17.5),
           widget.withImage
-              ? GestureDetector(
-                  onTap: () {
-                    Get.to(ViewAttachedImage(
-                      image: CachedNetworkImageProvider(widget.imageUrl),
-                      text: '',
-                      url: widget.imageUrl,
-                    ));
-                  },
-                  child: CachedNetworkImage(imageUrl: widget.imageUrl))
+              ? Center(
+                  child: GestureDetector(
+                      onTap: () {
+                        Get.to(ViewAttachedImage(
+                          image: CachedNetworkImageProvider(widget.imageUrl),
+                          text: '',
+                          url: widget.imageUrl,
+                        ));
+                      },
+                      child: CachedNetworkImage(imageUrl: widget.imageUrl)),
+                )
               : Container(),
           const SizedBox(height: 5),
           Row(
@@ -243,7 +380,7 @@ class _QuestionCardState extends State<QuestionCard> {
                   Text(
                     widget.noOfApplaud,
                     style: const TextStyle(
-                      color: JanguAskColors.primaryGreyColor,
+                      color: ThemeColors.primaryGreyColor,
                       fontSize: 12.5,
                     ),
                   ),
@@ -251,7 +388,7 @@ class _QuestionCardState extends State<QuestionCard> {
                   Text(
                     widget.noOfComment,
                     style: const TextStyle(
-                      color: JanguAskColors.primaryGreyColor,
+                      color: ThemeColors.primaryGreyColor,
                       fontSize: 12.5,
                     ),
                   ),
@@ -263,7 +400,7 @@ class _QuestionCardState extends State<QuestionCard> {
 
           const Divider(
             height: 2,
-            color: JanguAskColors.pinkishGreyColor,
+            color: ThemeColors.pinkishGreyColor,
           ),
           const SizedBox(height: 5.0),
 
@@ -276,14 +413,14 @@ class _QuestionCardState extends State<QuestionCard> {
                   const Icon(
                     Icons.timer,
                     size: 14.6,
-                    color: JanguAskColors.primaryGreyColor,
+                    color: ThemeColors.primaryGreyColor,
                   ),
                   const SizedBox(width: 3.0),
                   Text(
                     widget.timeOfPost,
                     style: const TextStyle(
                       fontSize: 11.0,
-                      color: JanguAskColors.primaryGreyColor,
+                      color: ThemeColors.primaryGreyColor,
                     ),
                   ),
                 ],
@@ -321,14 +458,14 @@ class _QuestionCardState extends State<QuestionCard> {
                           size: 18.8,
                           color: isApplaud
                               ? Colors.pink
-                              : JanguAskColors.primaryGreyColor,
+                              : ThemeColors.primaryGreyColor,
                         ),
                         const SizedBox(width: 3.0),
                         const Text(
                           'Like',
                           style: TextStyle(
                             fontSize: 11.0,
-                            color: JanguAskColors.primaryGreyColor,
+                            color: ThemeColors.primaryGreyColor,
                           ),
                         ),
                       ],
@@ -345,14 +482,14 @@ class _QuestionCardState extends State<QuestionCard> {
                         Icon(
                           Icons.comment,
                           size: 15.6,
-                          color: JanguAskColors.primaryGreyColor,
+                          color: ThemeColors.primaryGreyColor,
                         ),
                         SizedBox(width: 5.0),
                         Text(
                           'Comment',
                           style: TextStyle(
                             fontSize: 11.0,
-                            color: JanguAskColors.primaryGreyColor,
+                            color: ThemeColors.primaryGreyColor,
                           ),
                         ),
                       ],
@@ -369,29 +506,46 @@ class _QuestionCardState extends State<QuestionCard> {
 }
 
 class UserSearchTile extends StatelessWidget {
-  const UserSearchTile(
-      {Key? key,
-      required this.onTap,
-      required this.userName,
-      required this.profileImage,
-      required this.country})
-      : super(key: key);
+  const UserSearchTile({
+    Key? key,
+    required this.onTap,
+    required this.userName,
+    required this.profileImage,
+    required this.country,
+  }) : super(key: key);
   final Function() onTap;
   final String userName;
   final String profileImage, country;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onTap,
-      leading: ProfilePicture(
-        image: CachedNetworkImageProvider(
-          profileImage,
+    return Column(
+      children: [
+        ListTile(
+            onTap: onTap,
+            leading: ProfilePicture(
+              image: CachedNetworkImageProvider(
+                profileImage,
+              ),
+              width: 40,
+              height: 40,
+            ),
+            title: Text(userName,
+                style: const TextStyle(
+                  color: ThemeColors.blackColor1,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                )),
+            subtitle: Text(
+              country,
+              style: const TextStyle(color: Colors.black54),
+            )),
+        const Divider(
+          height: 1,
         ),
-        width: 40,
-        height: 40,
-      ),
-      title: Text(userName),
-      trailing: Text(country),
+        const SizedBox(
+          height: 5,
+        ),
+      ],
     );
   }
 }
@@ -439,15 +593,15 @@ class UserSearchFollow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 13),
           decoration: BoxDecoration(
             color: (isFollowing!)
-                ? JanguAskColors.primaryColor
-                : JanguAskColors.kellyGreen,
+                ? ThemeColors.primaryPink300
+                : ThemeColors.kellyGreen,
             borderRadius: BorderRadius.circular(15),
           ),
           child: Center(
               child: Text(
             (isFollowing!) ? 'Following' : 'Follow',
             style: const TextStyle(
-              color: JanguAskColors.whiteColor,
+              color: ThemeColors.whiteColor,
               fontSize: 12,
             ),
           )),
@@ -471,18 +625,18 @@ class DeleteEditPopUp extends StatelessWidget {
   final bool isEditable, isOwner;
   @override
   Widget build(BuildContext context) {
-    return (isOwner)
-        ? PopupMenuButton(
-            itemBuilder: (context) {
-              var list = <PopupMenuEntry<Object>>[];
-              list.add(
+    return PopupMenuButton(
+      itemBuilder: (context) {
+        var list = <PopupMenuEntry<Object>>[];
+        isOwner
+            ? list.add(
                 PopupMenuItem(
                   child: Row(
                     children: [
                       const Icon(
                         Icons.delete,
                         size: 17,
-                        color: JanguAskColors.primaryGreyColor,
+                        color: ThemeColors.primaryGreyColor,
                       ),
                       const SizedBox(width: 8),
                       GestureDetector(
@@ -490,7 +644,7 @@ class DeleteEditPopUp extends StatelessWidget {
                         child: const Text(
                           "Delete",
                           style: TextStyle(
-                            color: JanguAskColors.brownishGrey,
+                            color: ThemeColors.brownishGrey,
                             fontSize: 17,
                           ),
                         ),
@@ -499,43 +653,45 @@ class DeleteEditPopUp extends StatelessWidget {
                   ),
                   value: 1,
                 ),
-              );
-              (isEditable)
-                  ? list.add(
-                      PopupMenuItem(
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.edit,
-                              size: 17,
-                              color: JanguAskColors.primaryGreyColor,
-                            ),
-                            const SizedBox(width: 8),
-                            GestureDetector(
-                              onTap: edit,
-                              child: const Text(
-                                "Edit",
-                                style: TextStyle(
-                                  color: JanguAskColors.brownishGrey,
-                                  fontSize: 17,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        value: 1,
+              )
+            : Container();
+        (isEditable)
+            ? list.add(
+                PopupMenuItem(
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.edit,
+                        size: 17,
+                        color: ThemeColors.primaryGreyColor,
                       ),
-                    )
-                  : Container();
+                      const SizedBox(width: 8),
+                      GestureDetector(
+                        onTap: edit,
+                        child: const Text(
+                          "Edit",
+                          style: TextStyle(
+                            color: ThemeColors.brownishGrey,
+                            fontSize: 17,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  value: 1,
+                ),
+              )
+            : Container();
 
-              list.add(
+        !isOwner
+            ? list.add(
                 PopupMenuItem(
                   child: Row(
                     children: [
                       const Icon(
                         Icons.report_outlined,
                         size: 17,
-                        color: JanguAskColors.primaryGreyColor,
+                        color: ThemeColors.primaryGreyColor,
                       ),
                       const SizedBox(width: 8),
                       GestureDetector(
@@ -543,7 +699,7 @@ class DeleteEditPopUp extends StatelessWidget {
                         child: const Text(
                           "Report Post",
                           style: TextStyle(
-                            color: JanguAskColors.brownishGrey,
+                            color: ThemeColors.brownishGrey,
                             fontSize: 17,
                           ),
                         ),
@@ -552,16 +708,16 @@ class DeleteEditPopUp extends StatelessWidget {
                   ),
                   value: 1,
                 ),
-              );
-              return list;
-            },
-            icon: const Icon(
-              Icons.more_horiz,
-              size: 20,
-              color: JanguAskColors.primaryGreyColor,
-            ),
-          )
-        : Container();
+              )
+            : null;
+        return list;
+      },
+      icon: const Icon(
+        Icons.more_horiz,
+        size: 20,
+        color: ThemeColors.primaryGreyColor,
+      ),
+    );
   }
 }
 
@@ -593,7 +749,7 @@ class AdminPopUp extends StatelessWidget {
                       const Icon(
                         Icons.delete,
                         size: 17,
-                        color: JanguAskColors.primaryGreyColor,
+                        color: ThemeColors.primaryGreyColor,
                       ),
                       const SizedBox(width: 8),
                       GestureDetector(
@@ -601,7 +757,7 @@ class AdminPopUp extends StatelessWidget {
                         child: const Text(
                           "Delete",
                           style: TextStyle(
-                            color: JanguAskColors.brownishGrey,
+                            color: ThemeColors.brownishGrey,
                             fontSize: 17,
                           ),
                         ),
@@ -619,7 +775,7 @@ class AdminPopUp extends StatelessWidget {
                             const Icon(
                               Icons.edit,
                               size: 17,
-                              color: JanguAskColors.primaryGreyColor,
+                              color: ThemeColors.primaryGreyColor,
                             ),
                             const SizedBox(width: 8),
                             GestureDetector(
@@ -627,7 +783,7 @@ class AdminPopUp extends StatelessWidget {
                               child: const Text(
                                 "Edit Post",
                                 style: TextStyle(
-                                  color: JanguAskColors.brownishGrey,
+                                  color: ThemeColors.brownishGrey,
                                   fontSize: 17,
                                 ),
                               ),
@@ -644,9 +800,9 @@ class AdminPopUp extends StatelessWidget {
                   child: Row(
                     children: [
                       const Icon(
-                        Icons.report_outlined,
+                        Icons.verified,
                         size: 17,
-                        color: JanguAskColors.primaryGreyColor,
+                        color: ThemeColors.primaryGreyColor,
                       ),
                       const SizedBox(width: 8),
                       GestureDetector(
@@ -654,7 +810,7 @@ class AdminPopUp extends StatelessWidget {
                         child: Text(
                           isApproved ? "UnApprove Post" : "Approve Post",
                           style: const TextStyle(
-                            color: JanguAskColors.brownishGrey,
+                            color: ThemeColors.brownishGrey,
                             fontSize: 17,
                           ),
                         ),
@@ -670,17 +826,17 @@ class AdminPopUp extends StatelessWidget {
                   child: Row(
                     children: [
                       const Icon(
-                        Icons.report_outlined,
+                        Icons.pin_drop,
                         size: 17,
-                        color: JanguAskColors.primaryGreyColor,
+                        color: ThemeColors.primaryGreyColor,
                       ),
                       const SizedBox(width: 8),
                       GestureDetector(
-                        onTap: approveTap,
+                        onTap: pinTap,
                         child: Text(
                           isPinned ? "UnPin Post" : "Pin Post",
                           style: const TextStyle(
-                            color: JanguAskColors.brownishGrey,
+                            color: ThemeColors.brownishGrey,
                             fontSize: 17,
                           ),
                         ),
@@ -695,7 +851,7 @@ class AdminPopUp extends StatelessWidget {
             icon: const Icon(
               Icons.more_horiz,
               size: 20,
-              color: JanguAskColors.primaryGreyColor,
+              color: ThemeColors.primaryGreyColor,
             ),
           )
         : Container();

@@ -32,18 +32,18 @@ class _CountryCodeButtonState extends State<CountryCodeButton> {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
-        color: JanguAskColors.whiteColor,
-        borderRadius: BorderRadius.circular(2.5),
+        color: ThemeColors.whiteColor,
+        borderRadius: BorderRadius.circular(10.0),
         boxShadow: const [
           BoxShadow(
             blurRadius: 7.5,
             offset: Offset(0.0, 2.5),
-            color: JanguAskColors.shadowColor,
+            color: ThemeColors.shadowColor,
           )
         ],
       ),
       // width: double.infinity,
-      height: (widget.height != null) ? widget.height : 47.5,
+      height: (widget.height != null) ? widget.height : 40.5,
 
       child: Center(
         child: CountryCodePicker(
@@ -65,17 +65,17 @@ class _CountryCodeButtonState extends State<CountryCodeButton> {
 
           // optional. aligns the flag and the Text left
           alignLeft: true,
-          flagWidth: 18.5,
+          flagWidth: 14,
           textStyle: const TextStyle(
-            color: JanguAskColors.primaryGreyColor,
+            color: ThemeColors.primaryGreyColor,
             fontSize: 15.0,
             fontWeight: FontWeight.w400,
           ),
           padding: const EdgeInsets.only(
             top: 7.0,
             bottom: 7.0,
-            left: 10.0,
-            right: 10.0,
+            left: 5.0,
+            right: 5.0,
           ),
         ),
       ),

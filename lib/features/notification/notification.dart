@@ -49,6 +49,12 @@ void initMessaging() {
 
   setupInteractedMessage();
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    display(message);
+    _handleMessage(message);
+  });
+
+  FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    display(message);
     _handleMessage(message);
   });
 
@@ -79,9 +85,31 @@ void _handleMessage(RemoteMessage message) {
   if (message.data['type'] == NotificationType.livestream) {
     //Get.to(PastorIncomingCall());
   }
-  if (message.data['type'] == NotificationType.prayer ||
-      message.data['type'] == NotificationType.prayerLike ||
-      message.data['type'] == NotificationType.prayerComment) {
+  if (message.data['type'] == NotificationType.contribution ||
+      message.data['type'] == NotificationType.contributionLike ||
+      message.data['type'] == NotificationType.contributionComment) {
     //Get.to(PastorIncomingCall());
+  }
+}
+
+void display(RemoteMessage message) async {
+  try {
+    final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    flutterLocalNotificationsPlugin.show(
+        id,
+        message.data['title'],
+        message.data['body'],
+        NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              priority: Priority.high,
+              importance: Importance.max,
+              fullScreenIntent: true,
+              timeoutAfter: 10000,
+            ),
+            iOS: const IOSNotificationDetails()));
+  } on Exception catch (e) {
+    print(e);
   }
 }

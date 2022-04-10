@@ -53,13 +53,13 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: JanguAskColors.whiteColor,
+      backgroundColor: ThemeColors.whiteColor,
       appBar: AppBar(
         elevation: 3.0,
-        backgroundColor: JanguAskColors.primaryColor,
+        backgroundColor: ThemeColors.primaryColor,
         title: const Text('Edit Profile',
             style: TextStyle(
-              color: JanguAskColors.whiteColor,
+              color: ThemeColors.whiteColor,
               fontSize: 18.0,
               fontWeight: JanguAskFontWeight.kBoldText,
             )),
@@ -89,10 +89,10 @@ class _EditProfileState extends State<EditProfile> {
                       BoxShadow(
                         offset: Offset(0.0, 2.5),
                         blurRadius: 5,
-                        color: JanguAskColors.shadowColor,
+                        color: ThemeColors.shadowColor,
                       ),
                     ],
-                    color: JanguAskColors.whiteColor,
+                    color: ThemeColors.whiteColor,
                   ),
                   child: Container(
                     margin: const EdgeInsets.only(top: 30),
@@ -152,14 +152,14 @@ class _EditProfileState extends State<EditProfile> {
                                       child: Container(
                                         // padding: EdgeInsets.symmetric(horizontal: 15),
                                         decoration: BoxDecoration(
-                                          color: JanguAskColors.whiteColor,
+                                          color: ThemeColors.whiteColor,
                                           borderRadius:
                                               BorderRadius.circular(2.5),
                                           boxShadow: const [
                                             BoxShadow(
                                               blurRadius: 7.5,
                                               offset: Offset(0.0, 2.5),
-                                              color: JanguAskColors.shadowColor,
+                                              color: ThemeColors.shadowColor,
                                             )
                                           ],
                                         ),
@@ -200,7 +200,7 @@ class _EditProfileState extends State<EditProfile> {
                               Align(
                                 alignment: Alignment.bottomRight,
                                 child: PrimaryButton(
-                                  color: JanguAskColors.primaryColor,
+                                  color: ThemeColors.primaryColor,
                                   roundedEdge: 5,
                                   blurRadius: 3,
                                   buttonTitle: 'Save',

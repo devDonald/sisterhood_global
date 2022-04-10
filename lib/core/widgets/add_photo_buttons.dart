@@ -20,7 +20,7 @@ class AddPhotoWidget extends StatelessWidget {
     return Container(
       width: 97.5,
       height: 85.0,
-      color: JanguAskColors.whiteLayerColor,
+      color: ThemeColors.whiteLayerColor,
       child: Stack(
         children: [
           Positioned.fill(
@@ -42,12 +42,12 @@ class AddPhotoWidget extends StatelessWidget {
               child: isPhotoAdded!
                   ? Container(
                       decoration: const BoxDecoration(
-                        color: JanguAskColors.blackColor1,
+                        color: ThemeColors.blackColor1,
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
                         Icons.close,
-                        color: JanguAskColors.whiteColor,
+                        color: ThemeColors.whiteColor,
                         size: 15,
                       ),
                     )

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:sisterhood_global/core/widgets/responsive_ui.dart';
-import 'package:sisterhood_global/features/community/data/post_body.dart';
+import 'package:sisterhood_global/features/community/pages/community_comment_screen.dart';
 
 import '../../../../core/constants/contants.dart';
 import '../../../../core/widgets/other_widgets.dart';

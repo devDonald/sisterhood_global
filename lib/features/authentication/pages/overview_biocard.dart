@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/core/themes/theme_text.dart';
 import 'package:sisterhood_global/features/profile/pages/edit_profile.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OverViewBioCard extends StatelessWidget {
   const OverViewBioCard({
@@ -11,10 +12,11 @@ class OverViewBioCard extends StatelessWidget {
     required this.email,
     required this.phone,
     required this.isOwner,
+    required this.marital,
   }) : super(key: key);
   final String bio;
   final String email;
-  final String phone;
+  final String phone, marital;
   final bool isOwner;
 
   @override
@@ -28,7 +30,7 @@ class OverViewBioCard extends StatelessWidget {
       ),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: JanguAskColors.whiteColor,
+        color: ThemeColors.whiteColor,
         borderRadius: BorderRadius.circular(10),
         boxShadow: const [
           BoxShadow(
@@ -37,7 +39,7 @@ class OverViewBioCard extends StatelessWidget {
               0.0,
               4.0,
             ),
-            color: JanguAskColors.shadowColor,
+            color: ThemeColors.shadowColor,
           )
         ],
       ),
@@ -50,7 +52,7 @@ class OverViewBioCard extends StatelessWidget {
               const Text(
                 'Bio',
                 style: TextStyle(
-                  color: JanguAskColors.blackColor1,
+                  color: ThemeColors.blackColor1,
                   fontWeight: JanguAskFontWeight.kBoldText,
                   fontSize: 18,
                 ),
@@ -65,7 +67,7 @@ class OverViewBioCard extends StatelessWidget {
                           Text(
                             'Edit Bio',
                             style: TextStyle(
-                              color: JanguAskColors.primaryColor,
+                              color: ThemeColors.primaryColor,
                               fontWeight: JanguAskFontWeight.kBoldText,
                               fontSize: 15,
                             ),
@@ -73,7 +75,7 @@ class OverViewBioCard extends StatelessWidget {
                           SizedBox(width: 5),
                           Icon(
                             Icons.edit,
-                            color: JanguAskColors.primaryColor,
+                            color: ThemeColors.primaryColor,
                             size: 17,
                           ),
                         ],
@@ -88,7 +90,7 @@ class OverViewBioCard extends StatelessWidget {
             maxLines: 5,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
-              color: JanguAskColors.primaryGreyColor,
+              color: ThemeColors.primaryGreyColor,
               fontSize: 16.0,
             ),
           ),
@@ -96,7 +98,7 @@ class OverViewBioCard extends StatelessWidget {
           const Text(
             'Gender',
             style: TextStyle(
-              color: JanguAskColors.blackColor1,
+              color: ThemeColors.blackColor1,
               fontWeight: JanguAskFontWeight.kBoldText,
               fontSize: 18,
             ),
@@ -105,41 +107,63 @@ class OverViewBioCard extends StatelessWidget {
           const Text(
             'Female',
             style: TextStyle(
-              color: JanguAskColors.primaryGreyColor,
+              color: ThemeColors.primaryGreyColor,
               fontSize: 16.0,
+            ),
+          ),
+          const SizedBox(height: 15.0),
+          const Text(
+            'Marital Status',
+            style: TextStyle(
+              color: ThemeColors.blackColor1,
+              fontWeight: JanguAskFontWeight.kBoldText,
+              fontSize: 18,
+            ),
+          ),
+          const SizedBox(height: 8.0),
+          Text(
+            marital,
+            style: const TextStyle(
+              color: ThemeColors.primaryGreyColor,
+              fontSize: 16.0,
+            ),
+          ),
+          const SizedBox(height: 15.0),
+          GestureDetector(
+            onTap: () {
+              launch('tel:$phone');
+            },
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.phone,
+                  color: ThemeColors.blackColor1,
+                  size: 18,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  phone,
+                  style: const TextStyle(
+                    color: ThemeColors.primaryGreyColor,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 15.0),
           Row(
             children: [
               const Icon(
-                Icons.phone,
-                color: JanguAskColors.blackColor1,
-                size: 18,
-              ),
-              const SizedBox(width: 12),
-              Text(
-                phone,
-                style: const TextStyle(
-                  color: JanguAskColors.primaryGreyColor,
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 15.0),
-          Row(
-            children: [
-              const Icon(
                 Icons.email,
-                color: JanguAskColors.blackColor1,
+                color: ThemeColors.blackColor1,
                 size: 18,
               ),
               const SizedBox(width: 12),
               Text(
                 email,
                 style: const TextStyle(
-                  color: JanguAskColors.primaryGreyColor,
+                  color: ThemeColors.primaryGreyColor,
                   fontSize: 16,
                 ),
               ),

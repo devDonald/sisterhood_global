@@ -3,25 +3,22 @@ import 'package:get/get.dart';
 import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:sisterhood_global/core/widgets/responsive_ui.dart';
-import 'package:sisterhood_global/features/community/pages/community_comment_screen.dart';
-import 'package:sisterhood_global/features/notification/notification_type.dart';
+import 'package:sisterhood_global/features/community/pages/talk/talk_widget.dart';
+import 'package:sisterhood_global/features/community/pages/talk_details.dart';
+import 'package:sisterhood_global/features/home/data/talk_model.dart';
 
 import '../../../core/constants/contants.dart';
-import '../../../core/widgets/other_widgets.dart';
-import '../../profile/pages/follow_user_screen.dart';
-import '../data/community_model.dart';
-import 'create_contribution.dart';
 
-class Testimony extends StatefulWidget {
-  const Testimony({
+class TalkAboutIt extends StatefulWidget {
+  const TalkAboutIt({
     Key? key,
   }) : super(key: key);
 
   @override
-  _TestimonyState createState() => _TestimonyState();
+  _TalkAboutItState createState() => _TalkAboutItState();
 }
 
-class _TestimonyState extends State<Testimony> {
+class _TalkAboutItState extends State<TalkAboutIt> {
   PaginateRefreshedChangeListener refreshChangeListener =
       PaginateRefreshedChangeListener();
   late double _height;
@@ -39,134 +36,49 @@ class _TestimonyState extends State<Testimony> {
     _medium = ResponsiveWidget.isScreenMedium(_width, _pixelRatio);
 
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: RefreshIndicator(
-          child: PaginateFirestore(
-            shrinkWrap: true,
-            onEmpty: const Center(
-              child: Text('No Post yet'),
-            ),
-            physics: const BouncingScrollPhysics(),
-            itemsPerPage: 10,
-            itemBuilder: (context, snapshot, index) {
-              CommunityModel _discuss =
-                  CommunityModel.fromSnapshot(snap: snapshot[index]);
+      backgroundColor: Colors.white,
+      body: RefreshIndicator(
+        child: PaginateFirestore(
+          shrinkWrap: true,
+          onEmpty: const Center(
+            child: Text('No talks yet'),
+          ),
+          physics: const BouncingScrollPhysics(),
+          itemsPerPage: 10,
+          itemBuilder: (context, snapshot, index) {
+            TalkModel doc = TalkModel.fromSnapshot(snap: snapshot[index]);
 
-              String _name = '', _pics = '';
-
-              Future<CommunityModel> _load() async {
-                await _discuss.loadUser();
-                return _discuss;
-              }
-
-              return FutureBuilder(
-                future: _load(),
-                builder:
-                    (BuildContext context, AsyncSnapshot<CommunityModel> snap) {
-                  if (snap.hasData) {
-                    if (snap.data != null) {
-                      _name = snap.data!.user!.name!;
-                      _pics = snap.data!.user!.photo!;
-                    }
-                  }
-
-                  CommunityModel doc =
-                      CommunityModel.fromSnapshot(snap: snapshot[index]);
-
-                  int comment = int.parse(doc.commentCount!);
-                  String singleComment = 'comment';
-                  String aboveOneComment = 'comments';
-                  String determinComment =
-                      comment > 1 ? aboveOneComment : singleComment;
-                  //
-                  int applaud = int.parse(doc.likeCount!);
-                  String singleApplaud = 'like';
-                  String aboveOneApplaud = 'likes';
-                  String determinApplaud =
-                      applaud > 1 ? aboveOneApplaud : singleApplaud;
-
-                  return QuestionCard(
-                    isPinned: doc.isPinned!,
-                    isAdmin: false,
-                    category: doc.category!,
-                    question: doc.body!,
-                    userName: _name,
-                    userPhoto: _pics,
-                    isVerified: doc.isApproved!,
-                    isOwner: doc.isOwner!,
-                    ownerId: doc.ownerId!,
-                    postId: doc.postId!,
-                    withImage: doc.withImage!,
-                    imageUrl: doc.imageLink!,
-                    timeOfPost: getTimestamp(doc.createdAt!),
-                    onTapComment: () {
-                      Get.to(() => CommentScreen(
-                            question: doc.body!,
-                            userName: _name,
-                            withImage: doc.withImage!,
-                            imageUrl: doc.imageLink!,
-                            userPhoto: _pics,
-                            isOwner: doc.isOwner!,
-                            ownerId: doc.ownerId!,
-                            postId: doc.postId!,
-                            timeOfPost: getTimestamp(doc.createdAt!),
-                            category: doc.category!,
-                            noOfApplaud: '${doc.likeCount} $determinApplaud',
-                            isApplauded: doc.likeToCard!,
-                            applaudColor:
-                                doc.likeToCard! ? Colors.pink : Colors.grey,
-                            noOfComment: '${doc.commentCount} $determinComment',
-                            onUserTap: () {
-                              if (!doc.isOwner!) {
-                                Get.to(() => FollowUserScreen(
-                                    name: _name, userId: doc.ownerId!));
-                              }
-                            },
-                          ));
-                    },
-                    onUserTap: () {
-                      if (!doc.isOwner!) {
-                        Get.to(() => FollowUserScreen(
-                            name: _name, userId: doc.ownerId!));
-                      }
-                    },
-                    noOfApplaud: '${doc.likeCount} $determinApplaud',
-                    isApplauded: doc.likeToCard!,
-                    applaudColor: doc.likeToCard! ? Colors.pink : Colors.grey,
-                    noOfComment: '${doc.commentCount} $determinComment',
-                  );
+            return TalkWidget(
+                videoID: doc.videoId!,
+                title: doc.videoTitle!,
+                date: getTimestamp(doc.createdAt!),
+                like: '${doc.likeCount}',
+                comment: '${doc.commentCount}',
+                isLive: doc.isLive!,
+                onPlay: () {
+                  Get.to(() => TalkDetails(
+                        comments: doc.commentCount!,
+                        videoID: doc.videoId!,
+                        videoTitle: doc.videoTitle!,
+                        isLive: doc.isLive!,
+                        time: getTimestamp(doc.createdAt!),
+                      ));
                 },
-              );
-            },
-            // orderBy is compulsary to enable pagination
-            query: communityRef
-                .where('isApproved', isEqualTo: true)
-                .where('category', isEqualTo: PostType.testimony)
-                .orderBy('timestamp', descending: true),
-            isLive: true,
-            listeners: [
-              refreshChangeListener,
-            ],
-            itemBuilderType: PaginateBuilderType.listView,
-          ),
-          onRefresh: () async {
-            refreshChangeListener.refreshed = true;
+                isLiked: doc.likeToCard!);
           },
+          // orderBy is compulsory to enable pagination
+          query: talkRef.orderBy('timestamp', descending: true),
+          isLive: true,
+          listeners: [
+            refreshChangeListener,
+          ],
+          itemBuilderType: PaginateBuilderType.listView,
         ),
-        floatingActionButton: FloatingActionButton(
-          heroTag: null,
-          backgroundColor: Colors.pink,
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Get.to(() => const CreateContribution(
-                  isAdmin: false,
-                  category: PostType.testimony,
-                ));
-          },
-        ));
+        onRefresh: () async {
+          refreshChangeListener.refreshed = true;
+        },
+      ),
+    );
   }
 }
 

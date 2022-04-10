@@ -138,7 +138,7 @@ class _CreateEventState extends State<CreateEvent> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: JanguAskColors.primaryColor,
+        backgroundColor: ThemeColors.primaryColor,
         elevation: 3.0,
         titleSpacing: -3.0,
         title: const Text(
@@ -209,7 +209,7 @@ class _CreateEventState extends State<CreateEvent> {
                 },
                 child: const Text('Pick Event Date',
                     style: TextStyle(
-                      color: JanguAskColors.primaryColor,
+                      color: ThemeColors.primaryColor,
                       fontSize: 17,
                       decoration: TextDecoration.underline,
                     )),

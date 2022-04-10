@@ -3,9 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:paginate_firestore/bloc/pagination_listeners.dart';
+import 'package:sisterhood_global/core/constants/device_util.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/features/home/pages/admin/events_home.dart';
 import 'package:sisterhood_global/features/home/pages/admin/manage_community_post.dart';
+import 'package:sisterhood_global/features/home/pages/admin/talk_list.dart';
+import 'package:sisterhood_global/features/home/pages/admin/users_report.dart';
 import 'package:sisterhood_global/features/home/pages/admin/youtube_notication.dart';
 
 import 'all_users.dart';
@@ -34,14 +37,14 @@ class _AdminHomeState extends State<AdminHome> {
     return Scaffold(
       appBar: AppBar(
         elevation: 3.0,
-        backgroundColor: JanguAskColors.primaryColor,
-        title: const Text('Admin Section',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-            )),
-        titleSpacing: -5.0,
+        backgroundColor: ThemeColors.whiteColor,
+        title: Text(
+          'Admin Section',
+          style: Theme.of(context).textTheme.headline5,
+        ),
+        iconTheme:
+            const IconThemeData(color: ThemeColors.blackColor1, size: 35),
+        titleSpacing: 15.0,
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),
@@ -53,7 +56,7 @@ class _AdminHomeState extends State<AdminHome> {
                 icon: Icons.live_tv,
                 title: 'Livestream Notification',
                 onTap: () {
-                  Get.to(() => LivestreamNotification());
+                  Get.to(() => const LivestreamNotification());
                 },
               ),
               HomeCard(
@@ -79,6 +82,27 @@ class _AdminHomeState extends State<AdminHome> {
                 title: 'Manage Posts',
                 onTap: () async {
                   Get.to(() => AdminCommunityHome());
+                },
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Row(
+            children: [
+              HomeCard(
+                icon: Icons.report,
+                title: 'User Reports',
+                onTap: () async {
+                  Get.to(() => const UsersReports());
+                },
+              ),
+              HomeCard(
+                icon: Icons.live_tv,
+                title: 'Let\'s Talk About It',
+                onTap: () async {
+                  Get.to(() => const TalkListHome());
                 },
               ),
             ],
@@ -113,11 +137,11 @@ class ButtonWithICon2 extends StatelessWidget {
       ),
       padding: const EdgeInsets.only(left: 15.0),
       decoration: BoxDecoration(
-        color: JanguAskColors.primaryColor,
+        color: ThemeColors.primaryColor,
         borderRadius: BorderRadius.circular(5.0),
         boxShadow: const [
           BoxShadow(
-            color: JanguAskColors.shadowColor,
+            color: ThemeColors.shadowColor,
             offset: Offset(0.0, 2.5),
             blurRadius: 7.5,
           ),
@@ -129,13 +153,13 @@ class ButtonWithICon2 extends StatelessWidget {
           children: <Widget>[
             Icon(
               icon,
-              color: JanguAskColors.whiteColor,
+              color: ThemeColors.whiteColor,
             ),
             const SizedBox(width: 9.2),
             Text(
               title,
               style: const TextStyle(
-                color: JanguAskColors.whiteColor,
+                color: ThemeColors.whiteColor,
                 fontSize: 15.0,
               ),
             )
@@ -167,11 +191,11 @@ class HomeCard extends StatelessWidget {
               top: 17.5, bottom: 5.0, left: 15.0, right: 7.0),
           //padding: EdgeInsets.only(left: 15.0),
           decoration: BoxDecoration(
-            color: Colors.black,
+            color: Colors.black54,
             borderRadius: BorderRadius.circular(8.0),
             boxShadow: const [
               BoxShadow(
-                color: Colors.black12,
+                color: ThemeColors.whiteColor,
                 offset: Offset(0.0, 2.5),
                 blurRadius: 10.5,
               ),
@@ -184,8 +208,67 @@ class HomeCard extends StatelessWidget {
               children: <Widget>[
                 Icon(
                   icon,
-                  color: JanguAskColors.primaryColor,
+                  color: ThemeColors.primaryColor,
                   size: 35.0,
+                ),
+              ],
+            ),
+          ),
+        ),
+        Text(
+          title,
+          style: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class HomeCard1 extends StatelessWidget {
+  const HomeCard1({
+    Key? key,
+    required this.title,
+    required this.icon,
+    required this.onTap,
+  }) : super(key: key);
+  final IconData icon;
+  final Function() onTap;
+  final String title;
+  @override
+  Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+    return Column(
+      children: [
+        Container(
+          width: width * 0.38,
+          height: height * 0.16,
+          margin: const EdgeInsets.only(
+              top: 17.5, bottom: 5.0, left: 20.0, right: 20.0),
+          //padding: EdgeInsets.only(left: 15.0),
+          decoration: BoxDecoration(
+            color: Colors.black54,
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: const [
+              BoxShadow(
+                color: ThemeColors.whiteColor,
+                offset: Offset(0.0, 2.5),
+                blurRadius: 10.5,
+              ),
+            ],
+          ),
+          child: GestureDetector(
+            onTap: onTap,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  icon,
+                  color: ThemeColors.whiteColor,
+                  size: DeviceUtil.isTablet ? 60 : 35,
                 ),
               ],
             ),

@@ -35,7 +35,7 @@ class AuthTextField extends StatelessWidget {
                   text: TextSpan(
                     text: (label != null) ? label : '',
                     style: const TextStyle(
-                      color: JanguAskColors.primaryGreyColor,
+                      color: ThemeColors.primaryGreyColor,
                       fontFamily: JanguAskFontFamily.primaryFontNunito,
                       fontWeight: JanguAskFontWeight.kBoldText,
                       fontSize: 15.0,
@@ -44,7 +44,7 @@ class AuthTextField extends StatelessWidget {
                       TextSpan(
                         text: (label != null) ? '*' : '',
                         style: const TextStyle(
-                          color: JanguAskColors.primaryColor,
+                          color: ThemeColors.primaryColor,
                           fontFamily: JanguAskFontFamily.primaryFontNunito,
                           fontWeight: JanguAskFontWeight.kBoldText,
                           fontSize: 15.0,
@@ -58,13 +58,13 @@ class AuthTextField extends StatelessWidget {
           Container(
             // padding: EdgeInsets.symmetric(horizontal: 15),
             decoration: BoxDecoration(
-              color: JanguAskColors.whiteColor,
+              color: ThemeColors.whiteColor,
               borderRadius: BorderRadius.circular(2.5),
               boxShadow: const [
                 BoxShadow(
                   blurRadius: 7.5,
                   offset: Offset(0.0, 2.5),
-                  color: JanguAskColors.shadowColor,
+                  color: ThemeColors.shadowColor,
                 )
               ],
             ),

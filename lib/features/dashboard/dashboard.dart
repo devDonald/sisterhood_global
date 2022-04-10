@@ -2,15 +2,41 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sisterhood_global/features/community/pages/community_home.dart';
-import 'package:sisterhood_global/features/liveStreaming/pages/videos.dart';
-import 'package:sisterhood_global/features/messages/pages/message_list.dart';
-import 'package:sisterhood_global/features/search/pages/sisterhood_users_search.dart';
+import 'package:sisterhood_global/features/community/pages/prayer_wall_home.dart';
+import 'package:sisterhood_global/features/notification/general_notification.dart';
 
+import '../chats/pages/message_list.dart';
 import '../home/pages/home.dart';
 import 'dashboard_controller.dart';
+import 'menu_drawer.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
+
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  GlobalKey<ScaffoldState>? _scaffoldKey;
+
+  // String? name, email, photo, uid;
+  //
+  // getStorage() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     photo = prefs.getString('photo');
+  //     name = prefs.getString('name');
+  //     uid = prefs.getString('uid');
+  //     email = prefs.getString('email');
+  //   });
+  // }
+
+  @override
+  void initState() {
+    _scaffoldKey = GlobalKey<ScaffoldState>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,24 +46,24 @@ class DashboardPage extends StatelessWidget {
           body: SafeArea(
             child: IndexedStack(
               index: controller.tabIndex,
-              children: [
+              children: const [
                 HomeScreen(),
                 CommunityHome(),
-                //const CommunityHome(),
-                const Videos(),
-                const MessageList(),
-                const PeopleSearch()
+                PrayerWallHome(),
+                MessageList(),
+                NotificationHome(),
+                MenuDrawer(),
               ],
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(
-            unselectedItemColor: Colors.black,
-            selectedItemColor: Colors.redAccent,
+            unselectedItemColor: Colors.black87,
+            selectedItemColor: Colors.black,
             onTap: controller.changeTabIndex,
             currentIndex: controller.tabIndex,
-            showSelectedLabels: false,
+            showSelectedLabels: true,
             showUnselectedLabels: false,
-            type: BottomNavigationBarType.fixed,
+            type: BottomNavigationBarType.shifting,
             backgroundColor: Colors.white,
             elevation: 0,
             items: [
@@ -50,16 +76,20 @@ class DashboardPage extends StatelessWidget {
                 label: 'Community',
               ),
               _bottomNavigationBarItem(
-                icon: CupertinoIcons.videocam,
-                label: 'Videos',
+                icon: CupertinoIcons.book,
+                label: 'Prayer Wall',
               ),
               _bottomNavigationBarItem(
-                icon: Icons.message,
+                icon: CupertinoIcons.chat_bubble_2,
                 label: 'Messages',
               ),
               _bottomNavigationBarItem(
-                icon: CupertinoIcons.search_circle,
-                label: 'Search',
+                icon: CupertinoIcons.bell,
+                label: 'Notification',
+              ),
+              _bottomNavigationBarItem(
+                icon: Icons.menu,
+                label: 'More',
               ),
             ],
           ),

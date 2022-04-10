@@ -25,7 +25,7 @@ class FollowButton extends StatelessWidget {
         5.0,
       ),
       decoration: BoxDecoration(
-        color: JanguAskColors.primaryColor,
+        color: ThemeColors.primaryColor,
         borderRadius: BorderRadius.circular(100.0),
         boxShadow: [
           BoxShadow(
@@ -34,7 +34,7 @@ class FollowButton extends StatelessWidget {
               0.0,
               2.5,
             ),
-            color: JanguAskColors.primaryColor.withOpacity(
+            color: ThemeColors.primaryColor.withOpacity(
               0.35,
             ),
           )
@@ -44,14 +44,14 @@ class FollowButton extends StatelessWidget {
         onTap: onFollow,
         child: Container(
           decoration: BoxDecoration(
-            color: JanguAskColors.whiteColor,
+            color: ThemeColors.whiteColor,
             borderRadius: BorderRadius.circular(100.0),
           ),
           child: Center(
             child: Text(
               isFollowing ? "Unfollow" : 'Follow',
               style: const TextStyle(
-                color: JanguAskColors.primaryColor,
+                color: ThemeColors.primaryColor,
                 fontWeight: JanguAskFontWeight.kBoldText,
               ),
             ),

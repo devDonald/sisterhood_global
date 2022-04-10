@@ -13,7 +13,7 @@ class TextLabel extends StatelessWidget {
         text: TextSpan(
           text: (label != null) ? label : '',
           style: const TextStyle(
-            color: JanguAskColors.primaryGreyColor,
+            color: ThemeColors.primaryGreyColor,
             fontFamily: JanguAskFontFamily.primaryFontNunito,
             fontWeight: JanguAskFontWeight.kBoldText,
             fontSize: 15.0,
@@ -22,7 +22,7 @@ class TextLabel extends StatelessWidget {
             TextSpan(
               text: (label != null) ? '*' : '',
               style: const TextStyle(
-                color: JanguAskColors.primaryColor,
+                color: ThemeColors.primaryColor,
                 fontFamily: JanguAskFontFamily.primaryFontNunito,
                 fontWeight: JanguAskFontWeight.kBoldText,
                 fontSize: 15.0,

@@ -23,13 +23,13 @@ class _ContactUsState extends State<ContactUs> {
     return Scaffold(
       appBar: AppBar(
         elevation: 3.0,
-        backgroundColor: JanguAskColors.primaryColor,
-        title: const Text('Contact Us',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-            )),
+        backgroundColor: ThemeColors.whiteColor,
+        title: Text(
+          'Contact US',
+          style: Theme.of(context).textTheme.headline5,
+        ),
+        iconTheme:
+            const IconThemeData(color: ThemeColors.blackColor1, size: 35),
         titleSpacing: -5.0,
       ),
       body: ListView(
@@ -123,7 +123,7 @@ class ContactButtonWithICon extends StatelessWidget {
         borderRadius: BorderRadius.circular(5.0),
         boxShadow: const [
           BoxShadow(
-            color: JanguAskColors.pinkishGreyColor,
+            color: ThemeColors.pinkishGreyColor,
             offset: Offset(0.0, 2.5),
             blurRadius: 7.5,
           ),
@@ -136,7 +136,7 @@ class ContactButtonWithICon extends StatelessWidget {
             children: <Widget>[
               Icon(
                 icon,
-                color: JanguAskColors.primaryColor,
+                color: ThemeColors.primaryColor,
               ),
               SizedBox(width: 9.2),
               Column(
@@ -148,7 +148,7 @@ class ContactButtonWithICon extends StatelessWidget {
                     title,
                     maxLines: 2,
                     style: const TextStyle(
-                      color: Colors.pink,
+                      color: ThemeColors.blackColor3,
                       fontWeight: FontWeight.bold,
                       fontSize: 16.0,
                     ),
@@ -159,7 +159,7 @@ class ContactButtonWithICon extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
                     style: const TextStyle(
-                      color: JanguAskColors.blackColor1,
+                      color: ThemeColors.blackColor1,
                       fontSize: 14.0,
                     ),
                   )

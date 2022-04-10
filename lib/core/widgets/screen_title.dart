@@ -30,7 +30,7 @@ class ScreenTitleIndicator extends StatelessWidget {
           ),
           height: 2.0,
           // width: 164,
-          color: JanguAskColors.primaryColor,
+          color: ThemeColors.primaryColor,
         ),
         // Divider(
         //   height: 4.0,

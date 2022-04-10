@@ -21,7 +21,7 @@ class UserModel {
   String? email;
   String? phone;
   String? code;
-  String? type;
+  String? type, marital;
   String? dialCode;
   bool? isAdmin = false;
   String? followers;
@@ -49,6 +49,7 @@ class UserModel {
       this.isFollower,
       this.isOwner,
       this.bio,
+      this.marital,
       this.posts});
 
   toJson() {
@@ -65,6 +66,8 @@ class UserModel {
       'token': '',
       'type': type,
       'bio': bio,
+      'posts': posts,
+      'marital': marital,
       'followersList': followersList,
       'followingList': followingList,
     };
@@ -92,7 +95,9 @@ class UserModel {
     dialCode = snapshot[DIALCODE];
     type = snapshot[TYPE];
     bio = snapshot['bio'];
+    marital = snapshot['marital'];
     isAdmin = snapshot[ISADMIN];
+    posts = snapshot['posts'];
     followingList = snapshot['followingList'];
     followersList = snapshot['followersList'];
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sisterhood_global/core/widgets/responsive_ui.dart';
 
-import '../../../core/widgets/menu_drawer.dart';
+import '../../../core/themes/theme_colors.dart';
 
 class NGOPage extends StatefulWidget {
   const NGOPage({Key? key}) : super(key: key);
@@ -27,14 +27,17 @@ class _NGOPageState extends State<NGOPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.pink,
-        title: const Text(
+        elevation: 3.0,
+        backgroundColor: ThemeColors.whiteColor,
+        title: Text(
           'NGO',
-          style: TextStyle(),
+          style: Theme.of(context).textTheme.headline5,
         ),
+        iconTheme:
+            const IconThemeData(color: ThemeColors.blackColor1, size: 35),
+        titleSpacing: -5.0,
       ),
-      drawer: MenuDrawer(),
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -64,6 +67,9 @@ class _NGOPageState extends State<NGOPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
+                    SizedBox(
+                      height: 30,
+                    ),
                     Center(
                       child: Text(
                         "NONNIE ROBERSON NGO",
@@ -135,7 +141,7 @@ class _NGOPageState extends State<NGOPage> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     gradient: LinearGradient(
-                      colors: <Color>[Colors.orange[200]!, Colors.pinkAccent],
+                      colors: <Color>[Colors.pink[200]!, Colors.black54],
                     ),
                   ),
                   padding: const EdgeInsets.all(12.0),

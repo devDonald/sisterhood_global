@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:paginate_firestore/bloc/pagination_listeners.dart';
+import 'package:paginate_firestore/paginate_firestore.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/widgets/profile_picture.dart';
 import 'package:sisterhood_global/features/community/controller/firebase_api.dart';
@@ -15,7 +16,6 @@ import '../../../core/themes/theme_colors.dart';
 import '../../../core/themes/theme_text.dart';
 import '../../../core/widgets/display_event.dart';
 import '../../../core/widgets/linkify_text_widget.dart';
-import '../../../core/widgets/other_widgets.dart';
 
 class CommentScreen extends StatefulWidget {
   final String category;
@@ -109,6 +109,9 @@ class _CommentScreenState extends State<CommentScreen> {
     super.dispose();
   }
 
+  PaginateRefreshedChangeListener refreshChangeListener =
+      PaginateRefreshedChangeListener();
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -141,19 +144,19 @@ class _CommentScreenState extends State<CommentScreen> {
               const SizedBox(
                 height: 5,
               ),
-              StreamBuilder<QuerySnapshot>(
-                  stream: communityRef
-                      .doc(widget.postId)
-                      .collection('comments')
-                      .orderBy('timestamp', descending: false)
-                      .snapshots(),
-                  builder: (context, snapshot) {
+              RefreshIndicator(
+                child: PaginateFirestore(
+                  shrinkWrap: true,
+                  onEmpty: const Center(child: Text('no comments')),
+                  physics: const BouncingScrollPhysics(),
+                  itemsPerPage: 50,
+                  itemBuilder: (context, snapshot, index) {
                     return StickyGroupedListView<dynamic, String>(
                       floatingHeader: true,
                       shrinkWrap: true,
                       stickyHeaderBackgroundColor: Colors.white,
                       physics: const BouncingScrollPhysics(),
-                      elements: snapshot.data!.docs,
+                      elements: snapshot,
                       groupBy: (element) => element['date'],
                       itemScrollController: GroupedItemScrollController(),
                       order: StickyGroupedListOrder.DESC,
@@ -188,7 +191,22 @@ class _CommentScreenState extends State<CommentScreen> {
                               );
                       },
                     );
-                  }),
+                  },
+                  // orderBy is compulsary to enable pagination
+                  query: communityRef
+                      .doc(widget.postId)
+                      .collection('comments')
+                      .orderBy('timestamp', descending: false),
+                  isLive: true,
+                  listeners: [
+                    refreshChangeListener,
+                  ],
+                  itemBuilderType: PaginateBuilderType.listView,
+                ),
+                onRefresh: () async {
+                  refreshChangeListener.refreshed = true;
+                },
+              ),
               const SizedBox(
                 height: 60,
               ),
@@ -223,7 +241,7 @@ class _CommentScreenState extends State<CommentScreen> {
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.BOTTOM,
                     timeInSecForIosWeb: 1,
-                    backgroundColor: JanguAskColors.redColor,
+                    backgroundColor: ThemeColors.redColor,
                     textColor: Colors.white,
                     fontSize: 16.0);
               }
@@ -248,13 +266,13 @@ class _CommentScreenState extends State<CommentScreen> {
         12.2,
       ),
       decoration: BoxDecoration(
-        color: JanguAskColors.whiteColor,
+        color: ThemeColors.whiteColor,
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: const [
           BoxShadow(
             offset: Offset(0.0, 1.5),
             blurRadius: 3.0,
-            color: JanguAskColors.whiteColor,
+            color: ThemeColors.whiteColor,
           ),
         ],
       ),
@@ -284,7 +302,7 @@ class _CommentScreenState extends State<CommentScreen> {
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.end,
                       style: const TextStyle(
-                        color: JanguAskColors.primaryGreyColor,
+                        color: ThemeColors.primaryGreyColor,
                         fontWeight: JanguAskFontWeight.kBoldText,
                         fontSize: 12.0,
                         fontFamily: JanguAskFontFamily.secondaryFontLato,
@@ -294,33 +312,33 @@ class _CommentScreenState extends State<CommentScreen> {
                   ],
                 ),
               ),
-              DeleteEditPopUp(
-                delete: () async {
-                  await communityRef
-                      .doc(widget.postId)
-                      .delete()
-                      .then((value) async {
-                    await usersRef
-                        .doc(widget.ownerId)
-                        .update({"posts": FieldValue.increment(-1)});
-                  });
-                  Navigator.of(context).pop();
-                },
-                isOwner: widget.isOwner,
-                edit: () {
-                  Navigator.of(context).pop();
-                },
-                report: () {
-                  Navigator.of(context).pop();
-                }, // widget.isOwner,
-              )
+              // DeleteEditPopUp(
+              //   delete: () async {
+              //     await communityRef
+              //         .doc(widget.postId)
+              //         .delete()
+              //         .then((value) async {
+              //       await usersRef
+              //           .doc(widget.ownerId)
+              //           .update({"posts": FieldValue.increment(-1)});
+              //     });
+              //     Navigator.of(context).pop();
+              //   },
+              //   isOwner: widget.isOwner,
+              //   edit: () {
+              //     Navigator.of(context).pop();
+              //   },
+              //   report: () {
+              //     Navigator.of(context).pop();
+              //   }, // widget.isOwner,
+              // )
               //level
             ],
           ),
 
           const Divider(
             height: 20,
-            color: JanguAskColors.pinkishGreyColor,
+            color: ThemeColors.pinkishGreyColor,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -357,14 +375,14 @@ class _CommentScreenState extends State<CommentScreen> {
                   const Icon(
                     Icons.timer,
                     size: 14.6,
-                    color: JanguAskColors.primaryGreyColor,
+                    color: ThemeColors.primaryGreyColor,
                   ),
                   const SizedBox(width: 3.0),
                   Text(
                     widget.timeOfPost,
                     style: const TextStyle(
                       fontSize: 11.0,
-                      color: JanguAskColors.primaryGreyColor,
+                      color: ThemeColors.primaryGreyColor,
                     ),
                   ),
                 ],
@@ -402,7 +420,7 @@ class _CommentScreenState extends State<CommentScreen> {
                           widget.noOfApplaud,
                           style: const TextStyle(
                             fontSize: 11.0,
-                            color: JanguAskColors.primaryGreyColor,
+                            color: ThemeColors.primaryGreyColor,
                           ),
                         ),
                       ],
@@ -418,7 +436,7 @@ class _CommentScreenState extends State<CommentScreen> {
                         widget.noOfComment,
                         style: const TextStyle(
                           fontSize: 11.0,
-                          color: JanguAskColors.primaryGreyColor,
+                          color: ThemeColors.primaryGreyColor,
                         ),
                       ),
                     ],

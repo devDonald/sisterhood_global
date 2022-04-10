@@ -1,33 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:sisterhood_global/features/community/pages/latest_posts.dart';
-import 'package:sisterhood_global/features/community/pages/pinned_posts.dart';
-import 'package:sisterhood_global/features/community/pages/prayer_wall.dart';
+import 'package:sisterhood_global/features/community/pages/agree_with_me.dart';
+import 'package:sisterhood_global/features/community/pages/testimony.dart';
 
+import '../../../core/themes/theme_colors.dart';
 import '../../dashboard/menu_drawer.dart';
-import 'create_contribution.dart';
 
-class CommunityHome extends StatefulWidget {
+class PrayerWallHome extends StatefulWidget {
   static const String id = 'Search';
-  const CommunityHome({
+  const PrayerWallHome({
     Key? key,
   }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _CommunityHomeState();
+    return _PrayerWallHomeState();
   }
 }
 
-class _CommunityHomeState extends State<CommunityHome>
+class _PrayerWallHomeState extends State<PrayerWallHome>
     with SingleTickerProviderStateMixin {
   TextEditingController searchController = TextEditingController();
   //FocusNode searchFocus = FocusNode();
   late TabController _tabController;
   static const List<Tab> commTabs = <Tab>[
-    Tab(text: 'Pinned Posts'),
-    Tab(text: 'Latest Posts'),
-    Tab(text: 'Prayer Wall'),
+    Tab(text: 'Agree With Me'),
+    Tab(text: 'Testimonies'),
   ];
   @override
   initState() {
@@ -49,31 +46,22 @@ class _CommunityHomeState extends State<CommunityHome>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: const Text('Community'),
-            backgroundColor: Colors.pink,
-            bottom: TabBar(
-              controller: _tabController,
-              tabs: commTabs,
-            )),
-        drawer: const MenuDrawer(),
-        body: TabBarView(
-          controller: _tabController,
-          children: const [PinnedPosts(), LatestPosts(), PrayerWall()],
-        ),
-        floatingActionButton: FloatingActionButton(
-          heroTag: null,
-          backgroundColor: Colors.pink,
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
+      appBar: AppBar(
+          title: Text(
+            'Prayer Wall',
+            style: Theme.of(context).textTheme.headline5,
           ),
-          onPressed: () {
-            Get.to(() => const CreateContribution(
-                  isAdmin: false,
-                ));
-          },
-        ));
+          iconTheme: const IconThemeData(color: Colors.black, size: 35),
+          backgroundColor: ThemeColors.whiteColor,
+          bottom: TabBar(
+            controller: _tabController,
+            tabs: commTabs,
+          )),
+      body: TabBarView(
+        controller: _tabController,
+        children: const [AgreeWithMe(), Testimony()],
+      ),
+    );
   }
 }
 //TODO if we have to use tabs

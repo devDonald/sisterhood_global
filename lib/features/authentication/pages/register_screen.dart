@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dropdown/flutter_dropdown.dart';
 import 'package:get/get.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/model/app_users_model.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
@@ -11,10 +15,18 @@ import 'package:sisterhood_global/core/widgets/screen_title.dart';
 import 'package:sisterhood_global/core/widgets/social_button.dart';
 import 'package:sisterhood_global/features/authentication/pages/login_screen.dart';
 
-import '../controller/login_controller.dart';
+import '../controller/auth_controller.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
+  RegisterScreen({Key? key}) : super(key: key);
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final AuthController authController = AuthController.to;
+
   final TextEditingController _email = TextEditingController();
 
   final TextEditingController _password = TextEditingController();
@@ -27,7 +39,9 @@ class RegisterScreen extends StatelessWidget {
 
   String _dialCode = '+234', _country = 'Nigeria', _code = 'NG';
 
-  RegisterScreen({Key? key}) : super(key: key);
+  String? marital;
+
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +80,13 @@ class RegisterScreen extends StatelessWidget {
                         Container(
                           // padding: EdgeInsets.symmetric(horizontal: 15),
                           decoration: BoxDecoration(
-                            color: JanguAskColors.whiteColor,
+                            color: ThemeColors.whiteColor,
                             borderRadius: BorderRadius.circular(2.5),
                             boxShadow: const [
                               BoxShadow(
                                 blurRadius: 7.5,
                                 offset: Offset(0.0, 2.5),
-                                color: JanguAskColors.shadowColor,
+                                color: ThemeColors.shadowColor,
                               )
                             ],
                           ),
@@ -103,13 +117,13 @@ class RegisterScreen extends StatelessWidget {
                         Container(
                           // padding: EdgeInsets.symmetric(horizontal: 15),
                           decoration: BoxDecoration(
-                            color: JanguAskColors.whiteColor,
+                            color: ThemeColors.whiteColor,
                             borderRadius: BorderRadius.circular(2.5),
                             boxShadow: const [
                               BoxShadow(
                                 blurRadius: 7.5,
                                 offset: Offset(0.0, 2.5),
-                                color: JanguAskColors.shadowColor,
+                                color: ThemeColors.shadowColor,
                               )
                             ],
                           ),
@@ -135,18 +149,54 @@ class RegisterScreen extends StatelessWidget {
                             ),
                           ),
                         ),
+                        const SizedBox(height: 15),
+
+                        //Marital Status
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.only(left: 15),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            color: ThemeColors.whiteColor,
+                            borderRadius: BorderRadius.circular(10.0),
+                            boxShadow: const [
+                              BoxShadow(
+                                blurRadius: 7.5,
+                                offset: Offset(0.0, 2.5),
+                                color: ThemeColors.shadowColor,
+                              )
+                            ],
+                          ),
+                          child: DropDown(
+                            dropDownType: DropDownType.Button,
+                            items: const [
+                              "Single",
+                              "Married",
+                              "Widowed",
+                              "Divorced"
+                            ],
+                            hint: const Text("Marital Status"),
+                            icon: const Icon(
+                              Icons.expand_more,
+                              color: Colors.pink,
+                            ),
+                            onChanged: (String? value) {
+                              marital = value!;
+                            },
+                          ),
+                        ),
                         //password
                         const SizedBox(height: 15),
                         Container(
                           // padding: EdgeInsets.symmetric(horizontal: 15),
                           decoration: BoxDecoration(
-                            color: JanguAskColors.whiteColor,
+                            color: ThemeColors.whiteColor,
                             borderRadius: BorderRadius.circular(2.5),
                             boxShadow: const [
                               BoxShadow(
                                 blurRadius: 7.5,
                                 offset: Offset(0.0, 2.5),
-                                color: JanguAskColors.shadowColor,
+                                color: ThemeColors.shadowColor,
                               )
                             ],
                           ),
@@ -158,13 +208,23 @@ class RegisterScreen extends StatelessWidget {
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             textInputAction: TextInputAction.newline,
-                            obscureText: true,
+                            obscureText: _obscureText,
                             keyboardType: TextInputType.text,
                             textCapitalization: TextCapitalization.none,
                             maxLength: null,
                             decoration: InputDecoration(
                               hintText: 'Password',
                               prefixIcon: const Icon(Icons.lock),
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _obscureText = !_obscureText;
+                                  });
+                                },
+                                child: Icon(_obscureText
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
+                              ),
                               contentPadding:
                                   const EdgeInsets.fromLTRB(20, 15, 20, 15),
                               border: OutlineInputBorder(
@@ -178,13 +238,13 @@ class RegisterScreen extends StatelessWidget {
                         Container(
                           // padding: EdgeInsets.symmetric(horizontal: 15),
                           decoration: BoxDecoration(
-                            color: JanguAskColors.whiteColor,
+                            color: ThemeColors.whiteColor,
                             borderRadius: BorderRadius.circular(2.5),
                             boxShadow: const [
                               BoxShadow(
                                 blurRadius: 7.5,
                                 offset: Offset(0.0, 2.5),
-                                color: JanguAskColors.shadowColor,
+                                color: ThemeColors.shadowColor,
                               )
                             ],
                           ),
@@ -196,12 +256,22 @@ class RegisterScreen extends StatelessWidget {
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             textInputAction: TextInputAction.newline,
-                            obscureText: true,
+                            obscureText: _obscureText,
                             keyboardType: TextInputType.text,
                             textCapitalization: TextCapitalization.none,
                             maxLength: null,
                             decoration: InputDecoration(
                               hintText: 'Confirm Password',
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _obscureText = !_obscureText;
+                                  });
+                                },
+                                child: Icon(_obscureText
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
+                              ),
                               prefixIcon: const Icon(Icons.lock),
                               contentPadding:
                                   const EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -239,14 +309,14 @@ class RegisterScreen extends StatelessWidget {
                                       child: Container(
                                         // padding: EdgeInsets.symmetric(horizontal: 15),
                                         decoration: BoxDecoration(
-                                          color: JanguAskColors.whiteColor,
+                                          color: ThemeColors.whiteColor,
                                           borderRadius:
                                               BorderRadius.circular(2.5),
                                           boxShadow: const [
                                             BoxShadow(
                                               blurRadius: 7.5,
                                               offset: Offset(0.0, 2.5),
-                                              color: JanguAskColors.shadowColor,
+                                              color: ThemeColors.shadowColor,
                                             )
                                           ],
                                         ),
@@ -286,7 +356,7 @@ class RegisterScreen extends StatelessWidget {
                         PrimaryButton(
                           height: 45.0,
                           width: double.infinity,
-                          color: JanguAskColors.primaryColor,
+                          color: ThemeColors.primaryColor,
                           buttonTitle: 'Create an account',
                           blurRadius: 7.0,
                           roundedEdge: 2.5,
@@ -308,9 +378,13 @@ class RegisterScreen extends StatelessWidget {
                                 phone: _phoneNumber.text,
                                 dialCode: _dialCode,
                                 code: _code,
+                                marital: marital,
+                                bio: "I am new to sisterhood global App",
                                 followersList: {},
                                 followingList: {},
                                 type: "USER",
+                                isAdmin: false,
+                                posts: 0,
                               );
                               authController.signUp(
                                   _email.text, _password.text, model);
@@ -322,11 +396,20 @@ class RegisterScreen extends StatelessWidget {
                         SocialButton(
                           platformName: 'Sign up with Google',
                           platformIcon: JanguAskImages.googleLogo,
-                          color: JanguAskColors.redColor,
+                          color: ThemeColors.redColor,
                           onTap: () async {
                             authController.googleLogin();
                           },
                         ),
+                        const SizedBox(height: 25.0),
+                        Platform.isIOS
+                            ? SignInWithAppleButton(
+                                style: SignInWithAppleButtonStyle.black,
+                                iconAlignment: IconAlignment.left,
+                                onPressed: () {
+                                  authController.signInWithApple();
+                                })
+                            : Container(),
                         //
                         const SizedBox(height: 15.0),
                         Center(

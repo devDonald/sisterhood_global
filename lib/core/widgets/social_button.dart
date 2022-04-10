@@ -31,7 +31,7 @@ class SocialButton extends StatelessWidget {
             ),
           ],
           borderRadius: BorderRadius.circular(2.5),
-          color: (color != null) ? color : JanguAskColors.blueColor,
+          color: color,
         ),
         child: Stack(
           children: <Widget>[
@@ -48,7 +48,7 @@ class SocialButton extends StatelessWidget {
               child: Text(
                 platformName,
                 style: const TextStyle(
-                  color: JanguAskColors.whiteColor,
+                  color: ThemeColors.whiteColor,
                   fontWeight: JanguAskFontWeight.kBoldText,
                 ),
               ),

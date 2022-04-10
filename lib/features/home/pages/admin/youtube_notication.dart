@@ -6,6 +6,8 @@ import 'package:sisterhood_global/core/widgets/primary_button.dart';
 import 'package:sisterhood_global/features/community/data/community_database.dart';
 import 'package:sisterhood_global/features/notification/notification_type.dart';
 
+import '../../../../core/themes/theme_colors.dart';
+
 class LivestreamNotification extends StatefulWidget {
   static const String id = 'LivestreamNotification';
   const LivestreamNotification({Key? key}) : super(key: key);
@@ -25,6 +27,14 @@ class _LivestreamNotificationState extends State<LivestreamNotification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Live Stream Notification',
+          style: Theme.of(context).textTheme.headline5,
+        ),
+        iconTheme: const IconThemeData(color: Colors.black, size: 35),
+        backgroundColor: ThemeColors.whiteColor,
+      ),
       body: Center(
         child: Container(
           width: double.infinity,

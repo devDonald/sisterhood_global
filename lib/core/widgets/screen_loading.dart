@@ -14,13 +14,13 @@ class ScreenLoading extends StatelessWidget {
       children: [
         CircularProgressIndicator(
           strokeWidth: 5,
-          backgroundColor: JanguAskColors.primaryGreyColor,
+          backgroundColor: ThemeColors.primaryGreyColor,
         ),
         SizedBox(height: 10),
         Text(
           'Loading Please Wait',
           style: TextStyle(
-            color: JanguAskColors.primaryGreyColor,
+            color: ThemeColors.primaryGreyColor,
             fontSize: 13,
           ),
         ),

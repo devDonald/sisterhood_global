@@ -12,7 +12,7 @@ Widget buildEventType(context) {
     width: double.infinity,
     height: 125.5,
     decoration: const BoxDecoration(
-      color: JanguAskColors.whiteColor,
+      color: ThemeColors.whiteColor,
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(15.0),
         topRight: Radius.circular(15.0),
@@ -21,7 +21,7 @@ Widget buildEventType(context) {
         BoxShadow(
           blurRadius: 4.5,
           offset: Offset(0.0, -3.5),
-          color: JanguAskColors.shadowColor,
+          color: ThemeColors.shadowColor,
         ),
       ],
     ),
@@ -125,7 +125,7 @@ class EventDetail extends StatelessWidget {
                     Text(
                       title,
                       style: TextStyle(
-                          color: Colors.pink,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: MediaQuery.of(context).size.height / 45),
                     ),
@@ -136,7 +136,7 @@ class EventDetail extends StatelessWidget {
                       children: [
                         const Icon(
                           Icons.calendar_today,
-                          color: Colors.pink,
+                          color: Colors.pinkAccent,
                           size: 12,
                         ),
                         SizedBox(
@@ -158,7 +158,7 @@ class EventDetail extends StatelessWidget {
                       children: [
                         const Icon(
                           Icons.location_on,
-                          color: Colors.pink,
+                          color: Colors.pinkAccent,
                           size: 12,
                         ),
                         SizedBox(

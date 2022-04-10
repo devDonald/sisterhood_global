@@ -1,13 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sisterhood_global/features/liveStreaming/data/channel_info.dart';
 import 'package:sisterhood_global/features/liveStreaming/data/video_list.dart';
 import 'package:sisterhood_global/features/liveStreaming/data/youtube_services.dart';
 import 'package:sisterhood_global/features/liveStreaming/pages/video_player.dart';
 
-import '../../../core/widgets/menu_drawer.dart';
+import '../../../core/themes/theme_colors.dart';
 
 class Videos extends StatefulWidget {
+  //final String name, email, photo,uid;
+
   const Videos({
     Key? key,
   }) : super(key: key);
@@ -71,13 +74,13 @@ class _VideosState extends State<Videos> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink,
-        title: const Text(
+        title: Text(
           'Videos',
-          style: TextStyle(),
+          style: Theme.of(context).textTheme.headline5,
         ),
+        iconTheme: const IconThemeData(color: Colors.black, size: 35),
+        backgroundColor: ThemeColors.whiteColor,
       ),
-      drawer: MenuDrawer(),
       body: Container(
         color: Colors.white,
         child: Column(
@@ -104,18 +107,16 @@ class _VideosState extends State<Videos> {
                   itemBuilder: (context, index) {
                     VideoItem videoItem = _videosList.videos![index];
                     return InkWell(
-                      onTap: () async {
-                        print(Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return VideoPlayerScreen(
-                            videoItem: videoItem,
-                          );
-                        })));
+                      onTap: () {
+                        Get.to(() => VideoPlayerScreen(
+                              videoID: videoItem.video!.resourceId!.videoId!,
+                              videoTitle: videoItem.video!.title!,
+                            ));
                       },
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.19,
+                        height: MediaQuery.of(context).size.height * 0.17,
                         width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.all(20.0),
+                        padding: EdgeInsets.all(10.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [

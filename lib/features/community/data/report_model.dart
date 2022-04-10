@@ -2,96 +2,71 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/model/app_users_model.dart';
 
-class CommunityModel {
-  String? body, category, ownerId, postId, imageLink, videoLink;
-  dynamic comments, likes;
-  String? createdAt, ownerName, ownerPhoto, likeCount, commentCount;
+class ReportModel {
+  String? reportTitle,
+      userId,
+      ownerName,
+      ownerId,
+      postId,
+      reportId,
+      reportDetails;
+  String? createdAt, reportActions, status, actionsTaken, reporterName;
   Timestamp? timestamp;
   UserModel? user;
-  bool? likeToCard = false,
-      isOwner = false,
-      isPinned = false,
-      isApproved = false,
-      withImage = false;
 
-  CommunityModel({
-    this.body,
-    this.category,
+  ReportModel({
+    this.reportTitle,
+    this.userId,
     this.ownerId,
     this.postId,
-    this.comments,
-    this.likes,
     this.createdAt,
     this.user,
     this.timestamp,
-    this.imageLink,
-    this.videoLink,
-    this.isApproved,
-    this.isPinned,
+    this.reportId,
+    this.status,
+    this.actionsTaken,
+    this.reportActions,
+    this.reportDetails,
+    this.ownerName,
+    this.reporterName,
   });
 
   toJson() {
     return {
       "ownerId": ownerId,
       "postId": postId,
-      "category": category,
-      "body": body,
-      "comments": comments,
+      "userId": userId,
+      "reportTitle": reportTitle,
       "createdAt": createdAt,
-      "likes": likes,
-      "imageLink": imageLink,
-      "videoLink": videoLink,
-      "isApproved": isApproved,
-      "isPinned": isPinned,
+      "reportId": reportId,
+      "reportActions": reportActions,
+      "actionsTaken": actionsTaken,
+      "status": status,
+      "reportDetails": reportDetails,
       "timestamp": timestamp,
+      "ownerName": ownerName,
+      "reporterName": reporterName,
     };
   }
 
-  communityUpdate() {
-    return {
-      "category": category,
-      "body": body,
-    };
-  }
-
-  CommunityModel.fromSnapshot({required DocumentSnapshot snap}) {
-    body = snap['body'];
-    category = snap['category'];
+  ReportModel.fromSnapshot({required DocumentSnapshot snap}) {
+    reportTitle = snap['reportTitle'];
+    userId = snap['userId'];
     ownerId = snap['ownerId'];
     postId = snap['postId'];
-    comments = snap['comments'];
     createdAt = snap['createdAt'];
     timestamp = snap['timestamp'];
-    likes = snap['likes'];
-    imageLink = snap['imageLink'];
-    videoLink = snap['videoLink'];
-    isApproved = snap['isApproved'];
-    isPinned = snap['isPinned'];
-
-    if (snap['likes'] != null) {
-      likeCount = getCount(getLikeCount(likes));
-    }
-    if (snap['comments'] != null) {
-      commentCount = getCount(getCommentCount(comments));
-    }
-
-    if (likes[auth.currentUser!.uid] == true) {
-      likeToCard = true;
-    }
-    if (auth.currentUser!.uid == snap['ownerId']) {
-      isOwner = true;
-    }
-
-    if (imageLink!.isNotEmpty) {
-      withImage = true;
-    }
+    reportId = snap['reportId'];
+    status = snap['status'];
+    reportActions = snap['reportActions'];
+    actionsTaken = snap['actionsTaken'];
+    reportDetails = snap['reportDetails'];
+    ownerName = snap['ownerName'];
+    reporterName = snap['reporterName'];
   }
 
   Future<void> loadUser() async {
     DocumentSnapshot ds = await usersRef.doc(ownerId).get();
-
     user = UserModel.fromSnapshot(ds);
-    ownerName = user!.name;
-    ownerPhoto = user!.photo;
   }
 }

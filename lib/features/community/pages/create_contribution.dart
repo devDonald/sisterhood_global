@@ -16,8 +16,11 @@ import '../../../core/widgets/add_photo_buttons.dart';
 
 class CreateContribution extends StatefulWidget {
   final bool isAdmin;
+  final String category;
   static const String id = 'CreateQuestion';
-  const CreateContribution({Key? key, required this.isAdmin}) : super(key: key);
+  const CreateContribution(
+      {Key? key, required this.isAdmin, required this.category})
+      : super(key: key);
 
   @override
   _CreateContributionState createState() => _CreateContributionState();
@@ -43,7 +46,7 @@ class _CreateContributionState extends State<CreateContribution> {
   getImageFile(ImageSource source) async {
     //Clicking or Picking from Gallery
 
-    var image = await _picker.getImage(source: source);
+    var image = await _picker.pickImage(source: source);
 
     //Cropping the image
 
@@ -83,6 +86,7 @@ class _CreateContributionState extends State<CreateContribution> {
         timestamp: timestamp,
       );
       await CommunityDB.addContemplation(model);
+
       pr.hide();
       Navigator.of(context).pop();
     } catch (e) {}
@@ -91,6 +95,7 @@ class _CreateContributionState extends State<CreateContribution> {
 
   @override
   void initState() {
+    categoryOption = widget.category;
     super.initState();
   }
 
@@ -101,7 +106,7 @@ class _CreateContributionState extends State<CreateContribution> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: JanguAskColors.primaryColor,
+        backgroundColor: ThemeColors.primaryColor,
         elevation: 3.0,
         titleSpacing: -3.0,
         title: const Text(
@@ -138,6 +143,7 @@ class _CreateContributionState extends State<CreateContribution> {
                   const SizedBox(width: 8),
                   DropDown(
                     showUnderline: true,
+                    initialValue: widget.category,
                     items: questionCategory,
                     hint: const Text("Select Category"),
                     icon: const Icon(
@@ -192,7 +198,7 @@ class _CreateContributionState extends State<CreateContribution> {
                       height: 36.5,
                       blurRadius: 3.0,
                       roundedEdge: 5.0,
-                      color: Colors.pink,
+                      color: ThemeColors.primaryColor,
                       buttonTitle: 'Post',
                       onTap: () {
                         if (validateQuestion(_question.text, categoryOption)) {

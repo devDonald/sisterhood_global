@@ -42,6 +42,18 @@ exports.cellCallStarted = functions.firestore
                      }`;
                      title = "New Private Chat";
                      break;
+                   case "AdminReport":
+                     body = `${document.username} Reported a Post: ${
+                      document.commentData
+                    }`;
+                    title = "Admin Action Needed";
+                    break;
+                    case "Admin":
+                     body = `${document.username} Made a community Post Now: ${
+                      document.commentData
+                    }`;
+                    title = "Admin Action Needed";
+                    break;
                   case "Event":
                       body = `${document.username} posted an Event: ${
                         document.commentData

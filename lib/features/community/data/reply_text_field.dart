@@ -25,7 +25,7 @@ class DiscussionTextField extends StatelessWidget {
         right: 10,
       ),
       decoration: BoxDecoration(
-        color: JanguAskColors.whiteColor,
+        color: ThemeColors.whiteColor,
         borderRadius: BorderRadius.circular(
           5.0,
         ),
@@ -33,7 +33,7 @@ class DiscussionTextField extends StatelessWidget {
           BoxShadow(
             blurRadius: 7.5,
             offset: Offset(0.0, 2.5),
-            color: JanguAskColors.shadowColor,
+            color: ThemeColors.shadowColor,
           ),
         ],
       ),
@@ -57,7 +57,7 @@ class DiscussionTextField extends StatelessWidget {
                 controller: discussionController,
                 style: const TextStyle(color: Colors.black, fontSize: 20.0),
                 decoration: const InputDecoration.collapsed(
-                  hintText: 'New Comment...',
+                  hintText: 'New Message...',
                   hintStyle: TextStyle(color: Color(0xff8e8e8e)),
                 ),
               ),
@@ -69,14 +69,14 @@ class DiscussionTextField extends StatelessWidget {
             child: Container(
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: JanguAskColors.primaryColor,
+                color: ThemeColors.primaryColor,
               ),
               margin: const EdgeInsets.only(right: 10, left: 5),
               padding: const EdgeInsets.all(10),
               child: const Icon(
                 Icons.send,
                 size: 25,
-                color: JanguAskColors.whiteColor,
+                color: ThemeColors.whiteColor,
               ),
             ),
           )

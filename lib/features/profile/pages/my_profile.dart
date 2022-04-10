@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:paginate_firestore/bloc/pagination_listeners.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
+import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/features/profile/pages/user_profile_info.dart';
 
 import '../../../core/constants/contants.dart';
@@ -24,8 +25,12 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       //backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.pink,
-        title: const Text('My Profile'),
+        title: Text(
+          'My Profile',
+          style: Theme.of(context).textTheme.headline5,
+        ),
+        iconTheme: const IconThemeData(color: Colors.black, size: 35),
+        backgroundColor: ThemeColors.whiteColor,
       ),
       body: RefreshIndicator(
         child: PaginateFirestore(
@@ -44,15 +49,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   flag: FlagPicker(
                     flagCode: _user.code!,
                   ),
-                  name: _user.name!,
+                  name: _user.name!.toUpperCase(),
                 ),
                 const SizedBox(height: 24),
                 NumbersWidget(
                   nFollowers: _user.followers!,
-                  nFollowing: _user.followers!,
-                  nPost: '3',
+                  nFollowing: _user.following!,
+                  nPost: '${_user.posts!}',
                 ),
                 OverViewBioCard(
+                  marital: _user.marital!,
                   bio: _user.bio!,
                   email: _user.email!,
                   phone: "${_user.dialCode}${_user.phone}",

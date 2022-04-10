@@ -8,6 +8,7 @@ import 'package:sisterhood_global/features/profile/pages/user_profile_info.dart'
 
 import '../../../core/constants/contants.dart';
 import '../../../core/model/app_users_model.dart';
+import '../../../core/themes/theme_colors.dart';
 import '../../../core/widgets/flag_picker.dart';
 import '../../../core/widgets/numbers_widget.dart';
 import '../../authentication/pages/overview_biocard.dart';
@@ -30,15 +31,19 @@ class _FollowUserScreenState extends State<FollowUserScreen> {
     return Scaffold(
       //backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.pink,
-        title: Text(widget.name),
+        title: Text(
+          widget.name,
+          style: Theme.of(context).textTheme.headline5,
+        ),
+        iconTheme: const IconThemeData(color: Colors.black, size: 35),
+        backgroundColor: ThemeColors.whiteColor,
       ),
       body: RefreshIndicator(
         child: PaginateFirestore(
           physics: const BouncingScrollPhysics(),
           itemsPerPage: 1,
           itemBuilder: (context, snapshot, index) {
-            UserModel _user = UserModel.fromSnapshot(snapshot.single);
+            UserModel _user = UserModel.fromSnapshot(snapshot[index]);
             return Column(
               children: [
                 UserProfileInfo(
@@ -56,7 +61,7 @@ class _FollowUserScreenState extends State<FollowUserScreen> {
                 NumbersWidget(
                   nFollowers: _user.followers!,
                   nFollowing: _user.following!,
-                  nPost: '3',
+                  nPost: '${_user.posts!}',
                 ),
                 FollowButton(
                     isFollowing: _user.isFollowing!,
@@ -68,6 +73,7 @@ class _FollowUserScreenState extends State<FollowUserScreen> {
                           auth.currentUser!.displayName!);
                     }),
                 OverViewBioCard(
+                  marital: _user.marital!,
                   bio: _user.bio!,
                   email: _user.email!,
                   phone: "${_user.dialCode}${_user.phone}",

@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:progress_dialog/progress_dialog.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/core/themes/theme_images.dart';
@@ -9,16 +12,24 @@ import 'package:sisterhood_global/core/widgets/flat_secodary_button.dart';
 import 'package:sisterhood_global/core/widgets/primary_button.dart';
 import 'package:sisterhood_global/core/widgets/screen_title.dart';
 import 'package:sisterhood_global/core/widgets/social_button.dart';
-import 'package:sisterhood_global/features/authentication/controller/login_controller.dart';
+import 'package:sisterhood_global/features/authentication/controller/auth_controller.dart';
 import 'package:sisterhood_global/features/authentication/pages/register_screen.dart';
 import 'package:sisterhood_global/features/authentication/pages/reset_password.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final AuthController authController = AuthController.to;
+
   final TextEditingController _email = TextEditingController();
 
   final TextEditingController _password = TextEditingController();
+
   late ProgressDialog pr;
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +70,13 @@ class LoginScreen extends StatelessWidget {
                     Container(
                       // padding: EdgeInsets.symmetric(horizontal: 15),
                       decoration: BoxDecoration(
-                        color: JanguAskColors.whiteColor,
+                        color: ThemeColors.whiteColor,
                         borderRadius: BorderRadius.circular(2.5),
                         boxShadow: const [
                           BoxShadow(
                             blurRadius: 7.5,
                             offset: Offset(0.0, 2.5),
-                            color: JanguAskColors.shadowColor,
+                            color: ThemeColors.shadowColor,
                           )
                         ],
                       ),
@@ -83,8 +94,9 @@ class LoginScreen extends StatelessWidget {
                           textCapitalization: TextCapitalization.none,
                           decoration: InputDecoration(
                             hintText: 'Email',
-                            prefixIcon: Icon(Icons.email),
-                            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                            prefixIcon: const Icon(Icons.email),
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(20, 15, 20, 15),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -94,13 +106,13 @@ class LoginScreen extends StatelessWidget {
                     Container(
                       // padding: EdgeInsets.symmetric(horizontal: 15),
                       decoration: BoxDecoration(
-                        color: JanguAskColors.whiteColor,
+                        color: ThemeColors.whiteColor,
                         borderRadius: BorderRadius.circular(2.5),
                         boxShadow: const [
                           BoxShadow(
                             blurRadius: 7.5,
                             offset: Offset(0.0, 2.5),
-                            color: JanguAskColors.shadowColor,
+                            color: ThemeColors.shadowColor,
                           )
                         ],
                       ),
@@ -111,13 +123,24 @@ class LoginScreen extends StatelessWidget {
                           controller: _password,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           textInputAction: TextInputAction.newline,
-                          obscureText: true,
+                          obscureText: _obscureText,
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.none,
                           decoration: InputDecoration(
                             hintText: 'Password',
-                            prefixIcon: Icon(Icons.lock),
-                            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _obscureText = !_obscureText;
+                                });
+                              },
+                              child: Icon(_obscureText
+                                  ? Icons.visibility_off
+                                  : Icons.visibility),
+                            ),
+                            prefixIcon: const Icon(Icons.lock),
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(20, 15, 20, 15),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -128,7 +151,7 @@ class LoginScreen extends StatelessWidget {
                       alignment: Alignment.bottomRight,
                       child: FlatSecondaryButton(
                         title: 'Forgot Password? Click Here!',
-                        color: JanguAskColors.primaryColor,
+                        color: ThemeColors.primaryColor,
                         onTap: () {
                           Get.to(() => const ResetPassword());
                         },
@@ -139,7 +162,7 @@ class LoginScreen extends StatelessWidget {
                       width: double.infinity,
                       height: 45.0,
                       buttonTitle: 'Login',
-                      color: JanguAskColors.primaryColor,
+                      color: ThemeColors.primaryColor,
                       blurRadius: 7.0,
                       roundedEdge: 10,
                       onTap: () async {
@@ -152,11 +175,20 @@ class LoginScreen extends StatelessWidget {
                     SocialButton(
                       platformName: 'Continue with Google',
                       platformIcon: JanguAskImages.googleLogo,
-                      color: JanguAskColors.redColor,
+                      color: ThemeColors.redColor,
                       onTap: () async {
                         authController.googleLogin();
                       },
                     ),
+                    const SizedBox(height: 25.0),
+                    Platform.isIOS
+                        ? SignInWithAppleButton(
+                            style: SignInWithAppleButtonStyle.black,
+                            iconAlignment: IconAlignment.left,
+                            onPressed: () {
+                              authController.signInWithApple();
+                            })
+                        : Container(),
                     const SizedBox(height: 15.0),
                     Center(
                       child: FlatPrimaryButton(

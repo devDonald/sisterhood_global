@@ -52,21 +52,21 @@ class _PrimaryButtonState extends State<PrimaryButton> {
                 (widget.roundedEdge != null) ? widget.roundedEdge : 4),
             color: (widget.color != null)
                 ? widget.color
-                : JanguAskColors.primaryColor,
+                : ThemeColors.primaryColor,
           ),
           child: Center(
             child: !widget.busy
                 ? Text(
                     (widget.buttonTitle != null) ? widget.buttonTitle : '',
                     style: TextStyle(
-                      color: JanguAskColors.whiteColor,
+                      color: ThemeColors.whiteColor,
                       fontWeight: JanguAskFontWeight.kBoldText,
                     ),
                   )
                 : CircularProgressIndicator(
                     strokeWidth: 2,
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      JanguAskColors.whiteColor,
+                      ThemeColors.whiteColor,
                     )),
           ),
         ),

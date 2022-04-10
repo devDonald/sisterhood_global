@@ -16,13 +16,13 @@ class _AboutUsState extends State<AboutUs> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 3.0,
-        backgroundColor: Colors.pink,
-        title: const Text('About Us',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-            )),
+        backgroundColor: ThemeColors.whiteColor,
+        title: Text(
+          'About Us',
+          style: Theme.of(context).textTheme.headline5,
+        ),
+        iconTheme:
+            const IconThemeData(color: ThemeColors.blackColor1, size: 35),
         titleSpacing: -5.0,
       ),
       body: Container(
@@ -60,7 +60,7 @@ class _AboutUsState extends State<AboutUs> {
                   const ListTile(
                     title: Text('PROPHETESS NONNIE NONYE ROBERSON',
                         style: TextStyle(
-                          color: JanguAskColors.blackColor1,
+                          color: ThemeColors.blackColor1,
                           fontWeight: JanguAskFontWeight.kBoldText,
                           fontSize: 18,
                         )),

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:sisterhood_global/core/themes/theme_colors.dart';
+import 'package:sisterhood_global/features/community/pages/latest_posts.dart';
+import 'package:sisterhood_global/features/community/pages/lets_talk_about_it.dart';
 import 'package:sisterhood_global/features/community/pages/pinned_posts.dart';
-
-import '../../../core/widgets/menu_drawer.dart';
-import 'create_contribution.dart';
 
 class CommunityHome extends StatefulWidget {
   static const String id = 'Search';
-
-  CommunityHome({Key? key}) : super(key: key);
+  const CommunityHome({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return new _CommunityHomeState();
+    return _CommunityHomeState();
   }
 }
 
@@ -22,8 +22,9 @@ class _CommunityHomeState extends State<CommunityHome>
   //FocusNode searchFocus = FocusNode();
   late TabController _tabController;
   static const List<Tab> commTabs = <Tab>[
-    Tab(text: 'Pinned Posts'),
-    Tab(text: 'Latest Posts'),
+    Tab(text: 'Pinned'),
+    Tab(text: 'Latest'),
+    Tab(text: 'Let\'s Talk About It'),
   ];
   @override
   initState() {
@@ -46,31 +47,19 @@ class _CommunityHomeState extends State<CommunityHome>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text('Community'),
-          backgroundColor: Colors.pink,
+          title: Text(
+            'Community',
+            style: Theme.of(context).textTheme.headline5,
+          ),
+          iconTheme: const IconThemeData(color: Colors.black, size: 35),
+          backgroundColor: ThemeColors.whiteColor,
           bottom: TabBar(
             controller: _tabController,
             tabs: commTabs,
           )),
-      drawer: MenuDrawer(),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          const PinnedPosts(),
-          Container(),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.pink,
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          Get.to(() => const CreateContribution(
-                isAdmin: false,
-              ));
-        },
+        children: const [PinnedPosts(), LatestPosts(), TalkAboutIt()],
       ),
     );
   }

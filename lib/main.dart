@@ -1,13 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:new_version/new_version.dart';
-import 'package:responsive_framework/responsive_framework.dart';
-import 'package:sisterhood_global/features/authentication/controller/login_controller.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
+import 'package:responsive_framework/utils/scroll_behavior.dart';
+import 'package:sisterhood_global/features/authentication/controller/auth_controller.dart';
 import 'package:sisterhood_global/features/dashboard/dashboard_controller.dart';
 
+import 'core/constants/contants.dart';
 import 'core/routes/app_pages.dart';
+import 'core/themes/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,11 +34,15 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     final newVersion = NewVersion(
-      iOSId: 'com.abidon.sisterhood_global',
+      iOSId: 'org.sisterhoodglobal.app',
       androidId: 'com.abidon.sisterhood_global',
     );
     newVersion.showAlertIfNecessary(context: context);
 
+    currentTheme.addListener(() {
+      //2
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -45,9 +53,12 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/',
       getPages: AppRoutes.routes,
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.dark,
+      theme: CustomTheme.lightTheme, //3
+      darkTheme: CustomTheme.darkTheme, //4
+      themeMode: currentTheme.currentTheme, //5
       builder: (context, widget) => ResponsiveWrapper.builder(
         ClampingScrollWrapper.builder(context, widget!),
+        defaultScale: true,
         breakpoints: const [
           ResponsiveBreakpoint.resize(350, name: MOBILE),
           ResponsiveBreakpoint.autoScale(600, name: TABLET),

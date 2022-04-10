@@ -11,6 +11,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../themes/theme.dart';
+
 final Future<FirebaseApp> initialization = Firebase.initializeApp();
 FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 FirebaseFirestore root = FirebaseFirestore.instance;
@@ -19,11 +21,18 @@ final Timestamp timestamp = Timestamp.fromDate(DateTime.now());
 FirebaseAuth auth = FirebaseAuth.instance;
 FirebaseMessaging fcm = FirebaseMessaging.instance;
 var usersRef = firebaseFirestore.collection('users');
+var feedRef = firebaseFirestore.collection('feed');
+var reportRef = firebaseFirestore.collection('reports');
+
 var eventsRef = firebaseFirestore.collection('events');
 var communityRef = firebaseFirestore.collection('community');
+var chatsRef = firebaseFirestore.collection('chats');
+var talkRef = firebaseFirestore.collection('talks');
+CustomTheme currentTheme = CustomTheme();
 
 const profilePHOTO =
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6TaCLCqU4K0ieF27ayjl51NmitWaJAh_X0r1rLX4gMvOe0MDaYw&s';
+const adminId = 'LNXzA3WdsrNuXs4PBNLiiBQkypF2';
 
 successToastMessage({required String msg}) {
   Fluttertoast.showToast(
@@ -205,6 +214,21 @@ bool validateQuestion(
   }
 }
 
+bool validateTalk(
+  String title,
+  String id,
+) {
+  if (title.isEmpty) {
+    errorToastMessage(msg: 'Video Title cannot be Empty');
+    return false;
+  } else if (id.isEmpty) {
+    errorToastMessage(msg: 'Video ID cannot be empty');
+    return false;
+  } else {
+    return true;
+  }
+}
+
 class Constants {
   Constants._();
   static const double padding = 10;
@@ -214,14 +238,7 @@ class Constants {
 const APIKEY = 'AIzaSyBwtUGqZTCqrko-e6KCo2S1bGQsraAkmOQ';
 
 List<String> eventTypes = ["Video Event", "Picture Event"];
-List<String> questionCategory = [
-  "Finances",
-  "Relationship",
-  "Family",
-  "Education",
-  "Spirituality",
-  "Health"
-];
+List<String> questionCategory = ["Community", "Agree With Me", "Testimony"];
 
 final createdAt = DateTime.now().toUtc().toString();
 

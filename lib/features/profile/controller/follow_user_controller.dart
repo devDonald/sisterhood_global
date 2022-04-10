@@ -59,7 +59,7 @@ class FollowController {
             .collection('feeds')
             .doc()
             .set({
-          "type": "following",
+          "type": "Following",
           "userId": currentUser,
           "seen": false,
           "commentData": 'started following you',
