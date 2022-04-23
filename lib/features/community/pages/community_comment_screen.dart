@@ -10,7 +10,6 @@ import 'package:sisterhood_global/features/community/controller/firebase_api.dar
 import 'package:sisterhood_global/features/community/data/community_database.dart';
 import 'package:sisterhood_global/features/community/data/questions_reply.dart';
 import 'package:sisterhood_global/features/community/data/reply_text_field.dart';
-import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
 import '../../../core/themes/theme_colors.dart';
 import '../../../core/themes/theme_text.dart';
@@ -149,48 +148,29 @@ class _CommentScreenState extends State<CommentScreen> {
                   shrinkWrap: true,
                   onEmpty: const Center(child: Text('no comments')),
                   physics: const BouncingScrollPhysics(),
-                  itemsPerPage: 50,
+                  itemsPerPage: 15,
                   itemBuilder: (context, snapshot, index) {
-                    return StickyGroupedListView<dynamic, String>(
-                      floatingHeader: true,
-                      shrinkWrap: true,
-                      stickyHeaderBackgroundColor: Colors.white,
-                      physics: const BouncingScrollPhysics(),
-                      elements: snapshot,
-                      groupBy: (element) => element['date'],
-                      itemScrollController: GroupedItemScrollController(),
-                      order: StickyGroupedListOrder.DESC,
-                      reverse: true,
-                      groupSeparatorBuilder: (dynamic element) =>
-                          const SizedBox(
-                        height: 2,
-                        child: Align(),
-                      ),
-                      itemBuilder: (c, element) {
-                        bool isOwner = false;
+                    bool isOwner = false;
+                    if (auth.currentUser!.uid == snapshot[index]['senderId']) {
+                      isOwner = true;
+                    } else {
+                      isOwner = false;
+                    }
 
-                        if (auth.currentUser!.uid == element['senderId']) {
-                          isOwner = true;
-                        } else {
-                          isOwner = false;
-                        }
-
-                        return isOwner
-                            ? RecieverBox(
-                                commentId: element['messageId'],
-                                postId: widget.postId,
-                                receiverId: widget.postId,
-                                messageContent: element['messageContent'],
-                                timeOfMessage: element['time'],
-                              )
-                            : SenderBox(
-                                messageContent: element['messageContent'],
-                                senderName: element['userName'],
-                                senderPhoto: element['photo'],
-                                timeOfMessage: element['time'],
-                              );
-                      },
-                    );
+                    return isOwner
+                        ? RecieverBox(
+                            commentId: snapshot[index]['messageId'],
+                            postId: widget.postId,
+                            receiverId: widget.postId,
+                            messageContent: snapshot[index]['messageContent'],
+                            timeOfMessage: snapshot[index]['time'],
+                          )
+                        : SenderBox(
+                            messageContent: snapshot[index]['messageContent'],
+                            senderName: snapshot[index]['userName'],
+                            senderPhoto: snapshot[index]['photo'],
+                            timeOfMessage: snapshot[index]['time'],
+                          );
                   },
                   // orderBy is compulsary to enable pagination
                   query: communityRef

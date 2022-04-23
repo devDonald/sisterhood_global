@@ -8,7 +8,7 @@ import 'package:sisterhood_global/features/liveStreaming/pages/youtube_live.dart
 import 'package:sisterhood_global/features/profile/pages/my_profile.dart';
 import 'package:sisterhood_global/features/search/pages/sisterhood_users_search.dart';
 
-import 'admin/admin_home.dart';
+import '../../../core/themes/theme_colors.dart';
 
 // import 'package:standart/features/store/data/models/store_model.dart';
 // import 'package:standart/features/store/presentation/bloc/store_bloc.dart';
@@ -137,48 +137,44 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ];
           },
-          body: ListView(
-            physics: const BouncingScrollPhysics(),
+          body: GridView(
+            padding: EdgeInsets.all(10),
+            scrollDirection: Axis.vertical,
             shrinkWrap: true,
+            primary: false,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 1.2,
+                crossAxisCount: 1),
             children: [
-              Row(
-                children: [
-                  HomeCard1(
-                    icon: Icons.event_available,
-                    title: 'Events',
-                    onTap: () {
-                      Get.to(() => const HomeEvents());
-                    },
-                  ),
-                  HomeCard1(
-                    icon: Icons.video_collection_sharp,
-                    title: 'Videos',
-                    onTap: () {
-                      Get.to(() => const Videos());
-                    },
-                  ),
-                ],
+              HomeCard2(
+                icon: 'images/events.jpeg',
+                title: 'Events',
+                onTap: () {
+                  Get.to(() => const HomeEvents());
+                },
               ),
-              const SizedBox(
-                height: 5,
+              HomeCard2(
+                icon: 'images/videos.jpeg',
+                title: 'Videos',
+                onTap: () {
+                  Get.to(() => const Videos());
+                },
               ),
-              Row(
-                children: [
-                  HomeCard1(
-                    icon: Icons.person,
-                    title: 'My Profile',
-                    onTap: () {
-                      Get.to(() => ProfilePage());
-                    },
-                  ),
-                  HomeCard1(
-                    icon: Icons.search_outlined,
-                    title: 'Search Users',
-                    onTap: () {
-                      Get.to(() => const PeopleSearch());
-                    },
-                  ),
-                ],
+              HomeCard2(
+                icon: 'images/profile.jpeg',
+                title: 'My Profile',
+                onTap: () {
+                  Get.to(() => ProfilePage());
+                },
+              ),
+              HomeCard2(
+                icon: 'images/search.jpeg',
+                title: 'Search Users',
+                onTap: () {
+                  Get.to(() => const PeopleSearch());
+                },
               ),
             ],
           ),
@@ -233,5 +229,60 @@ class _HomeScreenState extends State<HomeScreen> {
       return Future.value(false);
     }
     return Future.value(true);
+  }
+}
+
+class HomeCard2 extends StatelessWidget {
+  const HomeCard2({
+    Key? key,
+    required this.title,
+    required this.icon,
+    required this.onTap,
+  }) : super(key: key);
+  final String icon;
+  final Function() onTap;
+  final String title;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.50,
+        margin: const EdgeInsets.only(
+          top: 10.0,
+          left: 10.0,
+          right: 10.0,
+        ),
+        padding: const EdgeInsets.all(
+          12.2,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5.0),
+          boxShadow: const [
+            BoxShadow(
+              offset: Offset(0.0, 1.0),
+              blurRadius: 1.0,
+              color: ThemeColors.primaryColor,
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Image.asset(
+              icon,
+            ),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -46,70 +46,59 @@ class _AdminHomeState extends State<AdminHome> {
             const IconThemeData(color: ThemeColors.blackColor1, size: 35),
         titleSpacing: 15.0,
       ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
+      body: GridView(
+        padding: EdgeInsets.all(10),
+        scrollDirection: Axis.vertical,
         shrinkWrap: true,
+        primary: false,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 0.85,
+            crossAxisCount: 2),
         children: [
-          Row(
-            children: [
-              HomeCard(
-                icon: Icons.live_tv,
-                title: 'Livestream Notification',
-                onTap: () {
-                  Get.to(() => const LivestreamNotification());
-                },
-              ),
-              HomeCard(
-                icon: Icons.event_available,
-                title: 'Events',
-                onTap: () {
-                  Get.to(() => EventHome());
-                },
-              ),
-            ],
+          HomeCard(
+            icon: Icons.live_tv,
+            title: 'Livestream Notification',
+            onTap: () {
+              Get.to(() => const LivestreamNotification());
+            },
           ),
-          Row(
-            children: [
-              HomeCard(
-                icon: Icons.people,
-                title: 'Manage Users',
-                onTap: () async {
-                  Get.to(() => DisplayUsers());
-                },
-              ),
-              HomeCard(
-                icon: Icons.post_add,
-                title: 'Manage Posts',
-                onTap: () async {
-                  Get.to(() => AdminCommunityHome());
-                },
-              ),
-            ],
+          HomeCard(
+            icon: Icons.event_available,
+            title: 'Events',
+            onTap: () {
+              Get.to(() => EventHome());
+            },
           ),
-          const SizedBox(
-            height: 5,
+          HomeCard(
+            icon: Icons.people,
+            title: 'Manage Users',
+            onTap: () async {
+              Get.to(() => DisplayUsers());
+            },
           ),
-          Row(
-            children: [
-              HomeCard(
-                icon: Icons.report,
-                title: 'User Reports',
-                onTap: () async {
-                  Get.to(() => const UsersReports());
-                },
-              ),
-              HomeCard(
-                icon: Icons.live_tv,
-                title: 'Let\'s Talk About It',
-                onTap: () async {
-                  Get.to(() => const TalkListHome());
-                },
-              ),
-            ],
+          HomeCard(
+            icon: Icons.post_add,
+            title: 'Manage Posts',
+            onTap: () async {
+              Get.to(() => AdminCommunityHome());
+            },
           ),
-          const SizedBox(
-            height: 5,
+          HomeCard(
+            icon: Icons.report,
+            title: 'User Reports',
+            onTap: () async {
+              Get.to(() => const UsersReports());
+            },
           ),
+          HomeCard(
+            icon: Icons.live_tv,
+            title: 'Let\'s Talk About It',
+            onTap: () async {
+              Get.to(() => const TalkListHome());
+            },
+          )
         ],
       ),
     );

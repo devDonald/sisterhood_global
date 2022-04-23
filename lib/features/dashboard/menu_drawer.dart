@@ -169,7 +169,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                         }
                         if (Platform.isIOS) {
                           ShareExtend.share(
-                            'Hey download the Sisterhood global mobile app https://play.google.com/store/apps/details?id=com.abidon.sisterhood_global',
+                            'Hey download the Sisterhood global mobile app https://apps.apple.com/app/sisterhood-global-app/id1613981664',
                             'text',
                           );
                         }
