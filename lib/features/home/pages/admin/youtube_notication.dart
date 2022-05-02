@@ -28,12 +28,10 @@ class _LivestreamNotificationState extends State<LivestreamNotification> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Live Stream Notification',
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        iconTheme: const IconThemeData(color: Colors.black, size: 35),
-        backgroundColor: ThemeColors.whiteColor,
+        title: const Text('Live Stream Notification',
+            style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
       ),
       body: Center(
         child: Container(

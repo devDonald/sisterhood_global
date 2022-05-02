@@ -106,7 +106,7 @@ class _CreateContributionState extends State<CreateContribution> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ThemeColors.primaryColor,
+        backgroundColor: ThemeColors.pink.shade400,
         elevation: 3.0,
         titleSpacing: -3.0,
         title: const Text(

@@ -26,12 +26,9 @@ class _HomeEventsState extends State<HomeEvents> {
       backgroundColor: ThemeColors.whiteColor,
       appBar: AppBar(
         elevation: 3.0,
-        title: Text(
-          'Events',
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        iconTheme: const IconThemeData(color: Colors.black, size: 35),
-        backgroundColor: ThemeColors.whiteColor,
+        title: const Text('Events', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
         titleSpacing: -5.0,
       ),
       body: Container(
@@ -40,7 +37,7 @@ class _HomeEventsState extends State<HomeEvents> {
               top: 17.5, bottom: 5.0, left: 7.0, right: 7.0),
           //padding: EdgeInsets.only(left: 15.0),
           decoration: BoxDecoration(
-            color: Colors.black,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(8.0),
             boxShadow: const [
               BoxShadow(
@@ -52,6 +49,7 @@ class _HomeEventsState extends State<HomeEvents> {
           ),
           child: RefreshIndicator(
             child: PaginateFirestore(
+              onEmpty: Center(child: const Text("No Events yet")),
               shrinkWrap: true,
               physics: const BouncingScrollPhysics(),
               itemsPerPage: 10,

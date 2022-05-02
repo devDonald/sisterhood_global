@@ -74,12 +74,9 @@ class _VideosState extends State<Videos> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Videos',
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        iconTheme: const IconThemeData(color: Colors.black, size: 35),
-        backgroundColor: ThemeColors.whiteColor,
+        title: const Text('Videos', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
       ),
       body: Container(
         color: Colors.white,
@@ -139,7 +136,7 @@ class _VideosState extends State<Videos> {
                                 ),
                                 Text(
                                   '${videoItem.video!.publishedAt!.year}-${videoItem.video!.publishedAt!.month}-${videoItem.video!.publishedAt!.day}',
-                                  style: TextStyle(color: Colors.green),
+                                  style: TextStyle(color: Colors.pink),
                                 ),
                               ],
                             )

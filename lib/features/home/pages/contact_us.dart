@@ -22,15 +22,9 @@ class _ContactUsState extends State<ContactUs> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 3.0,
-        backgroundColor: ThemeColors.whiteColor,
-        title: Text(
-          'Contact US',
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        iconTheme:
-            const IconThemeData(color: ThemeColors.blackColor1, size: 35),
-        titleSpacing: -5.0,
+        title: const Text('Contact Us', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
       ),
       body: ListView(
         physics: BouncingScrollPhysics(),

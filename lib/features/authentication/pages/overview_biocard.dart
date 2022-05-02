@@ -67,7 +67,7 @@ class OverViewBioCard extends StatelessWidget {
                           Text(
                             'Edit Bio',
                             style: TextStyle(
-                              color: ThemeColors.primaryColor,
+                              color: ThemeColors.pink,
                               fontWeight: JanguAskFontWeight.kBoldText,
                               fontSize: 15,
                             ),
@@ -75,7 +75,7 @@ class OverViewBioCard extends StatelessWidget {
                           SizedBox(width: 5),
                           Icon(
                             Icons.edit,
-                            color: ThemeColors.primaryColor,
+                            color: ThemeColors.pink,
                             size: 17,
                           ),
                         ],

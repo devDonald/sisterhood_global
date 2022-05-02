@@ -47,14 +47,13 @@ class _CommunityHomeState extends State<CommunityHome>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-            'Community',
-            style: Theme.of(context).textTheme.headline5,
-          ),
-          iconTheme: const IconThemeData(color: Colors.black, size: 35),
-          backgroundColor: ThemeColors.whiteColor,
+          title: Text('Community', style: TextStyle(color: Colors.white)),
+          iconTheme: const IconThemeData(color: Colors.pinkAccent, size: 35),
+          backgroundColor: ThemeColors.pink.shade400,
           bottom: TabBar(
             controller: _tabController,
+            unselectedLabelColor: Colors.white,
+            labelColor: Colors.white,
             tabs: commTabs,
           )),
       body: TabBarView(

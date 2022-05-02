@@ -103,19 +103,12 @@ class _TalkDetailsState extends State<TalkDetails> {
       builder: (context, player) {
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: ThemeColors.primaryColor,
-            elevation: 3.0,
-            titleSpacing: -3.0,
-            title: const Text(
-              'Let\'s Talk About it',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Montserrat'),
-            ),
+            title: const Text("Let/s Talk About It",
+                style: TextStyle(color: Colors.white)),
+            iconTheme: const IconThemeData(color: Colors.white, size: 35),
+            backgroundColor: ThemeColors.pink.shade400,
           ),
-          backgroundColor: const Color(0xFF282828),
+          backgroundColor: Colors.white,
           body: SafeArea(
             child: Column(
               children: [
@@ -141,7 +134,7 @@ class _TalkDetailsState extends State<TalkDetails> {
                                       widget.videoTitle,
                                       maxLines: 3,
                                       style: const TextStyle(
-                                        color: Colors.white,
+                                        color: Colors.black,
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
                                         height: 1.3,
@@ -162,14 +155,14 @@ class _TalkDetailsState extends State<TalkDetails> {
                                   const Icon(
                                     Icons.timer,
                                     size: 14.6,
-                                    color: ThemeColors.whiteTagColor,
+                                    color: ThemeColors.blackColor1,
                                   ),
                                   const SizedBox(width: 3.0),
                                   Text(
                                     widget.time,
                                     style: const TextStyle(
                                       fontSize: 11.0,
-                                      color: ThemeColors.whiteTagColor,
+                                      color: ThemeColors.blackColor1,
                                     ),
                                   ),
                                 ],
@@ -197,14 +190,14 @@ class _TalkDetailsState extends State<TalkDetails> {
                                       const Text(
                                         "Comments",
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: Colors.black,
                                         ),
                                       ),
                                       const SizedBox(width: 8),
                                       Text(
                                         widget.comments,
                                         style: const TextStyle(
-                                          color: Colors.white,
+                                          color: Colors.black,
                                         ),
                                       ),
                                     ],
@@ -240,7 +233,7 @@ class _TalkDetailsState extends State<TalkDetails> {
                                     },
                                     child: const Icon(
                                       Icons.unfold_more,
-                                      color: Colors.white,
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ],
@@ -262,7 +255,7 @@ class _TalkDetailsState extends State<TalkDetails> {
                                     const SizedBox(width: 10),
                                     const Text(
                                       "This is comment section.",
-                                      style: TextStyle(color: Colors.white),
+                                      style: TextStyle(color: Colors.black),
                                     ),
                                   ],
                                 ),
@@ -334,8 +327,8 @@ class _TalkDetailsState extends State<TalkDetails> {
               child: Row(
                 children: [
                   ProfilePicture(
-                    image:
-                        CachedNetworkImageProvider(auth.currentUser!.photoURL!),
+                    image: CachedNetworkImageProvider(
+                        auth.currentUser!.photoURL ?? ''),
                     height: 40,
                     width: 40,
                   ),

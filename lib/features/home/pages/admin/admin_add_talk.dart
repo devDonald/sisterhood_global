@@ -56,17 +56,10 @@ class _PostTalkAdminState extends State<PostTalkAdmin> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ThemeColors.primaryColor,
-        elevation: 3.0,
-        titleSpacing: -3.0,
-        title: const Text(
-          'Let\'s Talk About it Video',
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Montserrat'),
-        ),
+        title: const Text("Let's Talk About it Video",
+            style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
       ),
       body: SingleChildScrollView(
         child: Container(

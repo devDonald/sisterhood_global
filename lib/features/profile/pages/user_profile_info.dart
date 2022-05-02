@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
@@ -13,6 +14,8 @@ import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/themes/theme_text.dart';
 import 'package:sisterhood_global/core/widgets/customFullScreenDialog.dart';
 import 'package:sisterhood_global/core/widgets/vertical_divider.dart';
+
+import '../../../core/widgets/display_event.dart';
 
 class UserProfileInfo extends StatefulWidget {
   const UserProfileInfo({
@@ -118,17 +121,27 @@ class _UserProfileInfoState extends State<UserProfileInfo> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        height: MediaQuery.of(context).size.height * 0.20,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image:
-                                CachedNetworkImageProvider(widget.profileImage),
-                            fit: BoxFit.cover,
-                          ),
-                        )),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(ViewAttachedImage(
+                          image:
+                              CachedNetworkImageProvider(widget.profileImage),
+                          text: widget.name,
+                          url: widget.profileImage,
+                        ));
+                      },
+                      child: Container(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          height: MediaQuery.of(context).size.height * 0.20,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: CachedNetworkImageProvider(
+                                  widget.profileImage),
+                              fit: BoxFit.cover,
+                            ),
+                          )),
+                    ),
                   ],
                 ),
                 widget.isOwner

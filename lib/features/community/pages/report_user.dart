@@ -48,9 +48,9 @@ class _ReportPostState extends State<ReportPost> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ThemeColors.primaryColor,
-        titleSpacing: -5,
-        title: const Text('Report Post'),
+        title: const Text('Report Post', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
       ),
       body: SingleChildScrollView(
         child: Container(

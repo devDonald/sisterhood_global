@@ -138,17 +138,10 @@ class _CreateEventState extends State<CreateEvent> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ThemeColors.primaryColor,
-        elevation: 3.0,
-        titleSpacing: -3.0,
-        title: const Text(
-          'Create Event',
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Montserrat'),
-        ),
+        title: const Text('Create an Event',
+            style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
       ),
       body: Container(
         width: double.infinity,

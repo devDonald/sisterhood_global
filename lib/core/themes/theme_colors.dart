@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class ThemeColors {
   static const primaryColor = Colors.black;
+  static const pink = Colors.pink;
+
   static const primaryPink100 = Color(0xFFF8BBD0);
   static const primaryPink200 = Color(0xFFF48FB1);
   static const primaryPink300 = Color(0xFFF06292);

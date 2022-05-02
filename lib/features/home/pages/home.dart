@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: const Text(
                                       'WATCH NOW',
                                       style: TextStyle(
-                                          color: Colors.white,
+                                          color: ThemeColors.pink,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     shape: RoundedRectangleBorder(
@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               HomeCard2(
                 icon: 'images/search.jpeg',
-                title: 'Search Users',
+                title: 'Follow Members',
                 onTap: () {
                   Get.to(() => const PeopleSearch());
                 },
@@ -263,7 +263,7 @@ class HomeCard2 extends StatelessWidget {
             BoxShadow(
               offset: Offset(0.0, 1.0),
               blurRadius: 1.0,
-              color: ThemeColors.primaryColor,
+              color: ThemeColors.primaryPink300,
             ),
           ],
         ),

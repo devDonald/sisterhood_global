@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             contentPadding:
                                 const EdgeInsets.fromLTRB(20, 15, 20, 15),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           )),
                     ),
@@ -142,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             contentPadding:
                                 const EdgeInsets.fromLTRB(20, 15, 20, 15),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           )),
                     ),
@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignment: Alignment.bottomRight,
                       child: FlatSecondaryButton(
                         title: 'Forgot Password? Click Here!',
-                        color: ThemeColors.primaryColor,
+                        color: ThemeColors.primaryPink200,
                         onTap: () {
                           Get.to(() => const ResetPassword());
                         },

@@ -15,15 +15,9 @@ class _AboutUsState extends State<AboutUs> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 3.0,
-        backgroundColor: ThemeColors.whiteColor,
-        title: Text(
-          'About Us',
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        iconTheme:
-            const IconThemeData(color: ThemeColors.blackColor1, size: 35),
-        titleSpacing: -5.0,
+        title: const Text('About us', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
       ),
       body: Container(
         width: double.infinity,

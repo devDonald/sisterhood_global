@@ -3,7 +3,6 @@ import 'package:sisterhood_global/features/community/pages/agree_with_me.dart';
 import 'package:sisterhood_global/features/community/pages/testimony.dart';
 
 import '../../../core/themes/theme_colors.dart';
-import '../../dashboard/menu_drawer.dart';
 
 class PrayerWallHome extends StatefulWidget {
   static const String id = 'Search';
@@ -47,14 +46,14 @@ class _PrayerWallHomeState extends State<PrayerWallHome>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-            'Prayer Wall',
-            style: Theme.of(context).textTheme.headline5,
-          ),
-          iconTheme: const IconThemeData(color: Colors.black, size: 35),
-          backgroundColor: ThemeColors.whiteColor,
+          title:
+              const Text('Prayer Wall', style: TextStyle(color: Colors.white)),
+          iconTheme: const IconThemeData(color: Colors.pinkAccent, size: 35),
+          backgroundColor: ThemeColors.pink.shade400,
           bottom: TabBar(
             controller: _tabController,
+            labelColor: ThemeColors.whiteColor,
+            unselectedLabelColor: ThemeColors.whiteColor,
             tabs: commTabs,
           )),
       body: TabBarView(

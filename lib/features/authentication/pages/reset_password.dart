@@ -22,10 +22,10 @@ class _ResetPasswordState extends State<ResetPassword> {
           backgroundColor: ThemeColors.whiteColor,
           title: Text(
             'Password Reset',
-            style: Theme.of(context).textTheme.headline5,
+            style: TextStyle(color: ThemeColors.primaryPink300, fontSize: 22),
           ),
           iconTheme:
-              const IconThemeData(color: ThemeColors.blackColor1, size: 35)),
+              const IconThemeData(color: ThemeColors.primaryPink300, size: 35)),
       body: ListView(
         children: <Widget>[
           const SizedBox(
@@ -58,23 +58,27 @@ class _ResetPasswordState extends State<ResetPassword> {
                       )
                     ],
                   ),
+
                   width: double.infinity,
                   // width: double.infinity,
                   // height: 40.0,
                   child: TextFormField(
-                    style: const TextStyle(fontSize: 20),
-                    controller: _email,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    textInputAction: TextInputAction.newline,
-                    obscureText: false,
-                    keyboardType: TextInputType.emailAddress,
-                    textCapitalization: TextCapitalization.none,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Email',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                    ),
-                  ),
+                      style: const TextStyle(fontSize: 20),
+                      controller: _email,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      textInputAction: TextInputAction.newline,
+                      obscureText: false,
+                      keyboardType: TextInputType.emailAddress,
+                      textCapitalization: TextCapitalization.none,
+                      decoration: InputDecoration(
+                        hintText: 'Email',
+                        prefixIcon: const Icon(Icons.email),
+                        contentPadding:
+                            const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      )),
                 ),
                 const SizedBox(height: 40.0),
                 SizedBox(

@@ -76,16 +76,17 @@ class _PeopleSearchState extends State<PeopleSearch> {
       appBar: searchBar
           ? buildSearchAppBar()
           : AppBar(
-              backgroundColor: ThemeColors.whiteColor,
-              title: Text(
-                'Follow Users',
-                style: Theme.of(context).textTheme.headline5,
-              ),
-              iconTheme: const IconThemeData(color: Colors.black, size: 35),
+              title: const Text('Follow Members',
+                  style: TextStyle(color: Colors.white)),
+              iconTheme: const IconThemeData(color: Colors.white, size: 35),
+              backgroundColor: ThemeColors.pink.shade400,
               titleSpacing: -5,
               actions: [
                 AppBarButtonIcon(
-                  icon: const Icon(Icons.search),
+                  icon: const Icon(
+                    Icons.search,
+                    color: ThemeColors.whiteColor,
+                  ),
                   onTap: () {
                     buildSearchAppBar();
                   },

@@ -27,15 +27,9 @@ class _NGOPageState extends State<NGOPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        elevation: 3.0,
-        backgroundColor: ThemeColors.whiteColor,
-        title: Text(
-          'NGO',
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        iconTheme:
-            const IconThemeData(color: ThemeColors.blackColor1, size: 35),
-        titleSpacing: -5.0,
+        title: const Text('NGO', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
       ),
       body: SizedBox(
         width: double.infinity,
@@ -49,7 +43,7 @@ class _NGOPageState extends State<NGOPage> {
                 margin: const EdgeInsets.only(
                   left: 5.0,
                   right: 5.0,
-                  top: 10.5,
+                  top: 30.5,
                   bottom: 5.0,
                 ),
                 padding: const EdgeInsets.only(
@@ -63,27 +57,18 @@ class _NGOPageState extends State<NGOPage> {
                     BoxShadow(color: Colors.black26, offset: Offset(0.0, 2.5)),
                   ],
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Center(
-                      child: Text(
-                        "NONNIE ROBERSON NGO",
-                        style: TextStyle(
-                            fontSize: 19.0,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
+                child: const Center(
+                  child: Text(
+                    "NONNIE ROBERSON NGO",
+                    style: TextStyle(
+                        fontSize: 19.0,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               const Text(
                 "Women of purpose NGO",
@@ -133,13 +118,13 @@ class _NGOPageState extends State<NGOPage> {
                     borderRadius: BorderRadius.circular(30.0)),
                 onPressed: () async {},
                 textColor: Colors.white,
-                padding: EdgeInsets.all(0.0),
+                padding: const EdgeInsets.all(0.0),
                 child: Container(
                   alignment: Alignment.center,
                   width:
                       _large ? _width / 3 : (_medium ? _width / 3 : _width / 3),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(20.0)),
                     gradient: LinearGradient(
                       colors: <Color>[Colors.pink[200]!, Colors.black54],
                     ),

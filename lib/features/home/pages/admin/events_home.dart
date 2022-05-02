@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -5,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/features/home/pages/admin/create_event.dart';
+
+import '../../../../core/widgets/display_event.dart';
 
 class EventHome extends StatefulWidget {
   EventHome({Key? key}) : super(key: key);
@@ -19,14 +22,9 @@ class _EventHomeState extends State<EventHome> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 3.0,
-        title: Text(
-          'All Events',
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        iconTheme: const IconThemeData(color: Colors.black, size: 35),
-        backgroundColor: ThemeColors.whiteColor,
-        titleSpacing: -5.0,
+        title: const Text('All Events', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
       ),
       body: Container(
         child: StreamBuilder<QuerySnapshot>(
@@ -55,7 +53,13 @@ class _EventHomeState extends State<EventHome> {
                       onDeleteTap: () {
                         showDeleteDialog(context, snap['postId']);
                       },
-                      onTapEvent: () {},
+                      onTapEvent: () {
+                        Get.to(ViewAttachedImage(
+                          image: CachedNetworkImageProvider(snap['imageUrl']),
+                          text: snap['title'],
+                          url: snap['imageUrl'],
+                        ));
+                      },
                     );
                   });
             }),

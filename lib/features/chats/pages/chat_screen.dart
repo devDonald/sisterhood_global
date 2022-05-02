@@ -96,7 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
       onWillPop: onBackPress,
       child: Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(color: Colors.black, size: 30),
+          iconTheme: const IconThemeData(color: Colors.white, size: 30),
           title: Row(
             children: [
               ProfilePicture(
@@ -109,11 +109,11 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               Text(
                 widget.receiverName,
-                style: const TextStyle(color: ThemeColors.blackColor1),
+                style: const TextStyle(color: ThemeColors.whiteColor),
               )
             ],
           ),
-          backgroundColor: ThemeColors.whiteColor,
+          backgroundColor: ThemeColors.pink.shade400,
         ),
         body: buildPage(),
       ),

@@ -58,7 +58,7 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
           bottomNavigationBar: BottomNavigationBar(
             unselectedItemColor: Colors.black87,
-            selectedItemColor: Colors.black,
+            selectedItemColor: Colors.pink,
             onTap: controller.changeTabIndex,
             currentIndex: controller.tabIndex,
             showSelectedLabels: true,

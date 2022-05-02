@@ -40,12 +40,9 @@ class _MessageListState extends State<MessageList> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ThemeColors.whiteColor,
-        title: Text(
-          'Messages',
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        iconTheme: const IconThemeData(color: Colors.black, size: 35),
+        title: const Text('Messages', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.pinkAccent, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
       ),
       backgroundColor: Colors.white,
       body: RefreshIndicator(

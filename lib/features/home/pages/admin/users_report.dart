@@ -17,13 +17,10 @@ class _UsersReportsState extends State<UsersReports> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ThemeColors.whiteColor,
-        title: Text(
-          'Users Reports',
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        iconTheme:
-            const IconThemeData(color: ThemeColors.blackColor1, size: 35),
+        title:
+            const Text('Users Reports', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
       ),
       backgroundColor: ThemeColors.whiteColor,
       body: PaginateFirestore(

@@ -50,16 +50,15 @@ class _AdminCommunityHomeState extends State<AdminCommunityHome>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: ThemeColors.whiteColor,
-          title: Text(
-            'Community Post Verification',
-            style: Theme.of(context).textTheme.headline5,
-          ),
-          iconTheme:
-              const IconThemeData(color: ThemeColors.blackColor1, size: 35),
+          title:
+              const Text('Verify Posts', style: TextStyle(color: Colors.white)),
+          iconTheme: const IconThemeData(color: Colors.white, size: 35),
+          backgroundColor: ThemeColors.pink.shade400,
           bottom: TabBar(
             controller: _tabController,
             tabs: commTabs,
+            labelColor: ThemeColors.whiteColor,
+            unselectedLabelColor: ThemeColors.whiteColor,
           )),
       body: TabBarView(
         controller: _tabController,

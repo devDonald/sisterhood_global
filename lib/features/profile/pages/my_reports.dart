@@ -21,17 +21,13 @@ class _MyReportsState extends State<MyReports> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: ThemeColors.whiteColor,
-          title: Text(
-            'My Reports',
-            style: Theme.of(context).textTheme.headline5,
-          ),
-          iconTheme:
-              const IconThemeData(color: ThemeColors.blackColor1, size: 35)),
+        title: const Text('My Reports', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
+      ),
       backgroundColor: ThemeColors.whiteColor,
       body: PaginateFirestore(
         onEmpty: Container(
-          margin: const EdgeInsets.only(top: 170),
           child: const Center(
             child: Text(
               'You have not reported any suspicious post yet',
@@ -71,8 +67,8 @@ class _MyReportsState extends State<MyReports> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('You reported a post',
-                            style: const TextStyle(
+                        const Text('You reported a post',
+                            style: TextStyle(
                               color: ThemeColors.primaryColor,
                               fontSize: 15.0,
                               fontWeight: FontWeight.bold,
@@ -85,7 +81,7 @@ class _MyReportsState extends State<MyReports> {
                             )),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(

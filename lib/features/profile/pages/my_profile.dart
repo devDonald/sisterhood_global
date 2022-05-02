@@ -25,12 +25,9 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       //backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(
-          'My Profile',
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        iconTheme: const IconThemeData(color: Colors.black, size: 35),
-        backgroundColor: ThemeColors.whiteColor,
+        title: const Text('My Profile', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
       ),
       body: RefreshIndicator(
         child: PaginateFirestore(
@@ -81,18 +78,4 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-
-  Widget buildName(String name, String email) => Column(
-        children: [
-          Text(
-            name,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            email,
-            style: const TextStyle(color: Colors.grey),
-          )
-        ],
-      );
 }

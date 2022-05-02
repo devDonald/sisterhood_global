@@ -437,7 +437,7 @@ class _QuestionCardState extends State<QuestionCard> {
                               widget.postId,
                               widget.ownerId,
                               widget.question,
-                              auth.currentUser!.displayName!,
+                              "Sisterhood Admin",
                               widget.category);
                           isApplaud = true;
                         } else {

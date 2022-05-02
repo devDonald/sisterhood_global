@@ -32,12 +32,10 @@ class _NotificationHomeState extends State<NotificationHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Notifications',
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        iconTheme: const IconThemeData(color: Colors.black, size: 35),
-        backgroundColor: ThemeColors.whiteColor,
+        title:
+            const Text('Notifications', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.pinkAccent, size: 35),
+        backgroundColor: ThemeColors.pink.shade400,
       ),
       backgroundColor: Colors.white,
       body: PaginateFirestore(

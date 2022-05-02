@@ -31,12 +31,8 @@ class _FollowUserScreenState extends State<FollowUserScreen> {
     return Scaffold(
       //backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(
-          widget.name,
-          style: Theme.of(context).textTheme.headline5,
-        ),
-        iconTheme: const IconThemeData(color: Colors.black, size: 35),
-        backgroundColor: ThemeColors.whiteColor,
+        title: Text(widget.name, style: const TextStyle(color: Colors.white)),
+        backgroundColor: ThemeColors.pink.shade400,
       ),
       body: RefreshIndicator(
         child: PaginateFirestore(

@@ -28,7 +28,7 @@ class FlatPrimaryButton extends StatelessWidget {
             TextSpan(
               text: (title != null) ? title : '',
               style: const TextStyle(
-                color: ThemeColors.primaryColor,
+                color: ThemeColors.primaryPink300,
                 fontFamily: JanguAskFontFamily.primaryFontNunito,
                 fontSize: 15.0,
               ),

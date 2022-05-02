@@ -26,7 +26,7 @@ class _CreateGroupChatState extends State<NewChatMembers> {
       searchBar = true;
     });
     return AppBar(
-      backgroundColor: ThemeColors.primaryColor,
+      backgroundColor: ThemeColors.pink.shade400,
       leading: GestureDetector(
         onTap: () {
           setState(() {
@@ -39,11 +39,15 @@ class _CreateGroupChatState extends State<NewChatMembers> {
         controller: _groupSearchController,
         decoration: InputDecoration(
           hintText: 'Search User',
+          hintStyle: const TextStyle(color: ThemeColors.whiteColor),
           suffixIcon: GestureDetector(
             onTap: () {
               _groupSearchController.clear();
             },
-            child: const Icon(Icons.close),
+            child: const Icon(
+              Icons.close,
+              color: ThemeColors.whiteColor,
+            ),
           ),
         ),
       ),
@@ -75,7 +79,7 @@ class _CreateGroupChatState extends State<NewChatMembers> {
       appBar: searchBar
           ? buildSearchAppBar()
           : AppBar(
-              backgroundColor: ThemeColors.primaryColor,
+              backgroundColor: ThemeColors.pink.shade400,
               titleSpacing: -5,
               title: const Text(
                 'New Chat',
