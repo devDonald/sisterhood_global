@@ -17,7 +17,7 @@ import '../../../core/widgets/add_photo_buttons.dart';
 class CreateContribution extends StatefulWidget {
   final bool isAdmin;
   final String category;
-  static const String id = 'CreateQuestion';
+  static const String id = 'CreateContribution';
   const CreateContribution(
       {Key? key, required this.isAdmin, required this.category})
       : super(key: key);
@@ -80,8 +80,14 @@ class _CreateContributionState extends State<CreateContribution> {
         imageLink: url ?? '',
         comments: {},
         likes: {},
-        isApproved: widget.isAdmin ? true : false,
-        isPinned: widget.isAdmin ? true : false,
+        isApproved: widget.isAdmin ||
+                auth.currentUser!.email == "sisterhoodglobalapp@gmail.com"
+            ? true
+            : false,
+        isPinned: widget.isAdmin ||
+                auth.currentUser!.email == "sisterhoodglobalapp@gmail.com"
+            ? true
+            : false,
         createdAt: createdAt,
         timestamp: timestamp,
       );

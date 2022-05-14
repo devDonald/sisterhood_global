@@ -119,7 +119,7 @@ class _QuestionCardState extends State<QuestionCard> {
           BoxShadow(
             offset: Offset(0.0, 1.5),
             blurRadius: 3.0,
-            color: ThemeColors.primaryColor,
+            color: ThemeColors.primaryPink100,
           ),
         ],
       ),

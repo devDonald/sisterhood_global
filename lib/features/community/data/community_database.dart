@@ -25,6 +25,7 @@ class CommunityDB {
           todomodel.category!,
           NotificationType.adminAction,
           'New Post awaiting Admin Approval');
+
       successToastMessage(
           msg: 'Contribution Added to community, awaiting Admin Approval');
     }).catchError((onError) async {

@@ -21,6 +21,7 @@ final Timestamp timestamp = Timestamp.fromDate(DateTime.now());
 FirebaseAuth auth = FirebaseAuth.instance;
 FirebaseMessaging fcm = FirebaseMessaging.instance;
 var usersRef = firebaseFirestore.collection('users');
+var updateRef = firebaseFirestore.collection('update');
 var feedRef = firebaseFirestore.collection('feed');
 var reportRef = firebaseFirestore.collection('reports');
 

@@ -5,6 +5,7 @@ import 'package:sisterhood_global/features/community/pages/community_home.dart';
 import 'package:sisterhood_global/features/community/pages/prayer_wall_home.dart';
 import 'package:sisterhood_global/features/notification/general_notification.dart';
 
+import '../../core/widgets/exit_popup_widget.dart';
 import '../chats/pages/message_list.dart';
 import '../home/pages/home.dart';
 import 'dashboard_controller.dart';
@@ -42,56 +43,59 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(
       builder: (controller) {
-        return Scaffold(
-          body: SafeArea(
-            child: IndexedStack(
-              index: controller.tabIndex,
-              children: const [
-                HomeScreen(),
-                CommunityHome(),
-                PrayerWallHome(),
-                MessageList(),
-                NotificationHome(),
-                MenuDrawer(),
+        return WillPopScope(
+          onWillPop: () => showExitPopup(context),
+          child: Scaffold(
+            body: SafeArea(
+              child: IndexedStack(
+                index: controller.tabIndex,
+                children: const [
+                  HomeScreen(),
+                  CommunityHome(),
+                  PrayerWallHome(),
+                  MessageList(),
+                  NotificationHome(),
+                  MenuDrawer(),
+                ],
+              ),
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              unselectedItemColor: Colors.black87,
+              selectedItemColor: Colors.pink,
+              onTap: controller.changeTabIndex,
+              currentIndex: controller.tabIndex,
+              showSelectedLabels: true,
+              showUnselectedLabels: false,
+              type: BottomNavigationBarType.shifting,
+              backgroundColor: Colors.white,
+              elevation: 0,
+              items: [
+                _bottomNavigationBarItem(
+                  icon: CupertinoIcons.home,
+                  label: 'Home',
+                ),
+                _bottomNavigationBarItem(
+                  icon: CupertinoIcons.group,
+                  label: 'Community',
+                ),
+                _bottomNavigationBarItem(
+                  icon: CupertinoIcons.book,
+                  label: 'Prayer Wall',
+                ),
+                _bottomNavigationBarItem(
+                  icon: CupertinoIcons.chat_bubble_2,
+                  label: 'Messages',
+                ),
+                _bottomNavigationBarItem(
+                  icon: CupertinoIcons.bell,
+                  label: 'Notification',
+                ),
+                _bottomNavigationBarItem(
+                  icon: Icons.menu,
+                  label: 'More',
+                ),
               ],
             ),
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            unselectedItemColor: Colors.black87,
-            selectedItemColor: Colors.pink,
-            onTap: controller.changeTabIndex,
-            currentIndex: controller.tabIndex,
-            showSelectedLabels: true,
-            showUnselectedLabels: false,
-            type: BottomNavigationBarType.shifting,
-            backgroundColor: Colors.white,
-            elevation: 0,
-            items: [
-              _bottomNavigationBarItem(
-                icon: CupertinoIcons.home,
-                label: 'Home',
-              ),
-              _bottomNavigationBarItem(
-                icon: CupertinoIcons.group,
-                label: 'Community',
-              ),
-              _bottomNavigationBarItem(
-                icon: CupertinoIcons.book,
-                label: 'Prayer Wall',
-              ),
-              _bottomNavigationBarItem(
-                icon: CupertinoIcons.chat_bubble_2,
-                label: 'Messages',
-              ),
-              _bottomNavigationBarItem(
-                icon: CupertinoIcons.bell,
-                label: 'Notification',
-              ),
-              _bottomNavigationBarItem(
-                icon: Icons.menu,
-                label: 'More',
-              ),
-            ],
           ),
         );
       },

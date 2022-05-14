@@ -22,15 +22,14 @@ class YoutubeLive extends StatelessWidget {
             )),
         titleSpacing: -5.0,
       ),
-      body: Container(
-          child: WebView(
+      body: WebView(
         zoomEnabled: true,
         initialUrl: Uri.dataFromString(
-                '<html><body><iframe height="${MediaQuery.of(context).size.height * 2.6}" width="${MediaQuery.of(context).size.width * 3}" src="https://www.youtube.com/embed/live_stream?channel=UCKgVksE7zrSlhbt4f4h4yHA\"></iframe></body></html>',
+                '<html><body><iframe height="${MediaQuery.of(context).size.height}" width="${MediaQuery.of(context).size.width * 3}" src="https://www.youtube.com/embed/live_stream?channel=UCufutoNQc012L2zF-ITDl8g\"></iframe></body></html>',
                 mimeType: 'text/html')
             .toString(),
         javascriptMode: JavascriptMode.unrestricted,
-      )),
+      ),
     );
   }
 }

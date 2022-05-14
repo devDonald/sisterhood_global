@@ -8,7 +8,6 @@ import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/widgets/profile_picture.dart';
 import 'package:sisterhood_global/features/community/controller/firebase_api.dart';
 import 'package:sisterhood_global/features/community/data/reply_text_field.dart';
-import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
 import '../../../core/themes/theme_colors.dart';
 import 'chat_responses.dart';
@@ -45,12 +44,29 @@ class _ChatScreenState extends State<ChatScreen> {
   bool iscommentToUser = false;
   String commentToId = '';
   String message = '';
+  String senderName = '', senderPhoto = '', senderId = '';
+
+  void _fetchUserData() async {
+    try {
+      usersRef.doc(auth.currentUser!.uid).get().then((ds) {
+        if (ds.exists) {
+          setState(() {
+            senderName = ds.data()!['name'];
+            senderPhoto = ds.data()!['photo'];
+            senderId = ds.data()!['userId'];
+          });
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
   void sendMessage() async {
     FocusScope.of(context).unfocus();
     try {
-      FirebaseApi.sendChat(auth.currentUser!.photoURL!, message, widget.chatId,
-          widget.senderId, widget.receiverId, auth.currentUser!.displayName!);
+      FirebaseApi.sendChat(senderPhoto, message, widget.chatId, widget.senderId,
+          widget.receiverId, senderName);
     } catch (e) {
       print("an error chat: ${e.toString()}");
     }
@@ -73,6 +89,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     //getStorage();
+    _fetchUserData();
     textFeildFocus.requestFocus();
     super.initState();
   }
@@ -136,63 +153,29 @@ class _ChatScreenState extends State<ChatScreen> {
                   physics: const BouncingScrollPhysics(),
                   itemsPerPage: 50,
                   itemBuilder: (context, snapshot, index) {
-                    return StickyGroupedListView<dynamic, String>(
-                      floatingHeader: true,
-                      shrinkWrap: true,
-                      stickyHeaderBackgroundColor: Colors.white,
-                      physics: const BouncingScrollPhysics(),
-                      elements: snapshot,
-                      groupBy: (element) => element['date'],
-                      itemScrollController: GroupedItemScrollController(),
-                      order: StickyGroupedListOrder.DESC,
-                      reverse: true,
-                      groupSeparatorBuilder: (dynamic element) => SizedBox(
-                        height: 50,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            width: 120,
-                            decoration: BoxDecoration(
-                              color: Colors.orange[300],
-                              border: Border.all(
-                                color: Colors.pinkAccent,
-                              ),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(20.0)),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                element['date'],
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      itemBuilder: (c, element) {
-                        bool isOwner = false;
-                        if (auth.currentUser!.uid == element['senderId']) {
-                          isOwner = true;
-                        } else {
-                          isOwner = false;
-                        }
-                        return isOwner
-                            ? ReceiverChatBox(
-                                chatId: element['messageId'],
-                                postId: widget.chatId,
-                                receiverId: widget.chatId,
-                                messageContent: element['messageContent'],
-                                timeOfMessage: element['time'],
-                              )
-                            : SenderChatBox(
-                                messageContent: element['messageContent'],
-                                senderName: element['userName'],
-                                senderPhoto: element['photo'],
-                                timeOfMessage: element['time'],
-                              );
-                      },
-                    );
+                    bool isOwner = false;
+                    if (auth.currentUser!.uid == snapshot[index]['senderId']) {
+                      isOwner = true;
+                    } else {
+                      isOwner = false;
+                    }
+
+                    return isOwner
+                        ? ReceiverChatBox(
+                            chatId: snapshot[index]['messageId'],
+                            postId: widget.chatId,
+                            receiverId: widget.receiverId,
+                            messageContent: snapshot[index]['messageContent'],
+                            timeOfMessage:
+                                getTimestamp(snapshot[index]['createdAt']),
+                          )
+                        : SenderChatBox(
+                            messageContent: snapshot[index]['messageContent'],
+                            senderName: snapshot[index]['userName'],
+                            senderPhoto: snapshot[index]['photo'],
+                            timeOfMessage:
+                                getTimestamp(snapshot[index]['createdAt']),
+                          );
                   },
                   // orderBy is compulsary to enable pagination
                   query: chatsRef

@@ -145,8 +145,8 @@ class _CreateEventState extends State<CreateEvent> {
       ),
       body: Container(
         width: double.infinity,
-        margin: EdgeInsets.all(15.0),
-        padding: EdgeInsets.all(25.0),
+        margin: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(25.0),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10.0),
@@ -170,7 +170,8 @@ class _CreateEventState extends State<CreateEvent> {
                 isBorder: true,
                 capitalization: TextCapitalization.sentences,
                 hint: 'Type in the Title',
-                maxLines: 5, //fix
+                minLines: 2,
+                maxLines: 8,
                 textController: _title,
               ),
               const SizedBox(height: 16.5),
@@ -181,31 +182,43 @@ class _CreateEventState extends State<CreateEvent> {
                 isBorder: true,
                 capitalization: TextCapitalization.sentences,
                 hint: 'Type event description here',
+                minLines: 3,
                 maxLines: 5, //fix
                 textController: _description,
               ),
               const SizedBox(height: 16.5),
               const PostLabel(label: 'Event Date'),
               const SizedBox(height: 9.5),
-              GestureDetector(
-                onTap: () {
-                  DatePicker.showDatePicker(context,
-                      showTitleActions: true,
-                      minTime: DateTime(2021, 3, 5),
-                      maxTime: DateTime(2030, 6, 7), onChanged: (date) {
-                    print('change $date');
-                    _date = '${date.day}-${date.month}-${date.year}';
-                  }, onConfirm: (date) {
-                    print('confirm $date');
-                    _date = '${date.day}-${date.month}-${date.year}';
-                  }, currentTime: DateTime.now(), locale: LocaleType.en);
-                },
-                child: const Text('Pick Event Date',
-                    style: TextStyle(
-                      color: ThemeColors.primaryColor,
-                      fontSize: 17,
-                      decoration: TextDecoration.underline,
-                    )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      DatePicker.showDatePicker(context,
+                          showTitleActions: true,
+                          minTime: DateTime(2021, 3, 5),
+                          maxTime: DateTime(2030, 6, 7), onChanged: (date) {
+                        setState(() {
+                          _date = '${date.day}-${date.month}-${date.year}';
+                        });
+                      }, onConfirm: (date) {
+                        setState(() {
+                          _date = '${date.day}-${date.month}-${date.year}';
+                        });
+                      }, currentTime: DateTime.now(), locale: LocaleType.en);
+                    },
+                    child: const Text('Pick Event Date',
+                        style: TextStyle(
+                          color: ThemeColors.primaryColor,
+                          fontSize: 17,
+                          decoration: TextDecoration.underline,
+                        )),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(_date),
+                ],
               ),
               const SizedBox(height: 16.5),
               const PostLabel(label: 'Event Venue'),
@@ -214,8 +227,10 @@ class _CreateEventState extends State<CreateEvent> {
                 isBorder: true,
                 capitalization: TextCapitalization.sentences,
                 hint: 'Type event venue here',
-                maxLines: 2, //fix
-                textController: _venue, height: 70,
+                minLines: 1,
+                maxLines: 5, //fix
+                textController: _venue,
+                height: 100,
               ),
               const SizedBox(height: 16.5),
               const SizedBox(height: 16.5),
@@ -291,23 +306,26 @@ class PostTextFeild extends StatelessWidget {
       {Key? key,
       required this.hint,
       required this.height,
-      required this.maxLines,
+      this.maxLines,
       required this.textController,
       required bool isBorder,
-      required this.capitalization})
+      required this.capitalization,
+      this.minLines})
       : super(key: key);
   final String hint;
   final double height;
-  final int maxLines;
+  final int? maxLines;
+  final int? minLines;
+
   final TextEditingController textController;
   final TextCapitalization capitalization;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
       child: TextField(
         maxLines: maxLines,
+        minLines: minLines,
         textCapitalization: capitalization,
         decoration: InputDecoration(
           hintText: hint,

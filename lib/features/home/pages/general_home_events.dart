@@ -9,14 +9,14 @@ import 'package:sisterhood_global/core/widgets/files_widgets.dart';
 import 'package:sisterhood_global/features/home/data/events_model.dart';
 import 'package:sisterhood_global/features/home/pages/view_event_image.dart';
 
-class HomeEvents extends StatefulWidget {
-  const HomeEvents({Key? key}) : super(key: key);
+class GeneralEvents extends StatefulWidget {
+  const GeneralEvents({Key? key}) : super(key: key);
 
   @override
-  State<HomeEvents> createState() => _HomeEventsState();
+  State<GeneralEvents> createState() => _GeneralEventsState();
 }
 
-class _HomeEventsState extends State<HomeEvents> {
+class _GeneralEventsState extends State<GeneralEvents> {
   PaginateRefreshedChangeListener refreshChangeListener =
       PaginateRefreshedChangeListener();
 
@@ -49,7 +49,7 @@ class _HomeEventsState extends State<HomeEvents> {
           ),
           child: RefreshIndicator(
             child: PaginateFirestore(
-              onEmpty: Center(child: const Text("No Events yet")),
+              onEmpty: const Center(child: Text("No Events yet")),
               shrinkWrap: true,
               physics: const BouncingScrollPhysics(),
               itemsPerPage: 10,

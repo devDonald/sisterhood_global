@@ -3,7 +3,7 @@ const admin = require("firebase-admin");
 admin.initializeApp();
 const db = admin.firestore();
 
-exports.cellCallStarted = functions.firestore
+exports.notifications = functions.firestore
     .document("/feed/{userId}/feeds/{id}")
     .onCreate((snap, context) => {
       const document = snap.data();
@@ -31,9 +31,7 @@ exports.cellCallStarted = functions.firestore
                       title = "New Community Activity";
                       break;
                    case "Following":
-                     body = `${document.username} Started following you: ${
-                       document.commentData
-                     }`;
+                     body = `${document.username} Started following you`;
                      title = "New Follower";
                      break;
                    case "Chat":
@@ -61,7 +59,7 @@ exports.cellCallStarted = functions.firestore
                       title = "New Event Added";
                       break;
                   case "Livestream":
-                    body = `${document.commentData}`;
+                    body = `${document.commentData} click to watch`;
                     title = "New Livestream Started";
                     break;
 

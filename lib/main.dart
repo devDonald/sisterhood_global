@@ -3,9 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:new_version/new_version.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
+import 'package:sisterhood_global/appcast_widget.dart';
 import 'package:sisterhood_global/features/authentication/controller/auth_controller.dart';
 import 'package:sisterhood_global/features/dashboard/dashboard_controller.dart';
 
@@ -19,6 +19,7 @@ Future<void> main() async {
   //await GetStorage.init();
   Get.put<AuthController>(AuthController());
   Get.put<DashboardController>(DashboardController());
+  //Get.put<UpdateController>(UpdateController());
   //Get.put<ThemeController>(ThemeController());
   runApp(const MyApp());
 }
@@ -33,12 +34,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    final newVersion = NewVersion(
-      iOSId: 'org.sisterhoodglobal.app',
-      androidId: 'com.abidon.sisterhood_global',
-    );
-    newVersion.showAlertIfNecessary(context: context);
-
+    const AppCastWidget();
     currentTheme.addListener(() {
       //2
       setState(() {});

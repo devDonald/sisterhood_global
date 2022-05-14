@@ -125,7 +125,7 @@ class EventDetail extends StatelessWidget {
                     Text(
                       title,
                       style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.pink,
                           fontWeight: FontWeight.bold,
                           fontSize: MediaQuery.of(context).size.height / 45),
                     ),

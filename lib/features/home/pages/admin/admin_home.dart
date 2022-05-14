@@ -50,13 +50,13 @@ class _AdminHomeState extends State<AdminHome> {
         primary: false,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 0.85,
+            mainAxisSpacing: 5,
+            childAspectRatio: 1.0,
             crossAxisCount: 2),
         children: [
           HomeCard(
             icon: Icons.live_tv,
-            title: 'Livestream Notification',
+            title: 'Livestream  \nNotification',
             onTap: () {
               Get.to(() => const LivestreamNotification());
             },
@@ -91,7 +91,7 @@ class _AdminHomeState extends State<AdminHome> {
           ),
           HomeCard(
             icon: Icons.live_tv,
-            title: 'Let\'s Talk About It',
+            title: '   Let\'s Talk About It',
             onTap: () async {
               Get.to(() => const TalkListHome());
             },
@@ -142,11 +142,14 @@ class ButtonWithICon2 extends StatelessWidget {
               color: ThemeColors.whiteColor,
             ),
             const SizedBox(width: 9.2),
-            Text(
-              title,
-              style: const TextStyle(
-                color: ThemeColors.whiteColor,
-                fontSize: 15.0,
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                title,
+                style: const TextStyle(
+                  color: ThemeColors.whiteColor,
+                  fontSize: 15.0,
+                ),
               ),
             )
           ],
@@ -171,17 +174,17 @@ class HomeCard extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: MediaQuery.of(context).size.width * 0.42,
-          height: MediaQuery.of(context).size.height * 0.20,
+          width: MediaQuery.of(context).size.width * 0.30,
+          height: MediaQuery.of(context).size.height * 0.15,
           margin: const EdgeInsets.only(
-              top: 17.5, bottom: 5.0, left: 15.0, right: 7.0),
+              top: 10.0, bottom: 5.0, left: 15.0, right: 7.0),
           //padding: EdgeInsets.only(left: 15.0),
           decoration: BoxDecoration(
-            color: Colors.black54,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(8.0),
             boxShadow: const [
               BoxShadow(
-                color: ThemeColors.whiteColor,
+                color: ThemeColors.primaryPink100,
                 offset: Offset(0.0, 2.5),
                 blurRadius: 10.5,
               ),
@@ -194,7 +197,7 @@ class HomeCard extends StatelessWidget {
               children: <Widget>[
                 Icon(
                   icon,
-                  color: ThemeColors.primaryColor,
+                  color: ThemeColors.primaryPink200,
                   size: 35.0,
                 ),
               ],

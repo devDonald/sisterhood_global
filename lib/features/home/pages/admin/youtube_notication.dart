@@ -86,7 +86,7 @@ class _LivestreamNotificationState extends State<LivestreamNotification> {
                               res.id,
                               _title.text,
                               auth.currentUser!.displayName!,
-                              'livestream',
+                              'Livestream',
                               NotificationType.livestream,
                               _title.text);
                         }

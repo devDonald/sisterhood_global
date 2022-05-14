@@ -62,20 +62,36 @@ class _CommentScreenState extends State<CommentScreen> {
 
   bool iscommentToUser = false;
   String commentToId = '';
-  String message = '';
+  String message = '', senderName = '', senderPhoto = '', senderId = '';
+
+  void _fetchUserData() async {
+    try {
+      usersRef.doc(auth.currentUser!.uid).get().then((ds) {
+        if (ds.exists) {
+          setState(() {
+            senderName = ds.data()!['name'];
+            senderPhoto = ds.data()!['photo'];
+            senderId = ds.data()!['userId'];
+          });
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
   void sendMessage() async {
     FocusScope.of(context).unfocus();
     try {
       await FirebaseApi.uploadMessage(
-          auth.currentUser!.photoURL!,
-          message,
+          comment.text,
           widget.postId,
-          widget.ownerId,
-          auth.currentUser!.displayName!,
+          senderId,
           widget.ownerId,
           widget.category,
-          widget.question);
+          widget.question,
+          senderPhoto,
+          senderName);
     } catch (e) {
       Scaffold.of(context).showSnackBar(
         const SnackBar(
@@ -91,6 +107,7 @@ class _CommentScreenState extends State<CommentScreen> {
 
   @override
   void initState() {
+    _fetchUserData();
     textFeildFocus.requestFocus();
     super.initState();
   }
@@ -163,13 +180,15 @@ class _CommentScreenState extends State<CommentScreen> {
                             postId: widget.postId,
                             receiverId: widget.postId,
                             messageContent: snapshot[index]['messageContent'],
-                            timeOfMessage: snapshot[index]['time'],
+                            timeOfMessage:
+                                getTimestamp(snapshot[index]['createdAt']),
                           )
                         : SenderBox(
                             messageContent: snapshot[index]['messageContent'],
                             senderName: snapshot[index]['userName'],
                             senderPhoto: snapshot[index]['photo'],
-                            timeOfMessage: snapshot[index]['time'],
+                            timeOfMessage:
+                                getTimestamp(snapshot[index]['createdAt']),
                           );
                   },
                   // orderBy is compulsary to enable pagination

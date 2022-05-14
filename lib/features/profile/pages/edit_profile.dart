@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dropdown/flutter_dropdown.dart';
 import 'package:sisterhood_global/core/constants/contants.dart';
 import 'package:sisterhood_global/core/themes/theme_colors.dart';
 import 'package:sisterhood_global/core/themes/theme_text.dart';
@@ -7,7 +8,8 @@ import 'package:sisterhood_global/core/widgets/primary_button.dart';
 
 class EditProfile extends StatefulWidget {
   static const String id = 'EditProfile';
-  EditProfile({Key? key}) : super(key: key);
+  final String marital;
+  EditProfile({Key? key, required this.marital}) : super(key: key);
 
   @override
   _EditProfileState createState() => _EditProfileState();
@@ -23,7 +25,8 @@ class _EditProfileState extends State<EditProfile> {
       dateOfBirth = '',
       dialCode = '+124',
       _country = "Nigeria",
-      error = "";
+      error = "",
+      marital = '';
 
   void _fetchUserData() async {
     try {
@@ -46,6 +49,7 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState() {
+    marital = widget.marital;
     _fetchUserData();
     super.initState();
   }
@@ -56,7 +60,7 @@ class _EditProfileState extends State<EditProfile> {
       backgroundColor: ThemeColors.whiteColor,
       appBar: AppBar(
         elevation: 3.0,
-        backgroundColor: ThemeColors.primaryColor,
+        backgroundColor: ThemeColors.pink.shade400,
         title: const Text('Edit Profile',
             style: TextStyle(
               color: ThemeColors.whiteColor,
@@ -124,6 +128,43 @@ class _EditProfileState extends State<EditProfile> {
                                 controller: _email,
                                 decoration: const InputDecoration(
                                   labelText: 'Email',
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+
+                              //Marital Status
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.only(left: 15),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  color: ThemeColors.whiteColor,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      blurRadius: 7.5,
+                                      offset: Offset(0.0, 2.5),
+                                      color: ThemeColors.shadowColor,
+                                    )
+                                  ],
+                                ),
+                                child: DropDown(
+                                  dropDownType: DropDownType.Button,
+                                  initialValue: marital,
+                                  items: const [
+                                    "Single",
+                                    "Married",
+                                    "Widowed",
+                                    "Divorced"
+                                  ],
+                                  hint: const Text("Marital Status"),
+                                  icon: const Icon(
+                                    Icons.expand_more,
+                                    color: Colors.pink,
+                                  ),
+                                  onChanged: (String? value) {
+                                    marital = value!;
+                                  },
                                 ),
                               ),
                               const SizedBox(
@@ -225,7 +266,8 @@ class _EditProfileState extends State<EditProfile> {
                                         'code': _code,
                                         'bio': _bio.text,
                                         'dialCode': dialCode,
-                                        'phone': _phone.text
+                                        'phone': _phone.text,
+                                        'marital': marital
                                       }).then((value) {
                                         successToastMessage(
                                             msg:

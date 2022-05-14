@@ -7,14 +7,14 @@ import 'package:sisterhood_global/features/notification/notification_type.dart';
 
 class FirebaseApi {
   static Future uploadMessage(
-      String senderPhoto,
       String messageContent,
       String postId,
-      String fromUid,
-      String senderName,
+      String senderId,
       ownerId,
       category,
-      question) async {
+      question,
+      senderPhoto,
+      senderName) async {
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     final String formatted = formatter.format(now);
@@ -31,7 +31,7 @@ class FirebaseApi {
       seen: false,
       visible: true,
       commentId: _docRef.id,
-      senderId: fromUid,
+      senderId: senderId,
       photo: senderPhoto,
       createdAt: createdAt,
       userName: senderName,
@@ -123,7 +123,7 @@ class FirebaseApi {
         "commentData": messageContent,
         "discussion": messageContent,
         "ownerId": senderId,
-        'category': 'chat',
+        'category': 'Chat',
         "postId": chatId,
         'createdAt': createdAt,
         "timestamp": timestamp,

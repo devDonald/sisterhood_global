@@ -11,7 +11,7 @@ import 'package:sisterhood_global/features/home/controller/drawer_controller.dar
 import 'package:sisterhood_global/features/home/pages/about_us.dart';
 import 'package:sisterhood_global/features/home/pages/admin/admin_home.dart';
 import 'package:sisterhood_global/features/home/pages/contact_us.dart';
-import 'package:sisterhood_global/features/home/pages/home_events.dart';
+import 'package:sisterhood_global/features/home/pages/general_home_events.dart';
 import 'package:sisterhood_global/features/ngo/pages/ngo_page.dart';
 import 'package:sisterhood_global/features/profile/pages/my_reports.dart';
 
@@ -106,7 +106,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                       icon: Icons.event,
                       title: 'Events',
                       onTap: () {
-                        Get.to(() => const HomeEvents());
+                        Get.to(() => const GeneralEvents());
                       },
                     ),
                     const Divider(

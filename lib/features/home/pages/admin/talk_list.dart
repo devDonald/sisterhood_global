@@ -73,6 +73,7 @@ class _TalkListHomeState extends State<TalkListHome> {
                                   primary: Colors.green),
                               onPressed: () async {
                                 await talkRef.doc(snap['videoId']).delete();
+                                Navigator.of(context).pop();
                                 successToastMessage(msg: 'video deleted');
                               },
                               child: const Text('Confirm')),

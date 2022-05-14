@@ -3,7 +3,7 @@ description: A project for sisterhood global community.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.12+13
+version: 1.0.15+16
 #IOS 1.0.10+11
 #android 1.0.9+10
 
@@ -50,7 +50,7 @@ dependencies:
   sticky_grouped_list: ^2.1.0
   flutter_local_notifications: ^9.4.0
   responsive_framework: ^0.1.7
-  new_version: ^0.3.0
+  upgrader: ^4.0.0
   #webview_flutter: ^3.0.1
   paginate_firestore: ^1.0.3
   flutter_linkify: ^5.0.2
@@ -71,7 +71,7 @@ flutter_icons:
   image_path: "images/logo3.png"
 
 dependency_overrides:
-  webview_flutter: ^3.0.1
+  webview_flutter: ^3.0.4
 
 
 dev_dependencies:

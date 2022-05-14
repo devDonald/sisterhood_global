@@ -74,9 +74,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             backgroundColor: ThemeColors.primaryColor,
             elevation: 3.0,
             titleSpacing: -3.0,
-            title: const Text(
-              'Let\'s Talk About it',
-              style: TextStyle(
+            title: Text(
+              widget.videoTitle,
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,

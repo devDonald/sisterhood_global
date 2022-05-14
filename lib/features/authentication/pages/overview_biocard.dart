@@ -60,7 +60,7 @@ class OverViewBioCard extends StatelessWidget {
               isOwner
                   ? GestureDetector(
                       onTap: () {
-                        Get.to(() => EditProfile());
+                        Get.to(() => EditProfile(marital: marital));
                       },
                       child: Row(
                         children: const [

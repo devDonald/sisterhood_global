@@ -2,13 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:sisterhood_global/features/home/pages/home_events.dart';
+import 'package:sisterhood_global/features/home/pages/general_home_events.dart';
 import 'package:sisterhood_global/features/liveStreaming/pages/videos.dart';
 import 'package:sisterhood_global/features/liveStreaming/pages/youtube_live.dart';
 import 'package:sisterhood_global/features/profile/pages/my_profile.dart';
 import 'package:sisterhood_global/features/search/pages/sisterhood_users_search.dart';
 
 import '../../../core/themes/theme_colors.dart';
+import 'admin/admin_home.dart';
 
 // import 'package:standart/features/store/data/models/store_model.dart';
 // import 'package:standart/features/store/presentation/bloc/store_bloc.dart';
@@ -144,34 +145,34 @@ class _HomeScreenState extends State<HomeScreen> {
             primary: false,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 1.2,
-                crossAxisCount: 1),
+                mainAxisSpacing: 5,
+                childAspectRatio: 1.0,
+                crossAxisCount: 2),
             children: [
-              HomeCard2(
-                icon: 'images/events.jpeg',
+              HomeCard(
+                icon: Icons.event,
                 title: 'Events',
                 onTap: () {
-                  Get.to(() => const HomeEvents());
+                  Get.to(() => const GeneralEvents());
                 },
               ),
-              HomeCard2(
-                icon: 'images/videos.jpeg',
+              HomeCard(
+                icon: Icons.video_collection,
                 title: 'Videos',
                 onTap: () {
                   Get.to(() => const Videos());
                 },
               ),
-              HomeCard2(
-                icon: 'images/profile.jpeg',
+              HomeCard(
+                icon: Icons.person,
                 title: 'My Profile',
                 onTap: () {
                   Get.to(() => ProfilePage());
                 },
               ),
-              HomeCard2(
-                icon: 'images/search.jpeg',
-                title: 'Follow Members',
+              HomeCard(
+                icon: Icons.people,
+                title: 'Chat with Sisters',
                 onTap: () {
                   Get.to(() => const PeopleSearch());
                 },

@@ -1,5 +1,8 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
+import 'package:sisterhood_global/features/home/pages/general_home_events.dart';
+import 'package:sisterhood_global/features/liveStreaming/pages/youtube_live.dart';
 
 import 'notification_type.dart';
 
@@ -80,10 +83,10 @@ Future<void> setupInteractedMessage() async {
 
 void _handleMessage(RemoteMessage message) {
   if (message.data['type'] == NotificationType.event) {
-    //Get.to(CellIncomingCall(cellName: message.data['cell']));
+    Get.to(() => const GeneralEvents());
   }
   if (message.data['type'] == NotificationType.livestream) {
-    //Get.to(PastorIncomingCall());
+    Get.to(() => const YoutubeLive());
   }
   if (message.data['type'] == NotificationType.contribution ||
       message.data['type'] == NotificationType.contributionLike ||
